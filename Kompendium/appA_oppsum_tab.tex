@@ -1,0 +1,323 @@
+\section{Trigonometriske identiteter}
+
+Når vi bruker polar- sylinder eller kulekoordinater oppstår ofte polynomer i trigonometriske funksjoner. I det følgende finner du en oversikt over de vanligste trigonometriske identitetene.
+
+\begin{align*}
+% Squares and cubes
+\sin^2(x) = \frac{1 - \cos(2x)}{2} && \sin^3(x) = \frac{3\sin(x) - \sin(3x)}{4} \\
+\cos^2(x) = \frac{1 + \cos(2x)}{2} && \cos^3(x) = \frac{3\cos(x) + \cos(3x)}{4} \\
+% Double angles
+\sin(2x) = 2\sin(x)\cos(x) && \tan(2x) = \frac{2\tan(x)}{1 - \tan^2(x)} \\
+\cos(2x) = \cos^2(x) - \sin^2(x)  && = 2\cos^2(x) - 1 = 1 - 2\sin^2(x) \\
+% Half angles
+\sin\left(\frac{x}{2}\right) = \pm\sqrt{\frac{1 - \cos(x)}{2}} &&
+\cos\left(\frac{x}{2}\right) = \pm\sqrt{\frac{1 + \cos(x)}{2}} \\
+\tan\left(\frac{x}{2}\right) = \pm\sqrt{\frac{1 - \cos(x)}{1 + \cos(x)}} &&= \frac{\sin(x)}{1 + \cos(x)} = \frac{1 - \cos(x)}{\sin(x)}
+\end{align*}
+\begin{align*}
+% Angle addition formulas
+\sin(x + y) &= \sin(x)\cos(y) + \cos(x)\sin(y) \\
+\cos(x + y) &= \cos(x)\cos(y) - \sin(x)\sin(y) \\
+\tan(x + y) &= \frac{\tan(x) + \tan(y)}{1 - \tan(x)\tan(y)} \\
+\end{align*}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\setlength{\tabcolsep}{12pt}
+\begin{tabular}{|c||c|c|c|c|c|c|c|c|}
+\hline
+& $0$ & $\tfrac{\pi}{6}$ & $\tfrac{\pi}{4}$ & $\tfrac{\pi}{3}$ & $\tfrac{\pi}{2}$ & $\pi$ & $\tfrac{3\pi}{2}$ & $2\pi$ \\
+\hline\hline
+$\sin(x)$ & $0$ & $\tfrac{1}{2}$ & $\tfrac{\sqrt{2}}{2}$ & $\tfrac{\sqrt{3}}{2}$ & $1$ & $0$ & $-1$ & $0$ \\
+\hline
+$\cos(x)$ & $1$ & $\tfrac{\sqrt{3}}{2}$ & $\tfrac{\sqrt{2}}{2}$ & $\tfrac{1}{2}$ & $0$ & $-1$ & $0$ & $1$ \\
+\hline
+\end{tabular}
+\end{center}
+\newpage
+
+\section{Dobbelt- og trippelintegral: Areal og volum}
+Vi oppsummerer her de geometriske tolkningene for dobbelt- og trippelintegraler.
+
+\paragraph{Areal av område $D \subseteq \R^2$}
+\[
+\text{Areal} = \iint_D dA
+\]
+
+\paragraph{Volum av område $E\subseteq \R^3$}
+\[
+\text{Volum} = \iiint_E dV
+\]
+For de følgende tolkningene av integraler som volum må vi anta at $f(x,y)\geq 0$ for alle $(x,y) \in D$.\footnote{Husk at mens de vanlige integralene $\int_a^b f(x)dx$ måler \textbf{orientert} areal, måler dobbeltintegraler egentlig \textbf{orientert} volum.}
+\paragraph{Volum mellom funksjon $z = f(x, y)$ og område $D$ i $xy$-planet}
+\[
+\text{Volum} = \iint_D f(x, y)\, dA
+\]
+
+\paragraph{Volum mellom funksjon $y = f(x, z)$ og område $D$ i $xz$-planet}
+\[
+\text{Volum} = \iint_D f(x, z)\, dA
+\]
+
+\paragraph{Volum mellom funksjon $x = f(y, z)$ og område $D$ i $yz$-planet}
+\[
+\text{Volum} = \iint_D f(y, z)\, dA
+\]
+
+\newpage
+
+\section{Koordinattransformasjoner}\label{sect:koordinater}
+\subsection*{Koordinater i 2D}
+
+\begin{oppsum}{Konverteringsformler for polarkoordinater}
+Fra polarkoordinater til kartesiske koordinater og omvendt
+\[
+x = r \cos \theta,\quad y = r \sin \theta,\quad x^2 + y^2 = r^2 \quad \theta = \tan^{-1}\left(y/x\right).
+\]
+OBS: Husk at formelen for $\tan^{-1}$ er problematisk!
+\end{oppsum}
+
+\subsection*{Koordinater i 3D}
+\begin{oppsum}{Konvertering mellom kartesiske koord. og sylinderkoord.}
+De kartesiske koordinatene $(x,y,z)$ er relatert til sylinderkoordinater $(r,\theta,z)$ på følgende vis:
+\[
+x = r \cos \theta, \quad y = r \sin \theta, \quad z = z
+\]
+For å konvertere fra kartesiske koordinater til sylindriske bruker vi
+\[
+r^{2} = x^{2} + y^{2}, 
+\qquad 
+\theta = \tan^{-1}\!\left(\tfrac{y}{x}\right), 
+\qquad 
+z = z.
+\]
+\end{oppsum}
+
+\begin{oppsum}{Konvertering mellom kartesiske koord. og kulekoord.}
+De kartesiske koordinatene $(x,y,z)$ er relatert til kulekoordinater $(\rho, \varphi, \theta)$ på følgende vis:
+\begin{align*}
+x = \rho \sin \varphi \cos \theta, \quad y = \rho \sin \varphi \sin \theta, \quad z = \rho \cos \varphi \\
+\text{ slik at: }
+\rho \geq 0, \quad 0 \leq \varphi \leq \pi, \quad \text{ og } 0 \leq  \theta \leq 2\pi
+\end{align*}
+Omvendt, fra kartesiske koordinater til kulekoordinater finner vi
+\[
+\rho^{2} = x^{2} + y^{2} + z^{2}, \qquad 
+\tan \theta = \frac{y}{x}, \qquad 
+\varphi = \arccos\!\left(\frac{z}{\sqrt{x^{2} + y^{2} + z^{2}}}\right).
+\]
+\end{oppsum}
+
+\begin{oppsum}{Konvertering mellom kulekoordinater og sylindriske koordinater}
+Hvis man ønsker å konvertere fra kulekoordinater til sylindriske koordinater så har man følgende:
+\begin{align*}
+r = \rho \sin \varphi, \qquad 
+\theta = \theta, \qquad 
+z = \rho \cos \varphi.\\
+\text{omvendt:} \quad \rho = \sqrt{r^{2} + z^{2}}, \qquad 
+\theta = \theta, \qquad 
+\varphi = \arccos\!\left(\frac{z}{\sqrt{r^{2} + z^{2}}}\right).
+\end{align*}
+\end{oppsum}
+
+\section{Kurver og parametriseringer}
+I det følgende finner dere en oversikt over noen vanlige parametriseringer for kurver i to- og tredimensjonale rom. 
+
+\begin{table}[h!]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|c|c|c|}
+\hline
+\multirow{2}{*}{\textbf{Kurve}} & \multicolumn{2}{c|}{\textbf{Parametriseringer}} \\
+\cline{2-3}
+& \textbf{Mot klokken} & \textbf{Med klokken} \\
+\hline
+Ellipse (2D): \( \frac{x^2}{a^2} + \frac{y^2}{b^2} = 1 \) &
+\begin{tabular}{@{}c@{}}\( x = a \cos(t) \) \\ \( y = b \sin(t) \) \\ \( 0 \leq t \leq 2\pi \) \end{tabular} &
+\begin{tabular}{@{}c@{}}\( x = a \cos(t) \) \\ \( y = -b \sin(t) \) \\ \( 0 \leq t \leq 2\pi \) \end{tabular} \\
+\hline
+Sirkel (2D): \( x^2 + y^2 = r^2 \) &
+\begin{tabular}{@{}c@{}}\( x = r \cos(t) \) \\ \( y = r \sin(t) \) \\ \( 0 \leq t \leq 2\pi \) \end{tabular} &
+\begin{tabular}{@{}c@{}}\( x = r \cos(t) \) \\ \( y = -r \sin(t) \) \\ \( 0 \leq t \leq 2\pi \) \end{tabular} \\
+\hline
+\( y = f(x) \) &
+\multicolumn{2}{c|}{
+\begin{tabular}{@{}c@{}} \( x = t \) \\ \( y = f(t) \) \end{tabular}} \\
+\hline
+\( x = g(y) \) &
+\multicolumn{2}{c|}{
+\begin{tabular}{@{}c@{}} \( x = g(t) \) \\ \( y = t \) \end{tabular}} \\
+\hline
+\begin{tabular}{l}
+Linje fra \( (x_0,y_0,z_0)\) til \((x_1,y_1,z_1)\) \\ 
+Slett $z$-komponent for kurve i 2D\end{tabular}&
+\multicolumn{2}{c|}{
+\begin{tabular}{@{}c@{}} \( x = (1-t)x_0 +tx_1 \) \\ \( y = (1-t)y_0 +ty_1 \) \\ $z = (1-t)z_0 +tz_1$ \end{tabular}} \\
+\hline
+\end{tabular}
+\caption{Vanlige kurver og deres parameteriseringer.}\label{table:para}
+\end{table}
+Gitt \( \vect{r} \colon [a,b] \rightarrow \R^n \), kaller vi \( \vect{r}'(t) \) (komponentvis derivert!) for \emph{tangentvektoren}, forutsatt at den eksisterer og at \( \vect{r}'(t) \ne \vect{0} \). Tangenten til \( \vect{r}(t) \) i punktet \( P \) er da den rette linjen som går gjennom punktet \( P \) og er parallell med tangentvektoren \( \vect{r}'(t) \). Merk at vi må kreve at \( \vect{r}'(t) \ne \vect{0} \) for å få en retning. Hvis vi hadde \( \vect{r}'(t) = \vect{0} \), ville tangentvektoren ikke kunne gi oss retningen til tangenten.
+
+\begin{defn}{Enhetstangentvektoren} \label{defn:enhetstangent}
+Forutsatt at \( \vect{r}'(t) \ne \vect{0} \), er den \emph{enhetstangentvektoren} til kurven gitt ved
+\[
+\hat{\vect{t}}(t) = \frac{\vect{r}'(t)}{\left\lVert \vect{r}'(t) \right\rVert}
+\]
+\end{defn}
+
+\section{Flateintegral og arealelementer}
+
+\( F \) er en flate som er parametrisert av $\vect{r}(u, v)$ hvor $(u,v)\in D$. Flateintegralet av en  funksjon $h(x,y,z)$ over en slik flate er da
+\[\iint_F h(\vect{r})\, dS := \iint_D f(\vect{r}(u,v))\lVert \vect{n}\rVert dA,\]
+hvor 
+\[\lVert \vect{n}\rVert=\lVert\vect{r}_u \times \vect{r}_v\rVert\]
+og $\vect{r}_u,\vect{r}_v$ er de partiell deriverte.
+
+\begin{oppsum}{Arealelement for flateintegraler}
+For en generell flate $F$ parametrisert via $\vect{r}(u,v)$ er arealelementet dermed gitt som 
+\[dS =  \lVert\vect{r}_u \times \vect{r}_v\rVert dA\]
+Ved hjelp av Lagrange triks for normen får vi
+\[dS = \sqrt{(\vect{r}_u \cdot \vect{r}_u)(\vect{r}_v \cdot \vect{r}_v) + (\vect{r}_u\cdot \vect{r}_v)^2} dA\]
+\end{oppsum}
+
+\begin{oppsum}{Arealelement for grafer}
+Anta at flaten er gitt som en graf $z=f(x,y)$ for en funksjon $f$ på området $D \subseteq \R^2$.
+Da er 
+\[dS = \sqrt{f_x^2 + f_y^2 +1}dA.\]
+Dersom funksjonen er gitt som $z=f(r,\theta)$ med hensyn til polarkoordinater i $D$ så må vi i tillegg ta koordinattransformasjon i betraktning. Formelen blir:
+\[dS =  \sqrt{(rf_r)^2+f_\theta^2+r^2}\, dr d\theta\]
+\end{oppsum}
+\newpage
+\section{Identiteter for de klassiske differensialoperatorer}\label{app:diffop_ident}
+Det finnes mange regneregler for de klassiske differensialoperatorene som man enkelt og greit kan finne ved å sette dem inn i hverandre og løse. Her gir vi bare en samling av disse. (Ingeniører i gamle dager kunne disse, i dag er det Wikipedia eller LLM som kan dem...)\medskip
+
+Husk: curl er bare definert for $\vect{F}=P\vect{i}+Q\vect{j}+R\vect{k}$. Alle regler med curl forutsetter $\R^3$.\\[1.25em]
+\textbf{Regler for kombinasjon av to differensialoperatorer}\\[.25em]
+
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|l|l|}
+\hline
+ \textbf{klassisk notasjon} & \textbf{Nabla-notasjon} \\
+\hline
+ \( \text{div}(\text{curl } \vect{v}) = 0 \) & \( \nabla \cdot (\nabla \times \vect{v}) = 0 \) \\
+ \( \text{curl}(\text{grad } f) = \vect{0} \) & \( \nabla \times (\nabla f) = \vect{0} \) \\
+ \( \text{div}(\text{grad } f) = \Delta f \) & \( \nabla \cdot (\nabla f) = \nabla^2 f \) \\
+ \( \text{curl}(\text{curl } \vect{v}) = \text{grad}(\text{div } \vect{v}) - \Delta \vect{v} \) & \( \nabla \times (\nabla \times \vect{v}) = \nabla(\nabla \cdot \vect{v}) - \nabla^2 \vect{v} \) \\
+ \( \text{grad}(\text{div } \vect{v}) = \Delta \vect{v} + \text{curl}(\text{curl } \vect{v}) \) & \( \nabla(\nabla \cdot \vect{v}) = \nabla^2 \vect{v} + \nabla \times (\nabla \times \vect{v}) \) \\
+\hline
+\end{tabular}
+\\[.25em]
+
+I de siste to ligninger er $\Delta \vect{v}$ komponentvis, dvs. $\Delta \vect{v} = (\Delta v_1, \Delta v_2, \Delta v_3)^\top.$\\[.25em]
+
+\textbf{Regler for produkter av skalar og vektorfunksjoner}\\[1em]
+\begin{tabular}{|l|l|}
+\hline
+\textbf{klassisk notasjon} & \textbf{Nabla-notasjon} \\
+\hline
+ \( \text{grad}(f g) = f\, \text{grad } g + g\, \text{grad } f \) & \( \nabla(fg) = f\, \nabla g + g\, \nabla f \) \\
+ \( \text{div}(f \vect{v}) = f\, \text{div } \vect{v} + \vect{v} \cdot \text{grad } f \) & \( \nabla \cdot (f \vect{v}) = f\, (\nabla \cdot \vect{v}) + \vect{v} \cdot \nabla f \) \\
+ \( \text{curl}(f \vect{v}) = f\, \text{curl } \vect{v} + \text{grad } f \times \vect{v} \) & \( \nabla \times (f \vect{v}) = f\, (\nabla \times \vect{v}) + (\nabla f) \times \vect{v} \) \\
+\hline
+\end{tabular}
+\\[.25em]
+
+\textbf{Regler som inkluderer vektorprodukt (kryssprodukt) gjelder \underline{bare} i \( \mathbb{R}^3 \)}
+\begin{align*}
+\text{div}(\vect{v} \times \vect{w}) &= \vect{w} \cdot \text{curl } \vect{v} - \vect{v} \cdot \text{curl} \vect{w}  \\
+ \text{curl}(\vect{v} \times \vect{w}) &= (\text{div } \vect{w})\, \vect{v} - (\text{div } \vect{v})\, \vect{w} + (\vect{w} \cdot \nabla)\vect{v} - (\vect{v} \cdot \nabla)\vect{w} 
+ \end{align*}
+ Med nabla-notasjon blir disse
+ \begin{align*}
+\text{div}(\vect{v} \times \vect{w}) &= \vect{w} \cdot (\nabla\times\vect{v}) - \vect{v} \cdot (\nabla\times\vect{w})  \\
+ \nabla\times(\vect{v} \times \vect{w}) &= (\nabla\cdot \vect{w})\, \vect{v} - (\nabla\cdot \vect{v})\, \vect{w} + (\vect{w} \cdot \nabla)\vect{v} - (\vect{v} \cdot \nabla)\vect{w}.
+ \end{align*}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Gauss'-, Stokes'- og Greens teorem}\label{app:vectKalk}
+I det følgende presenterer vi de tre teoremene i vektorkalkulus som dere har møtt i dette kurset.
+
+\begin{oppsum}{Divergenssetningen (Gauss' teorem)}
+La \( V \) være et enkelt, lukket tredimensjonalt område og \( S \) være randflaten\footnote{Enkelt og lukket betyr her at volum ikke har noen hull. Videre antar vi at randflaten til området består av stykkevis glatte randflater, dvs. det er mulig å beregne en normalvektor} til \( V \), med normalvektor $\vect{n}$ som peker ut av volumet. La \( \vect{F} \) være et vektorfelt der komponentene har kontinuerlige førsteordens partielllderiverte. Da gjelder:
+\[
+\iint_S \vect{F} \cdot d\vect{S} = \iiint_V \mathrm{div} \, \vect{F} \, dV
+\]
+\end{oppsum}
+
+\begin{oppsum}{Stokes' teorem}
+La $S$ være en orientert glatt flate begrenset av en enkel, lukket og glatt randkurve $C$ med positiv orientering. La også $\vect{F}$ være et vektorfelt. Da gjelder:
+\[
+\oint_C \vect{F} \cdot d\vect{r} =\iint_S \operatorname{curl} \vect{F} \cdot d\vect{S} = \iint_S \nabla \times \vect{F} \cdot d\vect{S}
+\]  
+\end{oppsum}
+Når flaten $S$ som det integrerers over er et plan så reduseres Stokes' teorem til det såkalte Greens teorem.
+\begin{oppsum}{Greens teorem}
+La \( C \) være en positivt orientert, stykkevis glatt, enkel, lukket kurve og \( D \) området innelukket av \( C \). Dersom \( \mathbf{F}(x,y) = P(x,y)\mathbf{i} + Q(x,y) \mathbf{j} \) har kontinuerlige første partialderiverte på \( D \) så gjelder:
+\[
+\int_C \mathbf{F} \cdot d\mathbf{r} = \iint_D \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right) dA \quad \text{(Arbeidsform)}
+\]
+og videre gjelder også:
+\[
+\oint_{C} \vect{F} \cdot \vect{n} \, ds = \iint_D \operatorname{div} \vect{F} \, dA \quad \text{(Fluksform)}.
+\]
+\end{oppsum}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Sammendrag: Endelig volum metode}\label{app:EV:sammendrag}
+De diskretiserte ligningene for diffusjonsproblemer har følgende generelle form:
+\[
+a_P \phi_P = \sum a_{nb} \phi_{nb} + S^u
+\]
+hvor summasjonstegnet $\sum$ indikerer summering over alle nabonoder ($nb$). Vi kaller de $a_{nb}$ \emph{nabokoeffisienter}. Disse er koeffisientene: $a_W$, $a_E$ osv. (avhengig av dimensjon). 
+
+Oversikt over nabokoeffisientene for én-, to- og tre-dimensjonale diffusjonsproblemer er gitt i \Cref{tab:koeffisienter} nede. 
+
+Verdiene $\phi_{nb}$ er egenskapsverdiene ved nabonodene, og $(S^u + S_P \phi_P)$ er det lineariserte kildetermet.
+I alle tilfeller tilfredsstiller $a_P$ følgende relasjon:
+\[
+a_P = \sum a_{nb} - S_P
+\]
+\textbf{Kildeterm og randbetingelser}
+Inkluderes ved å identifisere deres lineariserte form:
+\[
+S |KV| = S^u + S_P \phi_P
+\]
+Her $|KV|$ er notasjonen for volum til kontrollvolum.
+
+Randbetingelser håndteres ved å kutte koblingen til randsiden og introdusere fluksen over randen – enten eksakt eller lineært tilnærmet – som ekstra bidrag til $S^u$ og $S_P$. For $1D$ KV av bredde $\delta x$ og en randverdi ved $V$ (for $H$, bytt $W$ og $E$, $V$ og $H$ i formler):
+\begin{itemize}
+\item Kutt kobling: sett $a_W = 0$ 
+\item  Kildebidrag på grunn av randbetingelser:
+  \begin{itemize}
+  \item Fast verdi: 
+    \[
+    S^u = \frac{2 \Gamma A}{\delta x} \phi_V, \quad S_P = -\frac{2 \Gamma A}{\delta x}
+    \]
+  \item Fast fluks $q_V$: 
+    $
+    S^u + S_P \phi_P = q_V
+    $
+    \end{itemize}
+    \end{itemize}
+
+\renewcommand{\arraystretch}{2}
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+Dimensjon & $a_W$ & $a_E$ & $a_S$ & $a_N$ & $a_B$ & $a_T$ \\
+\hline
+1D  & $\frac{\Gamma_w A_w}{\delta x_{WP}}$ & $\frac{\Gamma_e A_e}{\delta x_{PE}}$ & -- & -- & -- & -- \\
+\hline
+2D & $\frac{\Gamma_w A_w}{\delta x_{WP}}$ & $\frac{\Gamma_e A_e}{\delta x_{PE}}$ & $\frac{\Gamma_s A_s}{\delta y_{SP}}$ & $\frac{\Gamma_n A_n}{\delta y_{PN}}$ & -- & -- \\
+\hline
+3D & $\frac{\Gamma_w A_w}{\delta x_{WP}}$ & $\frac{\Gamma_e A_e}{\delta x_{PE}}$ & $\frac{\Gamma_s A_s}{\delta y_{SP}}$ & $\frac{\Gamma_n A_n}{\delta y_{PN}}$ & $\frac{\Gamma_b A_b}{\delta z_{BP}}$ & $\frac{\Gamma_t A_t}{\delta z_{PT}}$ \\
+\hline
+\end{tabular}
+\caption{Nabokoeffisienter for én-, to- og tre-dimensjonale diffusjonsproblemer,\\ $\Gamma$ betegner diffusjonskoeffisient, $\delta x$ bredde og $A$ randareal}
+\label{tab:koeffisienter}
+\end{table}

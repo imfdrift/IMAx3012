@@ -1,0 +1,269 @@
+\usepackage{listings}
+\usepackage{scrhack}
+\usepackage[norsk]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amssymb, amsmath, amstext, amsopn, amsthm, amscd, amsxtra, amsfonts, xcolor, empheq}
+\usepackage{etoolbox}
+%\usepackage[most]{tcolorbox}
+\usepackage[most]{tcolorbox}
+\usepackage{pgfplots}
+ \pgfplotsset{compat=1.18}
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+\usetikzlibrary{positioning,patterns}
+\usepackage{nicematrix}
+\lstset{language=Python}
+\usepackage{alphalph}
+\usepackage{colonequals}
+\usepackage{enumitem}
+\usepackage{multirow}
+\setlist[enumerate]{label=\textup{(\alph*)}}
+\usepackage{placeins}
+\usepackage[disable]{todonotes}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{hyperref}%
+\hypersetup{
+urlcolor = red,colorlinks = true,
+linkcolor = blue,
+citecolor = blue,
+linktocpage = true,
+pdftitle = {Matematikk 3B},
+pdfauthor = {},
+bookmarksopen = true,
+bookmarksopenlevel = 1,
+unicode = true,
+hypertexnames =true
+}%
+\usepackage{cleveref}
+
+
+\colorlet{lightcyan}{cyan!40!white}
+
+%Environment normal font
+\swapnumbers
+%Theoremumgebung mit automatischem Zeilenumbruch
+\newtheoremstyle{standard}
+{16pt} %Abstand nach oben
+{16pt} %Abstand nach oben
+{} %Schrift Text
+{} %Einrücken
+{\bfseries}%\normalfont} %Schrift Kopf
+{} %Zeichen nach Kopf
+{ } %Abstand
+{{\thmname{#1~}}{\thmnumber{#2.}}\thmnote{~(#3)}} %Format
+
+%Environment italic font
+\newtheoremstyle{kursiv}
+{16pt} %Abstand nach oben
+{16pt} %Abstand nach oben
+{\itshape} %Schrift Text
+{} %Einrücken
+{\bfseries}%\normalfont} %Schrift Kopf
+{} %Zeichen nach Kopf
+{ } %Abstand
+{{\thmname{#1~}}{\thmnumber{#2.}}\thmnote{~(#3)}} %Format
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%TCBox for definisjoner%%%%%%%%%%%%%%%%%%%%%
+\definecolor{defnFarge}{rgb}{0.3,0.4,0}
+\newtcolorbox[auto counter, number within=chapter]{defn}[2][Definisjon ]{%
+colback=defnFarge!4,
+  colframe=defnFarge!10,
+  leftrule=2pt,
+  rightrule=0pt,
+  toprule=0pt,
+  bottomrule=0pt,
+  coltitle=black,
+  fonttitle=\itshape,
+  breakable,
+  enhanced,
+  title={#1\ifstrempty{#2}{}~\thetcbcounter\,{\normalfont\bfseries\small(#2)}}%
+}
+
+%%%%%%%% TCBteorem-boks for teoremer %%%%%%
+\definecolor{thmFarge}{rgb}{0,0,0.7}
+\newtcbtheorem[auto counter, number within=chapter]{thrm}{Teorem}{%
+colback=thmFarge!2,
+  colframe=thmFarge!5,
+  leftrule=2pt,
+  rightrule=0pt,
+  toprule=0pt,
+  bottomrule=0pt,
+  coltitle=black,
+  fonttitle=\itshape,
+  breakable,
+  enhanced,
+}{th}
+
+\RenewDocumentCommand{\th}{m+m}{
+    \begin{thrm}{#1}{}
+        #2
+    \end{thrm}
+}
+
+\NewDocumentCommand{\thr}{mm+m}{
+    \begin{thrm}{#1}{#2}
+        #3
+    \end{thrm}
+}
+
+
+%%%%%%%%%%%%%%%%%%%TCBox for oppsummeringer %%%%%%%%%%%%%%%%%%%%%
+\definecolor{oppsumFarge}{rgb}{0.2,0.8,0.4}
+\newtcolorbox{oppsum}[2][Oppsummering ]{%
+colback=oppsumFarge!2,
+  colframe=oppsumFarge!10,
+  leftrule=4pt,
+  rightrule=0pt,
+  toprule=0pt,
+  bottomrule=0pt,
+  coltitle=black,
+  fonttitle=\bfseries,
+  breakable,
+  enhanced,
+  title={#1\ifstrempty{#2}{}{\normalfont\small(#2)}}%
+}
+%%%%%%%%%%%%%%%%%%%TCBox for listings %%%%%%%%%%%%%%%%%%%%%
+\definecolor{listFarge}{rgb}{0.4,0,0.1}
+\newtcolorbox{lst}[2][Python-kode]{%
+colback=listFarge!2,
+  colframe=listFarge!10,
+  leftrule=4pt,
+  rightrule=0pt,
+  toprule=0pt,
+  bottomrule=0pt,
+  coltitle=black,
+  fonttitle=\itshape,
+  breakable,
+  enhanced,
+  %title={#1\ifstrempty{#2}{}~\thetcbcounter\,{\normalfont\bfseries\small(#2)}}%
+}
+
+%%%%%%%%%%%%%%%%%%%TCBox for eksempler %%%%%%%%%%%%%%%%%%%%%
+\newtheorem{ex} [subsection]{Eksempel} %Tenker denne bør erstattes med det under:
+
+\definecolor{eksFarge}{rgb}{1,0.6,0}
+\newtcolorbox[auto counter, number within=chapter]{eks}[2][Eksempel ]{%
+colback=eksFarge!1,
+  colframe=eksFarge!10,
+  leftrule=4pt,
+  rightrule=0pt,
+  toprule=0pt,
+  bottomrule=0pt,
+  coltitle=black,
+  fonttitle=\itshape,
+  breakable,
+  enhanced,
+  title={#1\ifstrempty{#2}{}~\thetcbcounter\,{\normalfont\bfseries\small(#2)}}%
+}
+
+%%%%%%%%%%%%%%%%%%%TCBox FORSIDE-bermerkning%%%%%%%%%%%%%%%%%%%%%
+\definecolor{remFarge}{rgb}{0.2,0.2,0.7}
+\newtcolorbox{remF}[2][Om dette dokumentet]{%
+colback=remFarge!2,
+  colframe=remFarge!10,
+  coltitle=black,
+  fonttitle=\bfseries,
+  breakable,
+  enhanced,
+  title={#1\ifstrempty{#2}{}{\normalfont\small\quad\quad#2}}%
+}
+
+%%%%%%%%%%%%%%%%%%%TCBox for bemerkning%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{remFarge}{rgb}{0.2,0.2,0.7}
+\newtcolorbox{rem}[2][Bemerkning!]{%
+colback=remFarge!2,
+  colframe=remFarge!10,
+  coltitle=black,
+  fonttitle=\bfseries,
+  breakable,
+  enhanced,
+  title={#1\ifstrempty{#2}{}{\normalfont\small\quad\quad#2}}%
+}
+
+%\newtheorem{rem} [subsection]{Bemerkning}
+\newtheorem{nota} [subsection]{Notasjon}
+\newtheorem{setup} [subsection]{}
+\newtheorem{con} [subsection]{Konstruksjon}
+
+\theoremstyle{kursiv}
+\newtheorem{thm}[subsection]{Teorem}
+\newtheorem{prop} [subsection]{Setning}
+\newtheorem{cor} [subsection]{Korollar}
+\newtheorem{lem} [subsection]{Lemma}
+
+\newcommand{\cA}{\ensuremath{\mathcal{A}}}
+\newcommand{\cB}{\ensuremath{\mathcal{B}}}
+\newcommand{\cC}{\ensuremath{\mathcal{C}}}
+\newcommand{\cD}{\ensuremath{\mathcal{D}}}
+\newcommand{\cE}{\ensuremath{\mathcal{E}}}
+\newcommand{\cF}{\ensuremath{\mathcal{F}}}
+\newcommand{\cG}{\ensuremath{\mathcal{G}}}
+\newcommand{\cH}{\ensuremath{\mathcal{H}}}
+\newcommand{\cI}{\ensuremath{\mathcal{I}}}
+\newcommand{\cJ}{\ensuremath{\mathcal{J}}}
+\newcommand{\cK}{\ensuremath{\mathcal{K}}}
+\newcommand{\cL}{\ensuremath{\mathcal{L}}}
+\newcommand{\cM}{\ensuremath{\mathcal{M}}}
+\newcommand{\cN}{\ensuremath{\mathcal{N}}}
+\newcommand{\cO}{\ensuremath{\mathcal{O}}}
+\newcommand{\cP}{\ensuremath{\mathcal{P}}}
+\newcommand{\cQ}{\ensuremath{\mathcal{Q}}}
+\newcommand{\cR}{\ensuremath{\mathcal{R}}}
+\newcommand{\cS}{\ensuremath{\mathcal{S}}}
+\newcommand{\cT}{\ensuremath{\mathcal{T}}}
+\newcommand{\cU}{\ensuremath{\mathcal{U}}}
+\newcommand{\cV}{\ensuremath{\mathcal{V}}}
+\newcommand{\cW}{\ensuremath{\mathcal{W}}}
+\newcommand{\cX}{\ensuremath{\mathcal{X}}}
+\newcommand{\cY}{\ensuremath{\mathcal{Y}}}
+\newcommand{\cZ}{\ensuremath{\mathcal{Z}}}
+\newcommand{\Lf}{\ensuremath{\mathbf{L}}}
+\newcommand{\bX}{\ensuremath{\mathbf{X}}}
+\newcommand{\bY}{\ensuremath{\mathbf{Y}}}
+\newcommand{\LB}[1][\cdot \hspace{1pt} , \cdot]{[\hspace{1pt} #1 \hspace{1pt} ]}
+
+\newcommand{\SSS}{\ensuremath{\mathbb{S}}}
+\newcommand{\dd}{\mathop{}\!\mathrm{d}}
+\newcommand{\fd}{\mathop{}\!\mathbf{d}}
+\newcommand{\E}{\ensuremath{\mathbb{E}}}
+\newcommand{\Q}{\ensuremath{\mathbb{Q}}}
+\newcommand{\bC}{\ensuremath{\mathbb{C}}}
+\newcommand{\B}{\ensuremath{\mathbb{B}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\F}{\ensuremath{\mathbb{F}}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\D}{\ensuremath{\mathbb{D}}}
+\newcommand{\K}{\ensuremath{\mathbb{K}}}
+
+\DeclareMathOperator{\id}{id}
+
+%Vect command is just a global option to adapt the way we write vectors, default is boldface now 
+
+\newcommand{\vect}[1]{\ensuremath{\mathbf{#1}}}
+
+\setcounter{page}{3}
+
+\addtokomafont{pagenumber}{\bfseries\color{LightBlue4}}
+\addtokomafont{pagehead}{\color{LightBlue4}}
+
+\bibliographystyle{new}%
+
+
+\newcommand{\Ben}[1]{\begin{minipage}{\textwidth}\todo{#1}\end{minipage}}
+
+
+
+% Bare en test for å se om fottnotene er problemet med floats... 
+%\renewcommand{\footnote}[1]{}%
+
+
+

@@ -1,0 +1,209 @@
+
+\begin{defn}[Transformasjoner]
+En \emph{transformasjon} er et sett av ligninger som endrer variablene:
+\[
+x = g(u, v), \quad y = h(u, v)
+\]
+Området $R$ i $xy$-planet transformeres til et område $S$ i $uv$-planet.
+I $3D$ definerer vi transformasjoner liknende (men de har der tre variabler og tre ligninger!)
+\[
+x = g(u, v,w), \quad y = h(u, v,w), \quad z = k(u,v,w)
+\]
+\end{defn}
+
+\begin{defn}[Jacobian og areal(/volum-)elementet]
+For en transformasjon $x = g(u, v), y = h(u, v)$ defineres Jacobian determinant\footnote{Som vanlig betyr strekk ved siden av en matrise at vi ta determinanten!} som:
+\[
+\frac{\partial(x, y)}{\partial(u, v)} = \begin{vmatrix} \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} \\ \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} \end{vmatrix}
+\]
+Liknende i tre dimensjoner får vi som Jacobian matrise
+Jacobianen er:
+\[
+\frac{\partial(x, y, z)}{\partial(u, v, w)} = \begin{vmatrix} \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} & \frac{\partial x}{\partial w} \\ \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} & \frac{\partial y}{\partial w} \\ \frac{\partial z}{\partial u} & \frac{\partial z}{\partial v} & \frac{\partial z}{\partial w} \end{vmatrix}
+\]
+\end{defn}
+Nå får vi en generealisering av substitusjonsformelen 
+\begin{tcolorbox}[colback=white,colframe=blue!75!black,title= Variabelbytte for dobbeltintegraler]
+La $x=g(u,v),y=h(u,v)$ være en transformasjon. Så gjelder formelen for variabelbytte for dobbeltintegraler:
+\[
+\iint_R f(x, y)\, dA = \iint_S f(g(u, v), h(u, v))\left|\frac{\partial(x, y)}{\partial(u, v)}\right|\, du\, dv
+\]
+For trippelintegraler og $x=g(u,v,w),y=h(u,v,w),z=k(u,v,w)$ gjelder
+\[
+\iiint_R f(x, y, z)\, dV = \iiint_S f(g(u, v, w), h(u, v, w), k(u, v, w))\left|\frac{\partial(x, y, z)}{\partial(u, v, w)}\right|\, du\, dv\, dw
+\]
+\end{tcolorbox}
+
+\begin{ex}[Polarkoordinater]
+Polarkoordinater er gitt ved transformasjonen
+\[
+x = r\cos\theta, \quad y = r\sin\theta
+\]
+Hvis vi regner Jacobian får vi:
+\[
+\frac{\partial(x, y)}{\partial(r, \theta)} = r \Rightarrow dA = r\, dr\, d\theta
+\]
+Setter vi det inn får vi den kjente formelen for areal i polarkoordinater, \Cref{areal_i_polar}.
+\end{ex}
+
+\begin{ex}[Kulekoordinater]
+\[
+x = \rho\sin\phi\cos\theta,\quad y = \rho\sin\phi\sin\theta,\quad z = \rho\cos\phi
+\]
+Jacobian:
+\[
+\frac{\partial(x, y, z)}{\partial(\rho, \theta, \phi)} = \rho^2\sin\phi \Rightarrow dV = \rho^2\sin\phi\, d\rho\, d\theta\, d\phi
+\]
+Vi får igjen den kjente formelen for volumelement i kulekoordinater, \Cref{defn:volum_sfærisk}.
+\end{ex}
+
+\begin{ex}
+Bruk Stokes’ teorem til å evaluere
+\[
+\iint_S (\nabla \times \vect{F}) \cdot d\vect{S} \quad 
+\text{ der } \vect{F} = z^2 \vect{i} - 3xy \vect{j} + x^3 y^3 \vect{k}
+\]
+og $S$ er den delen av paraboloiden $z = 5 - x^2 - y^2$ som ligger over planet $z = 1$. Anta at $S$ er orientert oppover.
+
+I dette tilfellet vil randkurven $C$ være der flaten skjærer planet $z = 1$. Dette gir ved $z = 1$:
+\[
+1 = 5 - x^2 - y^2 \Rightarrow x^2 + y^2 = 4
+\]
+ Randkurven er altså en sirkel med radius $2$ i planet $z = 1$. En parameterisering av denne kurven er:
+\[
+\vect{r}(t) = 2\cos(t)\, \vect{i} + 2\sin(t)\, \vect{j} + \vect{k}, \quad 0 \leq t \leq 2\pi
+\]
+Ved hjelp av Stokes’ teorem kan vi skrive flateintegralet som følgende linjeintegral:
+
+\[
+\iint_S \nabla \times \vect{F} \cdot d\vect{S} = \oint_C \vect{F} \cdot d\vect{r} = \int_0^{2\pi} \vect{F}(\vect{r}(t)) \cdot \vect{r}'(t)\, dt
+\]
+Vi evaluerer vektorfeltet langs kurven ved å sette komponentene fra parameteriseringen inn i vektorfeltet.
+\begin{align*}
+\vect{F}(\vect{r}(t)) &= (1)^2\, \vect{i} - 3(2\cos(t))(2\sin(t))\, \vect{j} + (2\cos(t))^3 (2\sin(t))^3\, \vect{k}
+\\ 
+&= \vect{i} - 12\cos(t)\sin(t)\, \vect{j} + 64\cos^3(t)\sin^3(t)\, \vect{k}
+\end{align*}
+
+Så trenger vi den deriverte av parameteriseringen og skalarproduktet med vektorfeltet:
+
+\[
+\vect{r}'(t) = -2\sin(t)\, \vect{i} + 2\cos(t)\, \vect{j}
+\]
+
+\[
+\vect{F}(\vect{r}(t)) \cdot \vect{r}'(t) = -2\sin(t) - 24\cos^2(t)\sin(t)
+\]
+
+Nå kan vi utføre integralet:
+
+\[
+\iint_S \nabla \times \vect{F} \cdot d\vect{S} = \int_0^{2\pi} \left( -2\sin(t) - 24\cos^2(t)\sin(t) \right)\, dt
+\]
+
+\[
+= \int_0^{2\pi} \left( -2\sin(t) - 24\cos^2(t)\sin(t) \right)\, dt
+= \left[ 2\cos(t) + 8\cos^3(t) \right]_0^{2\pi} = 0
+\]
+\end{ex}
+
+\subsection{Linjeintegtraler med hensyn til koordinater}
+
+Integrasjon med hensyn til buelengde er fint siden det ikke er avhengig av parametrisering vi velger. For noen spørsmål er det dessverre ikke egnet å se på integraler med hensyn på buelengde. Spesielt dersom vi ønsker å forstå akkumulering av funksjonsverdier i forhold til en koordinat retninger på kurven kan vi ikke regne med integraler med hensyn på buelengde. For disse spørsmål trenger vi et annet integral (og den ville være avhengig av parametrisering!). 
+
+\begin{defn}{Linjeintegral med hensyn til koordinater $x, y, z$}
+[CHECK: Jeg (Ben) foreslår å stryke dette avsnittet, så definerer vi heller linjeintegral for vektorfelt siden. Jeg ser ikke at vi trenger å definere to typer linjeintegral. la oss bare kalle dene typen for "vanlig integral"]
+Anta at \( C \) er en kurve i 2D gitt ved parameteriseringen $ x = x(t), y = y(t), a \leq t \leq b$ så definerer vi:
+\begin{align*}
+\textbf{Linjeintegral med hensyn til }x: \qquad\int_C f(x, y)\, dx &= \int_a^b f(x(t), y(t))\, x'(t)\, dt
+\\
+\textbf{Linjeintegral med hensyn til }y: \qquad\int_C f(x, y)\, dy &= \int_a^b f(x(t), y(t))\, y'(t)\, dt
+\end{align*}
+Når begge retninger inngår samtidig skriver vi kortere:
+\[
+\int_C P\, dx + Q\, dy := \int_C P(x, y)\, dx + \int_C Q(x, y)\, dy
+\]
+Hvis nå \( C \) er en kurve i tre dimensjonal rom parameterisert som $x = x(t), y = y(t), z = z(t), a \leq t \leq b$. Da definerer vi linjeintegraler med hensyn til $x$, eller $y$, eller $z$:
+\begin{align*}
+\int_C f(x, y, z)\, dx &= \int_a^b f(x(t), y(t), z(t))\, x'(t)\, dt
+\\
+\int_C f(x, y, z)\, dy &= \int_a^b f(x(t), y(t), z(t))\, y'(t)\, dt
+\\
+\int_C f(x, y, z)\, dz &= \int_a^b f(x(t), y(t), z(t))\, z'(t)\, dt
+\end{align*}
+Som i 2D skriver vi kortere kombinert 
+\[\int_C P\, dx + Q\, dy + R\, dz:=\int_C P(x,y,z)\, dx + \int_C Q(x,y,z)\, dy + \int_C R(x,y,z)\, dz.\]
+\label{defn:linjeint_koord}
+\end{defn}
+\begin{rem}{Forskjell mellom de to typer linjeintegral}
+Merk at den eneste notasjonelle forskjellen mellom de nye linjeintegraler og linjeintegralet med hensyn på buelengde er differensialet. 
+\[\text{Koordinater:}\quad d{\color{red} x}, d{\color{red} y} , d{\color{red} z} ,\ldots \text{ vs. Buelengde:} \quad d{\color{red} s} \]
+Husk å sjekke type linjeintegralet \textbf{før} du regner!
+\end{rem}
+
+
+\begin{eks}{}
+\[\text{Evaluer }\int_C \sin(\pi y)\, dy + yx^2\, dx\]
+(a) Hvor \( C \) er linjesegmentet fra \( (0,2) \) til \( (1,4) \). Parameterisering:
+\[
+\vect{r}(t) = ( t,\ 2 + 2t )^\top,\quad 0 \leq t \leq 1 \Rightarrow 
+\int_0^1 \sin(\pi(2 + 2t)) \cdot 2\, dt + \int_0^1 (2 + 2t) \cdot t^2\, dt = \frac{1}{\pi} + \frac{7}{6}
+\]
+(b) Nå er $C$ fra \( (1,4) \) til \( (0,2) \), og dermed er parameterisering:
+\[
+\vect{r}(t) = ( 1 - t,\ 4 - 2t )^\top,\quad 0 \leq t \leq 1 \qquad \Rightarrow \int_C \sin(\pi y)\, dy + yx^2\, dx = - \frac{1}{\pi} - \frac{7}{6}
+\]
+\end{eks}
+\begin{rem}{}
+Endring av retning i $dx,dy$ linjeintegraler gir motsatt fortegn:
+\begin{align*}
+\int_{-C} f(x,y)\, dx &= -\int_C f(x,y)\, dx, \qquad \int_{-C} f(x,y)\, dy = -\int_C f(x,y)\, dy \\
+\int_{-C} P\, dx + Q\, dy &= -\int_C P\, dx + Q\, dy
+\end{align*}
+Her er $-C$ veien med omvendt orientering (\Cref{omvendt_orient}).
+Selvfølgelig gjelder regelen også for linjeintegraler i tredimensjonal rom.
+\end{rem}
+
+
+
+\begin{eks}{}
+Evaluer:
+\[
+\int_C y\, dx + x\, dy + z\, dz,
+\]
+hvor \( C \) er gitt ved:
+\[
+x = \cos t,\quad y = \sin t,\quad z = t^2,\quad 0 \leq t \leq 2\pi
+\]
+Utregning:
+\begin{align*}
+&\int_0^{2\pi} \sin t \cdot (-\sin t)\, dt + \int_0^{2\pi} \cos t \cdot \cos t\, dt + \int_0^{2\pi} t^2 \cdot 2t\, dt\\
+=& -\int_0^{2\pi} \sin^2 t\, dt + \int_0^{2\pi} \cos^2 t\, dt + \int_0^{2\pi} 2t^3\, dt = 8\pi^4
+\end{align*}
+\end{eks}
+
+\begin{oppsum}{Regneregler for linjeintegraler}
+  Vi kan regne med linjeintegraler som vanlig for integraler.
+  De følgende regneregler gjelder både for integraler ved hensyn til buelengde og med hensyn til koordinatretninger (dvs. $dx , dy, dz, \ldots$).  Vi formulerer de følgende regneregler alltid for integraler med hensyn til buelengde men de gjelder også for de andre typer integral vi har sett:
+  \begin{align}
+  \int_C (\lambda f+g)\, ds = \lambda \int_C f \, ds + \int_C g \, ds, \quad \lambda \in \R \label{lin_int_linear}\\
+  \int_{C_1 \cup C_2} f \, ds = \int_{C_1} f \, ds + \int_{C_1} f \, ds \label{lin_int_add}
+  \end{align}
+  Her betyr notasjon $C_1\cup C_2$ at kurven $C$ er sammensatt av to glatte kurver. Spesielt kan vi dermed utvide definisjon av integralet til stykkvis glatte kurver.
+\end{oppsum}
+\begin{rem}{Stykkevis glatte kurver}
+Dersom en kurve er sammensatt av flere glatte kurver \( C_1, C_2, \ldots, C_n \), da er:
+\[
+\int_C f(x, y)\, ds = \sum_{i=1}^n \int_{C_i} f(x, y)\, ds
+\]
+\end{rem}
+
+\begin{eks}{}
+Beregn \( \int_C 4x^3\, ds \), hvor \( C \) er en kurve bestående av tre segmenter:
+\begin{itemize}
+    \item \( C_1: x = t,\, y = -1,\quad -2 \leq t \leq 0 \)
+    \item \( C_2: x = t,\, y = t^3 - 1,\quad 0 \leq t \leq 1 \)
+    \item \( C_3: x = 1,\, y = t,\quad 0 \leq t \leq 2 \)
+\end{itemize}
+Summen av de tre integrandene gir \( \int_C 4x^3\, ds = -5.732 \)
+\end{eks}
