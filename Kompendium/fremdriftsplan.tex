@@ -1,12 +1,16 @@
 % Frittstående fil - kompilerer på egen hånd, er IKKE input i IMAX3012.tex.
 %
-% "Materiale"-kolonnen lenker til de faktiske delkapitlene i kompendiet
-% (IMAX3012.tex/.pdf) via xr-hyper. For at lenkene/numrene skal vise riktig:
-%   1) Bygg kompendiet (IMAX3012.tex) FØRST, slik at IMAX3012.aux finnes.
-%   2) Bygg deretter denne filen (kjør pdflatex/latexmk to ganger).
-%   3) Hold IMAX3012.pdf og fremdriftsplan.pdf i samme mappe -- da fungerer
-%      lenkene som hopper inn i kompendium-PDF-en når man klikker på dem.
-% Endres kapittelstrukturen i kompendiet må begge dokumentene bygges på nytt.
+% "Materiale"-kolonnen inneholder en klikkbar lenke ("Komp.") til
+% kompendium-PDF-en på GitHub, etterfulgt av vanlig tekst med kapittel-/
+% delkapittelnummer. Denne filen har ingen avhengighet til IMAX3012.tex/.aux
+% og kan bygges helt uavhengig.
+%
+% Modul-etiketten i venstre kolonne er sentrert vertikalt over hele
+% modulens radspenn ved hjelp av usynlige TikZ-merker (\tikzmark) plassert
+% i første og siste rad, og en TikZ-node tegnet midt mellom dem rett etter
+% modulens siste rad (via \noalign, altså mellom rader, ikke inni en celle).
+% Dette krever TO pdflatex-kjøringer for at merkene skal bli riktige
+% (TikZ "remember picture"-mekanismen, samme prinsipp som \ref/\label).
 
 \documentclass[10pt,a4paper]{article}
 \usepackage[a4paper,margin=1cm]{geometry}
@@ -14,16 +18,15 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
-\usepackage{amssymb,amsmath,amsfonts}
 \usepackage{array}
 \usepackage{xcolor}
 \usepackage{colortbl}
 \usepackage{longtable}
 \usepackage{multirow}
 \usepackage{enumitem}
-\usepackage{caption}
-\usepackage{xr-hyper}
 \usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{tikzmark,calc}
 
 \definecolor{fpHeader}{HTML}{8FC1A8}
 \definecolor{fpModul1}{HTML}{FDF6DC}
@@ -40,65 +43,17 @@
   citecolor = fpMatBlue,
 }
 
-% xr-hyper laster inn IMAX3012.aux råtekst, som inneholder lagrede
-% figurtekster/seksjonstitler som bruker kompendiets egendefinerte
-% matte-kommandoer (fra style.sty). Disse må derfor også finnes her, ellers
-% feiler innlastingen med "Undefined control sequence". Vi trenger ikke at
-% de ser nøyaktig riktige ut siden denne teksten aldri vises i dette
-% dokumentet - de må bare kunne kompilere.
-\providecommand{\cA}{\ensuremath{\mathcal{A}}}
-\providecommand{\cB}{\ensuremath{\mathcal{B}}}
-\providecommand{\cC}{\ensuremath{\mathcal{C}}}
-\providecommand{\cD}{\ensuremath{\mathcal{D}}}
-\providecommand{\cE}{\ensuremath{\mathcal{E}}}
-\providecommand{\cF}{\ensuremath{\mathcal{F}}}
-\providecommand{\cG}{\ensuremath{\mathcal{G}}}
-\providecommand{\cH}{\ensuremath{\mathcal{H}}}
-\providecommand{\cI}{\ensuremath{\mathcal{I}}}
-\providecommand{\cJ}{\ensuremath{\mathcal{J}}}
-\providecommand{\cK}{\ensuremath{\mathcal{K}}}
-\providecommand{\cL}{\ensuremath{\mathcal{L}}}
-\providecommand{\cM}{\ensuremath{\mathcal{M}}}
-\providecommand{\cN}{\ensuremath{\mathcal{N}}}
-\providecommand{\cO}{\ensuremath{\mathcal{O}}}
-\providecommand{\cP}{\ensuremath{\mathcal{P}}}
-\providecommand{\cQ}{\ensuremath{\mathcal{Q}}}
-\providecommand{\cR}{\ensuremath{\mathcal{R}}}
-\providecommand{\cS}{\ensuremath{\mathcal{S}}}
-\providecommand{\cT}{\ensuremath{\mathcal{T}}}
-\providecommand{\cU}{\ensuremath{\mathcal{U}}}
-\providecommand{\cV}{\ensuremath{\mathcal{V}}}
-\providecommand{\cW}{\ensuremath{\mathcal{W}}}
-\providecommand{\cX}{\ensuremath{\mathcal{X}}}
-\providecommand{\cY}{\ensuremath{\mathcal{Y}}}
-\providecommand{\cZ}{\ensuremath{\mathcal{Z}}}
-\providecommand{\Lf}{\ensuremath{\mathbf{L}}}
-\providecommand{\bX}{\ensuremath{\mathbf{X}}}
-\providecommand{\bY}{\ensuremath{\mathbf{Y}}}
-\providecommand{\LB}[1][\cdot \hspace{1pt} , \cdot]{[\hspace{1pt} #1 \hspace{1pt} ]}
-\providecommand{\SSS}{\ensuremath{\mathbb{S}}}
-\providecommand{\dd}{\mathop{}\!\mathrm{d}}
-\providecommand{\fd}{\mathop{}\!\mathbf{d}}
-\providecommand{\E}{\ensuremath{\mathbb{E}}}
-\providecommand{\Q}{\ensuremath{\mathbb{Q}}}
-\providecommand{\bC}{\ensuremath{\mathbb{C}}}
-\providecommand{\B}{\ensuremath{\mathbb{B}}}
-\providecommand{\R}{\ensuremath{\mathbb{R}}}
-\providecommand{\F}{\ensuremath{\mathbb{F}}}
-\providecommand{\N}{\ensuremath{\mathbb{N}}}
-\providecommand{\Z}{\ensuremath{\mathbb{Z}}}
-\providecommand{\D}{\ensuremath{\mathbb{D}}}
-\providecommand{\K}{\ensuremath{\mathbb{K}}}
-\providecommand{\vect}[1]{\ensuremath{\mathbf{#1}}}
-\DeclareMathOperator{\id}{id}
+% Lenke til kompendium-PDF-en på GitHub. Brukes som "Komp." i hver celle i
+% Materiale-kolonnen.
+\newcommand{\fpKompURL}{https://github.com/imfdrift/IMAx3012/blob/main/Kompendium/IMAX3012.pdf}
+\newcommand{\fpKomp}{\href{\fpKompURL}{Komp.}}
 
-% Ekstern-referanse til kompendiet (samme mappe). Alle \label i IMAX3012.tex
-% blir tilgjengelige her med prefiks "cp-", f.eks. \ref{cp-sect:polarkoord}.
-\externaldocument[cp-]{IMAX3012}
-
-% Lenket, dynamisk delkapittel-nummer fra kompendiet.
-\newcommand{\fpSec}[1]{\hyperref[cp-#1]{\ref{cp-#1}}}
-\newcommand{\fpMat}[1]{#1}
+% Modul-etikett sentrert mellom to \tikzmark-punkter (se forklaring øverst).
+\newcommand{\fpModulLabel}[3]{%
+  \noalign{\begin{tikzpicture}[remember picture,overlay]
+    \node[align=center,text width=2.8cm] at ($(pic cs:#1)!0.5!(pic cs:#2)$) {\footnotesize\textbf{#3}};
+  \end{tikzpicture}}%
+}
 
 \pagestyle{empty}
 
@@ -110,7 +65,7 @@
 \end{center}
 \vspace{1em}
 
-Tabellen under viser fremdriftsplanen for kurset, uke for uke, med tilhørende tema, arbeidskrav og relevant materiale fra kompendiet. De tre modulene er fargekodet. Referansene i "Materiale"-kolonnen er klikkbare lenker til riktig delkapittel i kompendiet.
+Tabellen under viser OMTRENTLIG fremdriftsplanen for kurset, uke for uke, med tilhørende tema, arbeidskrav og relevant materiale fra kompendiet. Materialet ligger på GitHub og blir kontinuerlig oppdatert.
 
 \begingroup
 \footnotesize
@@ -137,7 +92,7 @@ Tabellen under viser fremdriftsplanen for kurset, uke for uke, med tilhørende t
 \endhead
 
 % ===================== MODUL 1: Multippel-integrasjon =====================
-\cellcolor{fpModul1}\multirow{5}{3.0cm}{\centering\textbf{Modul 1}\\[2pt]\textit{Multippel-integrasjon}}
+\cellcolor{fpModul1}\tikzmark{mod1top}
  & \cellcolor{fpModul1}34 &
  \cellcolor{fpModul1}
  \begin{itemize}[nosep,leftmargin=1em]
@@ -153,7 +108,7 @@ Tabellen under viser fremdriftsplanen for kurset, uke for uke, med tilhørende t
      \item Anvendelser
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul1}\multirow{2}{2.7cm}{\centering Øving 1} & \cellcolor{fpModul1}\fpMat{Kompendium \hyperref[cp-chap:Intro]{kapittel 0} og kap.\ \fpSec{sect:dobbelint}} \\
+ & \cellcolor{fpModul1}\multirow{2}{2.7cm}{\centering Øving 1} & \cellcolor{fpModul1}\fpKomp\ kapittel 0 og kap.\ 1.1 \\
 \cline{2-3}\cline{5-5}
 
 \cellcolor{fpModul1} & \cellcolor{fpModul1}35 &
@@ -168,7 +123,7 @@ Tabellen under viser fremdriftsplanen for kurset, uke for uke, med tilhørende t
      \item Python
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul1} & \cellcolor{fpModul1}\fpMat{Komp.\ kap.\ \fpSec{sect:polarkoord}-\fpSec{sect:numdobbelt}} \\
+ & \cellcolor{fpModul1} & \cellcolor{fpModul1}\fpKomp\ kap.\ 1.2-1.3 \\
 \cline{2-5}
 
 \cellcolor{fpModul1} & \cellcolor{fpModul1}36 &
@@ -185,7 +140,7 @@ Tabellen under viser fremdriftsplanen for kurset, uke for uke, med tilhørende t
      \item Trippelintegraler i kulekoordinater
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul1}\multirow{2}{2.7cm}{\centering Øving 2} & \cellcolor{fpModul1}\fpMat{Komp.\ kap.\ \fpSec{sect:trippelint}-\fpSec{sect:trippelint_andre}} \\
+ & \cellcolor{fpModul1}\multirow{2}{2.7cm}{\centering Øving 2} & \cellcolor{fpModul1}\fpKomp\ kap.\ 1.4-1.5 \\
 \cline{2-3}\cline{5-5}
 
 \cellcolor{fpModul1} & \cellcolor{fpModul1}37 &
@@ -200,10 +155,10 @@ Tabellen under viser fremdriftsplanen for kurset, uke for uke, med tilhørende t
      \item Python, / anvendelser / oppsamling
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul1} & \cellcolor{fpModul1}\fpMat{Komp.\ kap.\ \fpSec{sect:trippelint_andre}-\fpSec{sect:num_met1}} \\
+ & \cellcolor{fpModul1} & \cellcolor{fpModul1}\fpKomp\ kap.\ 1.5-1.6 \\
 \cline{2-5}
 
-\cellcolor{fpModul1} & \cellcolor{fpModul1}38 &
+\cellcolor{fpModul1}\tikzmark{mod1bot} & \cellcolor{fpModul1}38 &
  \cellcolor{fpModul1}
  \begin{itemize}[nosep,leftmargin=1em]
    \item \textbf{Forelesning 9}
@@ -219,11 +174,12 @@ Tabellen under viser fremdriftsplanen for kurset, uke for uke, med tilhørende t
      \item Flateintegral
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul1} & \cellcolor{fpModul1}\fpMat{Komp.\ kap.\ \fpSec{sect:linint1}-\fpSec{sect:flateint}} \\
+ & \cellcolor{fpModul1} & \cellcolor{fpModul1}\fpKomp\ kap.\ 1.7-1.8 \\
 \hline
+\fpModulLabel{mod1top}{mod1bot}{Modul 1\\[2pt]\textit{Multippel-integrasjon}}
 
 % ===================== MODUL 2: Vektoranalyse =====================
-\cellcolor{fpModul2}\multirow{4}{3.0cm}{\centering\textbf{Modul 2}\\[2pt]\textit{Vektoranalyse}}
+\cellcolor{fpModul2}\tikzmark{mod2top}
  & \cellcolor{fpModul2}39 &
  \cellcolor{fpModul2}
  \begin{itemize}[nosep,leftmargin=1em]
@@ -238,7 +194,7 @@ Tabellen under viser fremdriftsplanen for kurset, uke for uke, med tilhørende t
      \item Potensialfunksjoner
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul2}Øving 3 & \cellcolor{fpModul2}\fpMat{Komp.\ kap\ \fpSec{sect:vektorfelt}, \fpSec{div_curl} og \fpSec{sect:konservativ}} \\
+ & \cellcolor{fpModul2}Øving 3 & \cellcolor{fpModul2}\fpKomp\ kap 2.1, 2.2 og 2.4 \\
 \cline{2-5}
 
 \cellcolor{fpModul2} & \cellcolor{fpModul2}40 &
@@ -254,7 +210,7 @@ Tabellen under viser fremdriftsplanen for kurset, uke for uke, med tilhørende t
      \item Fluksintegral i 2D og 3D
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul2}\multirow{2}{2.7cm}{\centering Øving 4} & \cellcolor{fpModul2}\fpMat{Komp.\ kap\ \fpSec{sect:linint2}, \fpSec{sect:fluks2d}, \fpSec{sect:fluks3d}} \\
+ & \cellcolor{fpModul2}\multirow{2}{2.7cm}{\centering Øving 4} & \cellcolor{fpModul2}\fpKomp\ kap 2.3, 2.5, 2.7 \\
 \cline{2-3}\cline{5-5}
 
 \cellcolor{fpModul2} & \cellcolor{fpModul2}41 &
@@ -269,10 +225,10 @@ Tabellen under viser fremdriftsplanen for kurset, uke for uke, med tilhørende t
      \item Gauss divergenssetning
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul2} & \cellcolor{fpModul2}\fpMat{Komp.\ kap\ \fpSec{sect:green},\fpSec{sect:gauss}} \\
+ & \cellcolor{fpModul2} & \cellcolor{fpModul2}\fpKomp\ kap 2.6,2.8 \\
 \cline{2-5}
 
-\cellcolor{fpModul2} & \cellcolor{fpModul2}42 &
+\cellcolor{fpModul2}\tikzmark{mod2bot} & \cellcolor{fpModul2}42 &
  \cellcolor{fpModul2}
  \begin{itemize}[nosep,leftmargin=1em]
    \item \textbf{Forelesning 17}
@@ -284,11 +240,12 @@ Tabellen under viser fremdriftsplanen for kurset, uke for uke, med tilhørende t
      \item Repetisjon og oppgaveregning med de store teoremene
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul2} & \cellcolor{fpModul2}\fpMat{Komp.\ kap\ \fpSec{sect:stokes}} \\
+ & \cellcolor{fpModul2} & \cellcolor{fpModul2}\fpKomp\ kap 2.9 \\
 \hline
+\fpModulLabel{mod2top}{mod2bot}{Modul 2\\[2pt]\textit{Vektoranalyse}}
 
 % ===================== MODUL 3: PDEer =====================
-\cellcolor{fpModul3}\multirow{4}{3.0cm}{\centering\textbf{Modul 3}\\[2pt]\textit{PDEer}}
+\cellcolor{fpModul3}\tikzmark{mod3top}
  & \cellcolor{fpModul3}43 &
  \cellcolor{fpModul3}
  \begin{itemize}[nosep,leftmargin=1em]
@@ -301,7 +258,7 @@ Tabellen under viser fremdriftsplanen for kurset, uke for uke, med tilhørende t
      \item Bevaringslover
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul3}Øving 5 & \cellcolor{fpModul3}\fpMat{Komp.\ kap\ \fpSec{sect:introPDE}-\fpSec{sect:bevaringslover}} \\
+ & \cellcolor{fpModul3}Øving 5 & \cellcolor{fpModul3}\fpKomp\ kap 3.1-3.2 \\
 \cline{2-5}
 
 \cellcolor{fpModul3} & \cellcolor{fpModul3}44 &
@@ -316,7 +273,7 @@ Tabellen under viser fremdriftsplanen for kurset, uke for uke, med tilhørende t
      \item Numerikk for PDEer: 2D
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul3}\multirow{2}{2.7cm}{\centering Øving 6} & \cellcolor{fpModul3}\fpMat{Komp.\ kap\ \fpSec{sect:endifferanser}} \\
+ & \cellcolor{fpModul3}\multirow{2}{2.7cm}{\centering Øving 6} & \cellcolor{fpModul3}\fpKomp\ kap 3.3 \\
 \cline{2-3}\cline{5-5}
 
 \cellcolor{fpModul3} & \cellcolor{fpModul3}45 &
@@ -331,10 +288,10 @@ Tabellen under viser fremdriftsplanen for kurset, uke for uke, med tilhørende t
      \item Endelig-volum-metode
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul3} & \cellcolor{fpModul3}\fpMat{Komp.\ kap\ \fpSec{sect:endeligvolum}-\fpSec{sect:evm1d}} \\
+ & \cellcolor{fpModul3} & \cellcolor{fpModul3}\fpKomp\ kap 3.4-3.5 \\
 \cline{2-5}
 
-\cellcolor{fpModul3} & \cellcolor{fpModul3}46 &
+\cellcolor{fpModul3}\tikzmark{mod3bot} & \cellcolor{fpModul3}46 &
  \cellcolor{fpModul3}
  \begin{itemize}[nosep,leftmargin=1em]
    \item \textbf{Forelesning 25}
@@ -346,8 +303,9 @@ Tabellen under viser fremdriftsplanen for kurset, uke for uke, med tilhørende t
      \item Endelig-volum-metode
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul3}\multirow{2}{2.7cm}{\centering Øving 7} & \cellcolor{fpModul3}\fpMat{Komp.\ kap\ \fpSec{sect:evm1d}-\fpSec{EVM2D}} \\
+ & \cellcolor{fpModul3}\multirow{2}{2.7cm}{\centering Øving 7} & \cellcolor{fpModul3}\fpKomp\ kap 3.5-3.6 \\
 \cline{1-3}\cline{5-5}
+\fpModulLabel{mod3top}{mod3bot}{Modul 3\\[2pt]\textit{PDEer}}
 
 % ===================== Repetisjon =====================
 \rowcolor{fpRep}

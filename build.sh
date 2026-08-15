@@ -8,9 +8,8 @@
 # source so it shows up in the normal (iCloud-synced) place.
 #
 # Note: .aux/.bbl/etc. from the source folder ARE copied along (not
-# excluded) because fremdriftsplan.tex in Compendium/ cross-references
-# IMAX3012.aux via xr-hyper. Build IMAX3012.tex first so that file exists
-# and is up to date before building fremdriftsplan.tex.
+# excluded); harmless either way since none of the .tex files here
+# currently depend on another document's .aux file.
 #
 # Usage (manual):      bash build.sh /full/path/to/file      (no .tex extension needed)
 # Usage (VSCode/LaTeX Workshop): configured via .vscode/settings.json to pass %DOC%
