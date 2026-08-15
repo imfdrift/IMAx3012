@@ -1,0 +1,22 @@
+{
+    "latex-workshop.latex.rootFile.path": "%WORKSPACE_FOLDER%/Compendium/IMAX3012.tex",
+    "latex-workshop.latex.outDir": "%DIR%",
+    "latex-workshop.latex.tools": [
+        {
+            "name": "build-outside-icloud",
+            "command": "bash",
+            "args": [
+                "%DIR%/build.sh"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "Build (outside iCloud)",
+            "tools": [
+                "build-outside-icloud"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipe.default": "Build (outside iCloud)"
+}

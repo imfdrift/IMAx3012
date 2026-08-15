@@ -1,0 +1,67 @@
+\documentclass[11pt,parskip=half,x11names, twoside=false, open=any, a4paper]{scrbook}
+\usepackage{style}
+
+\title{Matematikk 3}
+\author{}
+
+\begin{document}
+\begin{titlepage}
+    \vspace*{7em}
+    \begin{center}
+        {\Huge Forelesningsnotater\\[.5em] Matematikk 3B (IMAx3012)}
+    \end{center}
+\begin{center}
+\Large \textbf{ Versjon \today }
+\end{center}\vfill
+
+\begin{remF}{}{}
+Denne pdf-en inneholder forelesningsnotater for faget IMA$x$3012: Matematikk 3B\footnote{
+$x \in \left\{\text{A(lesund), G(jøvik), T(rondheim)}\right\}$} undervist ved NTNU høsten 2025.  \\
+
+Disse notatene er først og fremst ment som hjelp til oss lærere i forberedelse og samkjøring av pensum og forelesninger på tvers av kampusene. Vi velger å dele disse notatene med dere studenter også, i håp om at det kan komme til nytte. La det likevel være sagt at dette er et levende dokument, først og fremst skrevet av og til oss selv. Språkvask og feiloppretting vil skje underveis i semesteret, og nye versjoner blir publisert
+kontinuerlig. Det anbefales derfor ikke at dere skriver ut dokumentet.\\
+
+\textbf{ NB!} Dette dokumentet definerer \emph{ ikke } alene pensum i faget. I tillegg kommer forelesningene, obligatoriske arbeidskrav samt jupyternotater, med mer.
+
+\end{remF}
+\end{titlepage}
+\begin{tcolorbox}[colback=white,colframe=red!40!black,title= Forelesningsnotater og videoer erstatter ikke eget arbeid med fagstoff!]
+
+For å sette seg inn i pensum er det nødvendig at dere jobber aktivt med materialet. Dere må lære dere stoffet
+og løse mange oppgaver underveis. \\
+
+Den letteste måten å lykkes på er å møte 
+opp til forelesninger og øvingstimer og prate med lærere og læringsassistenter og
+medstudenter. \\
+
+Jobb gjerne sammen med andre!
+\end{tcolorbox}
+    \section*{Copyright notice}\addcontentsline{toc}{section}{Copyright notice}
+This material is intended for teaching the course IMAx3012 at NTNU. It should neither be distributed beyond the course nor used commercially.
+
+None of the material in these notes is original, where we reused directly material from other sources these sources were cited with appropriate licenses. Some parts adapted from copyrighted material are used under the excemption for teaching purposes $\ll$\S 43 Fri bruk av verk ved undervisningsvirksomhet$\gg$ of the norwegian \href{https://lovdata.no/dokument/NL/lov/2018-06-15-40}{Lov om opphavsrett til åndsverk mv. (åndsverkloven)}. The copyright for these parts remains with the original creators. No copyright infringement is intended on part of the authors.
+
+For the part of these notes which is our work, the \href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{CC-BY-NC-SA} license applies.
+\pagestyle{empty}
+\pagenumbering{gobble}
+\newpage
+\tableofcontents
+
+\pagestyle{headings}
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+
+\input{0_intro_rep}
+\input{1_Integrasjon}
+\input{2_Vektorkalkulus}
+\input{3_PDE}
+
+\appendix
+\chapter{Oppsummering og tabeller}
+\input{appA_oppsum_tab}
+
+
+\bibliography{IMAX3012}
+\end{document}

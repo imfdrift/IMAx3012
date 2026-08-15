@@ -1,0 +1,50 @@
+
+\section{Exercise workbench}
+
+\section*{Problem 1.1 (Derivasjon av konveksjons-diffusjonsligningen)}
+
+I denne oppgaven skal vi lage en konveksjons-diffusjonsligning som en bevaringslov. Som i forelesning om varmeligning skriver vi enheter til fysiske størrelse i parenteser når størrelsen er introdusert.
+
+La \( c = c(x, t) \) [mol/m\(^3\)] betegne konsentrasjonen ved punktet \( x \) [m] og tiden \( t \) [s] av et stoff som transporteres gjennom et område \( x \in \Omega \subset \mathbb{R}^3 \) ved hjelp av konveksjon og diffusjon. Fluksen på grunn av konveksjon er
+\[
+\mathbf{j}_c = \mathbf{v}c, \quad [\text{mol}/(\text{m}^2\cdot\text{s})]
+\]
+der \( \mathbf{v} = \mathbf{v}(x) \) [m/s] er konveksjonshastighetsfeltet. Fluksen på grunn av diffusjon er 
+\[
+\mathbf{j}_d = -D \nabla c, \quad [\text{mol}/(\text{m}^2\cdot\text{s})] \qquad \text{(Ficks lov)}
+\]
+der \( D = D(x) \) [m\(^2\)/s] er diffusjonskoeffisienten. La \( r \) [mol/(m\(^3\cdot\) s)] betegne produksjons- eller forbruksraten av stoff, for eksempel grunnet kjemiske reaksjoner. Den totale massen av stoffet innenfor en vilkårlig delmengde \( \Omega_0 \subset \Omega \) er
+\(\iiint_{\Omega_0} c\, dV\) La \(\Gamma_0\) være randflaten til \(\Omega_0\).
+
+På grunn av massebevaring ser vi at den totale massen innenfor \(\Omega_0\) er gitt ved ligning
+\[\frac{d}{dt} \iiint c dV  = - \iint_{\Gamma_0} (\mathbf{j}_c + \mathbf{j}_d)\cdot d\mathbf{S} + \iiint_{\Omega_0}\mathbf{r} \, dV\]
+
+Siden \( \Omega_0 \subset \Omega \) er vilkårlig, følger ved bruk av divergenssetning og Ficks lov at konveksjons-diffusjonsligningen i differensialform er
+\[
+\frac{\partial c}{\partial t} - \text{div} (D \nabla c) + \text{div} (\mathbf{v} c) = r \quad \text{i } \Omega,
+\]
+hvor alle ledd blir målt i [mol/(m\(^2\cdot s)\)]. Faktisk er ligning på samme matematiske form som varmeligning med konveksjon fra forelesning.
+
+Vi velger intialbetingelser ved \(t=0\), dvs.\ \(c(x,0)=c_i(x)\) (indeks \(i\) betyr inn i \(\Omega\)).
+
+La oss nå utlede en betingelse på rand \(\Gamma\) til \(\Omega\). For det betegner \(\mathbf{n}\) enhetsnormalenvektor som peker ut av \(\Omega\). Vi antar at Newtons lov gjelder, og at materialet diffunderer gjennom randen med en hastighet som er proporsjonal med forskjellen \( c - c_a \) mellom konsentrasjonen i \( \Omega \) og den omgivende konsentrasjonen \( c_a \) utenfor \( \Omega \). Dermed gjelder
+\[
+(\mathbf{j}_c + \mathbf{j}_d) \cdot \mathbf{n} = \kappa (c - c_a),
+\]
+hvor \( \kappa = \kappa(x, t) \) [mol /m\(^2\) s] er en diffusjonskoeffisient. 
+Siden transport skjer bare inn i \(\Omega\) vet vi at \(\mathbf{v} \cdot \mathbf{n} =0\) og når man setter det inn får vi 
+\[\kappa (c-c_a) =(\mathbf{j}_c + \mathbf{j}_d)\cdot \mathbf{n}= (-D\nabla c) \cdot \mathbf{n}=-D\frac{\partial c}{\partial \mathbf{n}},\]
+hvor \(\frac{\partial}{\partial \mathbf{n}}\) er den normale deriverte. Vi få en randbetingelse av Robin type 
+\[
+D \frac{\partial c}{\partial \mathbf{n}} + \kappa(c - c_a) = 0 \quad \text{på } \Gamma.
+\]
+Neste steg i å utlede et problem som egner seg for matematisk analyse og numeriske simuleringer, består i å kvitte seg med de fysiske enhetene og oppnå et såkalt dimensjonsløst problem. For dette formålet skal vi dele med enhetene \(\tau [s], L [m], c_f [mol/m^2 \cdot s]\) osv. for å lage de dimensjonsløse variabler
+\[\hat{t}=t/\tau, \quad \hat{x} = x/L, \quad u(\hat{x},\hat{t}) = c(\hat{x}L,\hat{t}\tau)/c_f\]
+Divider ligningen nå med \(D_f c_f /L^2\) og bruk kjernereglene
+\[\frac{\partial u}{\partial \hat{t}} = \tau \frac{\partial }{\partial t} \frac{c}{c_f} \qquad \hat{\nabla}u = L \nabla \frac{c}{c_f},\]
+for å få
+\[\frac{L^2}{D_f \tau} \frac{\partial u}{\partial \hat{t}} - \hat{\text{div}} (\hat{D} \hat{\nabla} u +\frac{Lv_f}{D_f} \hat{\mathbf{v}}u) = \frac{\mathbf{r}L^2}{D_f \tau}\]
+Vi slutter nå med å bruke hatter for de nye variabler og ser at ved help av produktregelen for divergens vi kan skrive ligningen i dimensjonsløse form som:
+\[
+d\frac{\partial u}{\partial t} - \text{div} (D \nabla u) + \mathbf{b}\cdot \nabla u + cu = f \quad \text{i } \Omega, \text{ hvor } c= \text{div }\mathbf{b}
+\]
