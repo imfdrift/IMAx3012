@@ -180,7 +180,9 @@ Legg merke til at $\vect{d}:=\vect{q}-\vect{p}$ er en retningsvektor for linjen 
 \[
 \vect{r}(t) = \vect{p} + t\,\vect{d}.
 \]
-(En liten observasjon i forbifarten: siden $\vect{r}(t)$ er lineær i $t$, er $\vect{d}$ faktisk den deriverte $\vect{r}'(t)$ -- helt analogt til at stigningstallet $b$ er den deriverte av en rett linje $y=a+bt$. Vektoren som peker langs kurven er med andre ord selve fartsvektoren.)
+Merk da at $\vect{d}$ er den deriverte: 
+\[\vect{r}'(t)=\frac{\text{d}}{\text{dt}}\vect{r}(t)=\vect{d}\]
+Dette er helt analogt til at stigningstallet $b$ er den deriverte av en rett linje $y=a+bt$. Vektoren som peker langs kurven er med andre ord selve fartsvektoren.
 
 Dette er den samme punkt-retning-formen vi kjenner fra linjelikninger fra før, bare skrevet med en parameter $t$ i stedet for at $y$ uttrykkes direkte som funksjon av $x$ -- en stor fordel, siden denne formen også fungerer for loddrette linjestykker, og for linjestykker i flere dimensjoner.
 
@@ -356,11 +358,11 @@ Siden $f$ er konstant lik $c$ langs hele nivåkurven, må denne endringen være 
 \[
 f_x\,x'(t) + f_y\,y'(t) = 0 \qquad\Longleftrightarrow\qquad (f_x,f_y)\cdot\bigl(x'(t),y'(t)\bigr) = 0.
 \]
-Vektoren $(x'(t),y'(t))$ peker langs kurven, akkurat som $\vect{r}'(t)$ gjorde for det parametriserte linjestykket tidligere -- den er altså en retningsvektor for tangenten til nivåkurven. Skalarproduktet over er null, så akkurat som før vet vi da at
+Vektoren $(x'(t),y'(t))$ peker langs kurven, akkurat som $\vect{r}'(t)$ gjorde for det parametriserte linjestykket tidligere -- den er altså en retningsvektor for tangenten til nivåkurven. Skalarproduktet over er null, så akkurat som før vet vi da at vektoren
 \[
 (f_x,\,f_y) \ \text{står vinkelrett på denne tangenten.}
 \]
-Med andre ord: \emph{vektoren av partiellderiverte $(f_x,f_y)$ står alltid normalt på nivåkurvene til $f$.} Denne vektoren spiller en sentral rolle senere i kurset og får da sitt eget navn og egen notasjon; foreløpig holder det å vite at den peker normalt ut av nivåkurvene.
+Med andre ord: \emph{vektoren av partiellderiverte $(f_x,f_y)$ står alltid normalt på nivåkurvene til $f$.} Siden skal vi lære at denne vektoren kalles for \textit{gradienten} til funksjonen $f$. 
 
 \begin{eks}{Nivåkurver til en paraboloide}\label{eks:nivakurver-paraboloide}
 La $f(x,y)=x^2+y^2$, med graf $z=f(x,y)$ vist til venstre i figur~\ref{fig:nivakurver}. Nivåkurvene er sirkler om origo:
