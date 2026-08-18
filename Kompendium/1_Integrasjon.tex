@@ -1,69 +1,8 @@
 \chapter{Integrasjon i flere dimensjoner}
 \label{chap:Integrasjon}
-I dette kapittelet diskuteres integrasjon av funksjoner med flere variabler og vi skal integrere over områder i flerdimensjonale rom. Det er lett å motivere hvorfor man skal se på dette. Men aller først — la oss repetere det vi har lært om integrasjon av én variabel.
+I dette kapittelet diskuteres integrasjon av funksjoner med flere variabler og vi skal integrere over områder i flerdimensjonale rom. Vi bygger direkte videre på Riemannsum-tankegangen fra énvariabeltilfellet, repetert i kapittel 0: også der tenker vi på integralet som en grenseverdi av en sum av rektangelarealer.
 
-\begin{minipage}{7cm}
-\paragraph{Integraler av én variabel:} Bestemte integraler av én variabel løser et arealproblem:
-\[
-\int_a^b f(x) \, dx,
-\]
-i den forstand at integralet kan sees på som en uendelig sum av rektangler mellom grafen og integrasjons-asken. For å finne arealet under grafen deler man intervallet \( [a, b] \) opp i \( n \) delintervaller med samme bredde \( \Delta x \), og valgte et punkt \( x_i^* \) fra hvert intervall.
-Høyden til hvert rektangel er \( h_i=f(x_i^*) \).
-\end{minipage}
-\begin{minipage}{6cm}
-\begin{tikzpicture}[scale=.7]
-  \begin{axis}[
-    axis lines=middle,
-    xlabel={$x$},
-    ylabel={$f(x)$},
-    domain=0:5,
-    ymin=0, ymax=6,
-    xmin=0, xmax=5.5,
-    xtick=\empty,
-    ytick=\empty,
-    samples=100,
-    width=12cm,
-    height=6cm,
-    clip=false,
-    enlargelimits=false
-  ]
-     % Rectangle width
-    \def\dx{1}
-
-    % Rectangles (left-endpoint)
-    \foreach \i in {0,...,4} {
-      \pgfmathsetmacro{\x}{\i*\dx}
-      \pgfmathsetmacro{\y}{0.5*(\x - 1)*(\x - 4) + 3}
-      \addplot [
-        ybar,
-        bar width=\dx,
-        fill=blue!10,
-        draw=blue!60!black,
-        area legend
-      ] coordinates {(\x + 0.5*\dx, \y)};
-    }
-% Function
-    \addplot[very thick, black, domain=0:5] {0.5*(x - 1)*(x - 4) + 3};
-    % Labels
-    \node at (axis cs:0, -0.5) [below] {$a$};
-    \node at (axis cs:5, -0.5) [below] {$b$};
-
-    % Delta x marker
-    \draw[<->] (axis cs:1,0.5) -- (axis cs:2,0.5) node[midway, above] {$\Delta x$};
-  \end{axis}
-\end{tikzpicture}
-\end{minipage}
-
-Summen av arealet til rektanglene gir en tilnærming til integralet:
-\[
-A \approx f(x_1^*) \Delta x + f(x_2^*) \Delta x + \cdots + f(x_n^*) \Delta x = \sum_{i=1}^n f(x_i^*)\Delta x.
-\]
-Det \textit{eksakte} arealet under grafen får vi i grensenverdien når \( n \to \infty \). Dette gir 
-\[
-\int_a^b f(x) \, dx = \lim_{n \to \infty} \sum_{i=1}^n f(x_i^*) \Delta x
-\]
-
-\paragraph{Ved integrasjon i to dimensjoner} (eller flere for den saks skyld) får vi tilsvarende type summer. Men la oss aller først se på noen anvendelser av to-variable integraler.
+\paragraph{Ved integrasjon i to dimensjoner} (eller flere for den saks skyld) får vi tilsvarende type summer, bare at vi nå summerer bidrag over et areal (eller volum) i stedet for et intervall. Men la oss aller først se på noen anvendelser av to-variable integraler.
 
 \subsection*{Anvendelse: volum under en flate} 
 Anta at vi ønsker å beregne volum under en flate gitt som graf til en funksjon

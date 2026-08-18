@@ -180,6 +180,8 @@ Legg merke til at $\vect{d}:=\vect{q}-\vect{p}$ er en retningsvektor for linjen 
 \[
 \vect{r}(t) = \vect{p} + t\,\vect{d}.
 \]
+(En liten observasjon i forbifarten: siden $\vect{r}(t)$ er lineær i $t$, er $\vect{d}$ faktisk den deriverte $\vect{r}'(t)$ -- helt analogt til at stigningstallet $b$ er den deriverte av en rett linje $y=a+bt$. Vektoren som peker langs kurven er med andre ord selve fartsvektoren.)
+
 Dette er den samme punkt-retning-formen vi kjenner fra linjelikninger fra før, bare skrevet med en parameter $t$ i stedet for at $y$ uttrykkes direkte som funksjon av $x$ -- en stor fordel, siden denne formen også fungerer for loddrette linjestykker, og for linjestykker i flere dimensjoner.
 
 Vi ser lett at
@@ -332,20 +334,192 @@ y = 0 - \frac12(x-1) = -\frac12 x + \frac12
 
 \subsection*{Nivåkurver}
 
+For en funksjon av to variabler $z=f(x,y)$ er grafen en flate i $\R^3$. En \emph{nivåkurve} (eller konturlinje) til $f$ er mengden av punkter i $xy$-planet der $f$ har en gitt, fast verdi $c$ -- helt analogt til høydekotene på et kart, der hver kote viser hvor i terrenget høyden er den samme.
+
+\begin{defn}{Nivåkurve}
+Nivåkurven til $f(x,y)$ for verdien $c$ er mengden
+\[
+\{(x,y) : f(x,y)=c\}.
+\]
+Geometrisk fremkommer den ved å skjære flaten $z=f(x,y)$ med det horisontale planet $z=c$, og deretter projisere skjæringskurven ned i $xy$-planet.
+\end{defn}
+
+La oss knytte dette til det vi nettopp har repetert om tangenter, normaler og skalarprodukt. Tenk deg at nivåkurven $f(x,y)=c$ parametriseres ved $(x(t),y(t))$, slik at
+\[
+f\bigl(x(t),y(t)\bigr) = c \qquad \text{for alle } t.
+\]
+Vi lærer kjerneregelen for funksjoner av flere variabler senere, men resultatet vi trenger kan vi allerede ane: den momentane endringen av $f$ langs kurven er summen av bidraget fra endring i $x$-retning og bidraget fra endring i $y$-retning,
+\[
+\frac{d}{dt}f\bigl(x(t),y(t)\bigr) = f_x\,x'(t) + f_y\,y'(t).
+\]
+Siden $f$ er konstant lik $c$ langs hele nivåkurven, må denne endringen være null, slik at
+\[
+f_x\,x'(t) + f_y\,y'(t) = 0 \qquad\Longleftrightarrow\qquad (f_x,f_y)\cdot\bigl(x'(t),y'(t)\bigr) = 0.
+\]
+Vektoren $(x'(t),y'(t))$ peker langs kurven, akkurat som $\vect{r}'(t)$ gjorde for det parametriserte linjestykket tidligere -- den er altså en retningsvektor for tangenten til nivåkurven. Skalarproduktet over er null, så akkurat som før vet vi da at
+\[
+(f_x,\,f_y) \ \text{står vinkelrett på denne tangenten.}
+\]
+Med andre ord: \emph{vektoren av partiellderiverte $(f_x,f_y)$ står alltid normalt på nivåkurvene til $f$.} Denne vektoren spiller en sentral rolle senere i kurset og får da sitt eget navn og egen notasjon; foreløpig holder det å vite at den peker normalt ut av nivåkurvene.
+
+\begin{eks}{Nivåkurver til en paraboloide}\label{eks:nivakurver-paraboloide}
+La $f(x,y)=x^2+y^2$, med graf $z=f(x,y)$ vist til venstre i figur~\ref{fig:nivakurver}. Nivåkurvene er sirkler om origo:
+\[
+x^2+y^2=c \quad\Longleftrightarrow\quad \text{sirkel med radius } \sqrt{c}.
+\]
+I punktet $P=(1,1)$ er $f(1,1)=2$, så $P$ ligger på nivåkurven $x^2+y^2=2$ (blå sirkel til høyre i figur~\ref{fig:nivakurver}). Vektoren av partiellderiverte er
+\[
+(f_x,f_y) = (2x,\,2y) \quad\Longrightarrow\quad (f_x,f_y)\big|_{(1,1)} = (2,2),
+\]
+markert med rød pil i figuren. Vi ser at pilen peker radielt utover fra sirkelens sentrum, mens tangenten til sirkelen i $P$ (grønn, stiplet) står vinkelrett på radien -- akkurat som teorien over sa at den skulle.
+
+\begin{center}
+\begin{minipage}[t]{0.46\textwidth}
+\centering
+\begin{tikzpicture}
+  \begin{axis}[
+    view={35}{25},
+    xlabel={$x$}, ylabel={$y$}, zlabel={$z$},
+    xmin=-2.2, xmax=2.2, ymin=-2.2, ymax=2.2, zmin=0, zmax=4.3,
+    width=6.2cm,
+    colormap/cool,
+    enlargelimits=false,
+  ]
+    \addplot3[surf, domain=-2:2, samples=25, samples y=25, opacity=0.85] {x^2+y^2};
+    \addplot3[domain=0:360, samples=60, thick, blue] ({sqrt(2)*cos(x)},{sqrt(2)*sin(x)},{2});
+    \addplot3[mark=*, mark size=1.6pt, color=black] coordinates {(1,1,2)};
+  \end{axis}
+\end{tikzpicture}
+\captionof{figure}{Flaten $z=f(x,y)=x^2+y^2$.}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.46\textwidth}
+\centering
+\begin{tikzpicture}
+  \begin{axis}[
+    axis lines = middle,
+    axis equal image,
+    xlabel={$x$}, ylabel={$y$},
+    xmin=-2.3, xmax=4.2, ymin=-2.3, ymax=3.8,
+    xtick={-2,-1,1,2,3}, ytick={-2,-1,1,2,3},
+    width=6.2cm,
+    enlargelimits=false,
+    clip=false,
+  ]
+    \addplot[domain=0:360, samples=100, gray, thin] ({cos(x)},{sin(x)});
+    \addplot[domain=0:360, samples=100, gray, thin] ({2*cos(x)},{2*sin(x)});
+    \addplot[domain=0:360, samples=100, blue, thick] ({sqrt(2)*cos(x)},{sqrt(2)*sin(x)});
+    \addplot[domain=0.1:1.9, samples=2, green!55!black, dashed, thick] {-x+2};
+    \addplot[thick, red, -latex] coordinates {(1,1) (3,3)};
+    \addplot[mark=*, mark size=1.6pt, color=black, forget plot] coordinates {(1,1)};
+    \node[below right, font=\footnotesize] at (axis cs:1,1) {$P$};
+    \node[red, above left, font=\footnotesize] at (axis cs:3,3) {$(f_x,f_y)$};
+  \end{axis}
+\end{tikzpicture}
+\captionof{figure}{Nivåkurvene $x^2+y^2=1,2,4$ projisert ned i $xy$-planet.}
+\end{minipage}
+\captionof{figure}{Til venstre: flaten $z=x^2+y^2$ med nivåkurven $f(x,y)=2$ markert (blå). Til høyre: samme nivåkurve projisert ned i $xy$-planet, sammen med to naboende nivåkurver (grå), tangenten i $P=(1,1)$ (grønn, stiplet) og vektoren $(f_x,f_y)=(2,2)$ (rød pil).}
+\label{fig:nivakurver}
+\end{center}
+\end{eks}
+
 \subsection*{Integrasjon av énvariabelfunksjoner}
-Når det gjelder integrasjon så antar vi at dete er kjent fra foregående kurs. Her er en liste over tema du bør friske opp dersom du har glemt det:
-\begin{itemize}
-    \item Integrasjon som areal
-    \item Definisjon ved hjelp av Riemannsummer (Dette blir repetert
-i detalj under tema dobbeltintegrasjon under).
-\item Integrasjon av potensfunksjoner, eksponensialfunksjoner, trigonometriske funksjoner, $1/x$.
-\item Summer av funksjoner og multiplikasjon med konstanter i integrasjoner.
-\item Integrasjon ved substitusjon av variable 
-\item Delvis integrasjon.
-\end{itemize}
+Vi antar at integrasjon av én variabel stort sett er kjent fra tidligere kurs, men repeterer kort både definisjonen og de viktigste regnereglene her -- vi bygger nemlig direkte videre på dem når vi skal integrere funksjoner av flere variabler i neste kapittel.
 
+\begin{minipage}{7cm}
+\paragraph{Integralet som areal.} Det bestemte integralet $\int_a^b f(x)\,dx$ løser et arealproblem: det kan sees på som en uendelig sum av (uendelig tynne) rektangler mellom grafen til $f$ og $x$-aksen. Vi deler $[a,b]$ opp i $n$ delintervaller med samme bredde $\Delta x$, velger et punkt $x_i^*$ fra hvert delintervall, og lar høyden til hvert rektangel være $f(x_i^*)$.
+\end{minipage}
+\begin{minipage}{6cm}
+\begin{tikzpicture}[scale=.7]
+  \begin{axis}[
+    axis lines=middle,
+    xlabel={$x$},
+    ylabel={$f(x)$},
+    domain=0:5,
+    ymin=0, ymax=6,
+    xmin=0, xmax=5.5,
+    xtick=\empty,
+    ytick=\empty,
+    samples=100,
+    width=12cm,
+    height=6cm,
+    clip=false,
+    enlargelimits=false
+  ]
+    \def\dx{1}
+    \foreach \i in {0,...,4} {
+      \pgfmathsetmacro{\x}{\i*\dx}
+      \pgfmathsetmacro{\y}{0.5*(\x - 1)*(\x - 4) + 3}
+      \addplot [
+        ybar,
+        bar width=\dx,
+        fill=blue!10,
+        draw=blue!60!black,
+        area legend
+      ] coordinates {(\x + 0.5*\dx, \y)};
+    }
+    \addplot[very thick, black, domain=0:5] {0.5*(x - 1)*(x - 4) + 3};
+    \node at (axis cs:0, -0.5) [below] {$a$};
+    \node at (axis cs:5, -0.5) [below] {$b$};
+    \draw[<->] (axis cs:1,0.5) -- (axis cs:2,0.5) node[midway, above] {$\Delta x$};
+  \end{axis}
+\end{tikzpicture}
+\end{minipage}
 
+Summen av rektangelarealene, $\sum_{i=1}^n f(x_i^*)\Delta x$, kalles en \emph{Riemannsum}, og gir en tilnærming til arealet. Det \emph{eksakte} arealet får vi i grenseverdien når $n\to\infty$:
 
+\begin{defn}{Bestemt integral (Riemannsum)}
+For en kontinuerlig funksjon $f$ på $[a,b]$ er
+\[
+\int_a^b f(x)\,dx := \lim_{n\to\infty}\sum_{i=1}^n f(x_i^*)\,\Delta x.
+\]
+\end{defn}
+
+I praksis regner vi sjelden ut integraler direkte fra denne grenseverdien. Er $F$ en antiderivert til $f$ (dvs. $F'=f$), gir analysens fundamentalteorem
+\[
+\int_a^b f(x)\,dx = \bigl[F(x)\bigr]_a^b := F(b)-F(a),
+\]
+og det er denne formelen vi i praksis bruker.
+
+\begin{oppsum}{Regneregler og grunnleggende antideriverte}
+For konstanter $k$ og funksjoner $f,g$ er integrasjon lineært:
+\[
+\int \bigl(f(x)+g(x)\bigr)\,dx = \int f(x)\,dx + \int g(x)\,dx, \qquad \int k\,f(x)\,dx = k\int f(x)\,dx.
+\]
+Noen grunnleggende antideriverte (konstantleddet $+C$ utelatt for korthets skyld):
+\[
+\int x^n\,dx = \frac{x^{n+1}}{n+1}\ (n\neq -1), \qquad \int \sin(x)\,dx = -\cos(x), \qquad \int \cos(x)\,dx = \sin(x).
+\]
+\end{oppsum}
+
+For mer sammensatte integraler har vi to viktige teknikker igjen fra tidligere kurs:
+
+\begin{defn}{Delvis integrasjon}
+\[
+\int f(x)\,g'(x)\,dx = f(x)g(x) - \int f'(x)\,g(x)\,dx.
+\]
+\end{defn}
+
+\begin{eks}{Delvis integrasjon}
+Med $f(x)=x$ og $g'(x)=\cos(x)$ (slik at $g(x)=\sin(x)$):
+\[
+\int x\cos(x)\,dx = x\sin(x) - \int \sin(x)\,dx = x\sin(x)+\cos(x)+C.
+\]
+\end{eks}
+
+\begin{defn}{Substitusjon}
+Med $u=u(x)$, slik at $du = u'(x)\,dx$:
+\[
+\int f\bigl(u(x)\bigr)\,u'(x)\,dx = \int f(u)\,du.
+\]
+\end{defn}
+
+\begin{eks}{Substitusjon}
+Med $u=x^2$, slik at $du=2x\,dx$:
+\[
+\int 2x\cos(x^2)\,dx = \int \cos(u)\,du = \sin(u)+C = \sin(x^2)+C.
+\]
+\end{eks}
 
 \subsection*{Python}
 Når det gjelder Python så antar vi igjen at det mest grunnleggende er kjent. Dette gjelder 
