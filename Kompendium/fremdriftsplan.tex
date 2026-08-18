@@ -2,8 +2,14 @@
 %
 % "Materiale"-kolonnen inneholder en klikkbar lenke ("Komp.") til
 % kompendium-PDF-en på GitHub, etterfulgt av vanlig tekst med kapittel-/
-% delkapittelnummer. Denne filen har ingen avhengighet til IMAX3012.tex/.aux
-% og kan bygges helt uavhengig.
+% delkapittelnummer, samt referanser til "Adam and Essex" (uthevet skrift
+% markerer sentrale tema, jf. tabellhode). "Relevante oppgaver"-kolonnen
+% lister oppgavenummer per (del)kapittel, ikke spesielt anbefalt - bare til
+% orientering. Denne filen har ingen avhengighet til IMAX3012.tex/.aux og
+% kan bygges helt uavhengig.
+%
+% Dokumentet er i LANDSKAPSFORMAT for å få plass til den ekstra
+% oppgave-kolonnen og de utvidede materiale-listene.
 %
 % Modul-etiketten i venstre kolonne er sentrert vertikalt over hele
 % modulens radspenn ved hjelp av usynlige TikZ-merker (\tikzmark) plassert
@@ -13,7 +19,7 @@
 % (TikZ "remember picture"-mekanismen, samme prinsipp som \ref/\label).
 
 \documentclass[10pt,a4paper]{article}
-\usepackage[a4paper,margin=1cm]{geometry}
+\usepackage[a4paper,landscape,margin=0.8cm]{geometry}
 \usepackage[norsk]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -48,10 +54,25 @@
 \newcommand{\fpKompURL}{https://github.com/imfdrift/IMAx3012/blob/main/Kompendium/IMAX3012.pdf}
 \newcommand{\fpKomp}{\href{\fpKompURL}{Komp.}}
 
+% Liten hjelpemakro for "Adam and Essex"-lista i Materiale-kolonnen, og for
+% en sentrert Komp.-lenkelinje øverst i cellen.
+\newcommand{\fpKompLine}[1]{{\centering\fpKomp\ #1\par}}
+\newcommand{\fpAE}{\textbf{Adam and Essex:}}
+\newenvironment{fpItems}
+  {\begin{itemize}[nosep,leftmargin=1em,itemsep=1pt,topsep=2pt,parsep=0pt]}
+  {\end{itemize}}
+% Rene "linjer" uten punktmerke -- brukes i stedet for rå \\ inne i
+% tabellceller, siden en bar \\ inni en m{}-kolonne kan i praksis bli
+% tolket som slutten på hele tabellraden (ikke bare en linjeskift i
+% cellen). itemize/list-miljøer er derimot trygge.
+\newenvironment{fpLines}
+  {\begin{itemize}[nosep,leftmargin=0pt,itemindent=0pt,label={},itemsep=1pt,topsep=1pt,parsep=0pt]}
+  {\end{itemize}}
+
 % Modul-etikett sentrert mellom to \tikzmark-punkter (se forklaring øverst).
 \newcommand{\fpModulLabel}[3]{%
   \noalign{\begin{tikzpicture}[remember picture,overlay]
-    \node[align=center,text width=2.8cm] at ($(pic cs:#1)!0.5!(pic cs:#2)$) {\footnotesize\textbf{#3}};
+    \node[align=center,text width=2.0cm] at ($(pic cs:#1)!0.5!(pic cs:#2)$) {\footnotesize\textbf{#3}};
   \end{tikzpicture}}%
 }
 
@@ -63,31 +84,32 @@
 {\Large\bfseries Fremdriftsplan}\\[.3em]
 {\large IMAx3012 -- Matematikk 3B}
 \end{center}
-\vspace{1em}
+\vspace{.6em}
 
-Tabellen under viser OMTRENTLIG fremdriftsplanen for kurset, uke for uke, med tilhørende tema, arbeidskrav og relevant materiale fra kompendiet. Materialet ligger på GitHub og blir kontinuerlig oppdatert. Spesielt i modul 3 vil der forekomme en del endringer.
+Tabellen under viser OMTRENTLIG fremdriftsplanen for kurset, uke for uke, med tilhørende tema, arbeidskrav og relevant materiale fra kompendiet (uthevet skrift i Materiale-kolonnen markerer sentrale tema i pensum fra Adam and Essex). Materialet ligger på GitHub og blir kontinuerlig oppdatert. Spesielt i modul 3 vil der forekomme en del endringer. Oppgavene i siste kolonne er ikke spesielt anbefalt, men ment som orientering.
 
 \begingroup
-\footnotesize
+\scriptsize
 \setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.15}
+\renewcommand{\arraystretch}{1.1}
 \arrayrulecolor{fpBorder}
 
 \begin{longtable}{
-  |>{\centering\arraybackslash}m{3.0cm}
-  |>{\centering\arraybackslash}m{1.0cm}
-  |>{\raggedright\arraybackslash}m{6.5cm}
-  |>{\centering\arraybackslash}m{2.7cm}
-  |>{\raggedright\arraybackslash}m{4.4cm}|
+  |>{\centering\arraybackslash}m{2.2cm}
+  |>{\centering\arraybackslash}m{0.8cm}
+  |>{\raggedright\arraybackslash}m{4.6cm}
+  |>{\centering\arraybackslash}m{1.8cm}
+  |>{\raggedright\arraybackslash}m{9.2cm}
+  |>{\raggedright\arraybackslash}m{7.0cm}|
 }
 \hline
 \rowcolor{fpHeader}
-\textbf{Modul} & \textbf{Uke} & \textbf{Tema} & \textbf{Relevant arbeidskrav} & \textbf{Materiale} \\
+\textbf{Modul} & \textbf{Uke} & \textbf{Tema} & \textbf{Relevant arbeidskrav} & \textbf{Materiale} \newline \footnotesize(uthevet skrift behandler sentrale tema) & \textbf{Relevante oppgaver} \newline \footnotesize(Ikke spesielt anbefalt) \\
 \hline
 \endfirsthead
 \hline
 \rowcolor{fpHeader}
-\textbf{Modul} & \textbf{Uke} & \textbf{Tema} & \textbf{Relevant arbeidskrav} & \textbf{Materiale} \\
+\textbf{Modul} & \textbf{Uke} & \textbf{Tema} & \textbf{Relevant arbeidskrav} & \textbf{Materiale} \newline \footnotesize(uthevet skrift behandler sentrale tema) & \textbf{Relevante oppgaver} \newline \footnotesize(Ikke spesielt anbefalt) \\
 \hline
 \endhead
 
@@ -108,8 +130,38 @@ Tabellen under viser OMTRENTLIG fremdriftsplanen for kurset, uke for uke, med ti
      \item Anvendelser
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul1}\multirow{2}{2.7cm}{\centering Øving 1} & \cellcolor{fpModul1}\fpKomp\ kapittel 0 og kap.\ 1.1 \\
-\cline{2-3}\cline{5-5}
+ & \cellcolor{fpModul1}\multirow{2}{1.8cm}{\centering Øving 1} & \cellcolor{fpModul1}
+ \fpKompLine{kapittel 0 og 1.1}
+ \vspace{2pt}\fpAE
+ \begin{fpItems}
+   \item Derivasjon: kap 2, særlig \textbf{2.1} om tangent / normal.
+   \item Nivåkurver: \textbf{13.1}
+   \item Integrasjon: Kap 5,6.
+   \item omdreiningslegemer: 7.1-\textbf{7.3}.
+   \item Dobbelint.: 15.1,\textbf{15.2}, (15.3)
+   \item Lin.alg: 10.7, \textbf{determinanter}
+   \item Partiellderivasjon: 13.2,13.4
+   \item Tangentplan: 10.4, \textbf{13.3}
+   \item Sylinder-/kulekoordinater: \textbf{10.6}
+   \item Kjeglesnitt: 8.1
+ \end{fpItems}
+ & \cellcolor{fpModul1}
+ \begin{fpLines}
+   \item \textbf{10.1:} 3, 15, 19, 21, 29
+   \item \textbf{10.3:} 1, 3, 5
+   \item \textbf{10.4:} 3
+   \item \textbf{10.5:} Gjenkjen og skisser figurene fra 1, 5, 7, 11, 13, 15, (17)
+   \item \textbf{10.6:} 1, 3, 5, 7, 11
+   \item \textbf{8.1:} 7, 9, 11, 13
+ \end{fpLines}
+ \vspace{4pt}
+ \begin{fpLines}
+   \item \textbf{13.1:} 1, 11, 15, 19, 21, 27, 37, 39
+   \item \textbf{13.2:} 3, 7
+   \item \textbf{13.3:} 3, 13
+ \end{fpLines}
+ \\
+\cline{2-3}\cline{5-6}
 
 \cellcolor{fpModul1} & \cellcolor{fpModul1}35 &
  \cellcolor{fpModul1}
@@ -123,8 +175,24 @@ Tabellen under viser OMTRENTLIG fremdriftsplanen for kurset, uke for uke, med ti
      \item Python
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul1} & \cellcolor{fpModul1}\fpKomp\ kap.\ 1.2-1.3 \\
-\cline{2-5}
+ & \cellcolor{fpModul1} & \cellcolor{fpModul1}
+ \fpKompLine{kap.\ 1.2-1.3}
+ \vspace{2pt}\fpAE
+ \begin{fpItems}
+   \item Polarkoord.: 8.5-8.6
+   \item Dobbelint i polar: \textbf{15.4} (til side 855)
+ \end{fpItems}
+ & \cellcolor{fpModul1}
+ \begin{fpLines}
+   \item \textbf{8.5:} 3, 9, 13, 27
+   \item \textbf{8.6:} 13
+ \end{fpLines}
+ \vspace{4pt}
+ \begin{fpLines}
+   \item \textbf{15.4:} 1, 5, 11, 19, 21
+ \end{fpLines}
+ \\
+\cline{2-6}
 
 \cellcolor{fpModul1} & \cellcolor{fpModul1}36 &
  \cellcolor{fpModul1}
@@ -140,8 +208,19 @@ Tabellen under viser OMTRENTLIG fremdriftsplanen for kurset, uke for uke, med ti
      \item Trippelintegraler i kulekoordinater
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul1}\multirow{2}{2.7cm}{\centering Øving 2} & \cellcolor{fpModul1}\fpKomp\ kap.\ 1.4-1.5 \\
-\cline{2-3}\cline{5-5}
+ & \cellcolor{fpModul1}\multirow{2}{1.8cm}{\centering Øving 2} & \cellcolor{fpModul1}
+ \fpKompLine{kap.\ 1.4-1.5}
+ \vspace{2pt}\fpAE
+ \begin{fpItems}
+   \item Trippelint.: 15.5-15.6 (fra nederst side 868 og utover)
+ \end{fpItems}
+ & \cellcolor{fpModul1}
+ \begin{fpLines}
+   \item \textbf{15.5:} 1, 3, 15, 17, 19
+   \item \textbf{15.6:} 1, 3, 5
+ \end{fpLines}
+ \\
+\cline{2-3}\cline{5-6}
 
 \cellcolor{fpModul1} & \cellcolor{fpModul1}37 &
  \cellcolor{fpModul1}
@@ -155,8 +234,23 @@ Tabellen under viser OMTRENTLIG fremdriftsplanen for kurset, uke for uke, med ti
      \item Python, / anvendelser / oppsamling
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul1} & \cellcolor{fpModul1}\fpKomp\ kap.\ 1.5-1.6 \\
-\cline{2-5}
+ & \cellcolor{fpModul1} & \cellcolor{fpModul1}
+ \fpKompLine{kap.\ 1.5-1.6}
+ \vspace{2pt}\fpAE
+ \begin{fpItems}
+   \item Variabelbytte: \textbf{15.4} (s.855-860), 15.6 (867-868).
+   \item Anvendelser: Kap 15.7 (876-882)
+ \end{fpItems}
+ & \cellcolor{fpModul1}
+ \begin{fpLines}
+   \item \textbf{15.4:} 1, 5, 11, 19, 21
+ \end{fpLines}
+ \vspace{4pt}
+ \begin{fpLines}
+   \item \textbf{15.7:} 19
+ \end{fpLines}
+ \\
+\cline{2-6}
 
 \cellcolor{fpModul1}\tikzmark{mod1bot} & \cellcolor{fpModul1}38 &
  \cellcolor{fpModul1}
@@ -174,7 +268,36 @@ Tabellen under viser OMTRENTLIG fremdriftsplanen for kurset, uke for uke, med ti
      \item Flateintegral
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul1} & \cellcolor{fpModul1}\fpKomp\ kap.\ 1.7-1.8 \\
+ & \cellcolor{fpModul1} & \cellcolor{fpModul1}
+ \fpKompLine{kap.\ 1.7-1.8}
+ \vspace{2pt}\fpAE
+ \begin{fpItems}
+   \item Buelengde: 7.3
+   \item Parametrisering av kurver: 8.2,8.3,8.4,12.1, \textbf{12.3}
+   \item Linjeintegral: \textbf{16.3}
+   \item Flater: 15.7,\textbf{16.5}
+ \end{fpItems}
+ & \cellcolor{fpModul1}
+ \begin{fpLines}
+   \item \textbf{8.2:} 1, 5, 7, (15)
+   \item \textbf{8.3:} 3, 9, 17
+   \item \textbf{8.4:} 1, (5)
+ \end{fpLines}
+ \vspace{4pt}
+ \begin{fpLines}
+   \item \textbf{12.1:} 3, 7, (15)
+   \item \textbf{12.3:} 1, 7, 9, 13
+ \end{fpLines}
+ \vspace{4pt}
+ \begin{fpLines}
+   \item \textbf{15.7:} 1
+ \end{fpLines}
+ \vspace{4pt}
+ \begin{fpLines}
+   \item \textbf{16.3:} 1, 11
+   \item \textbf{16.5:} 3, 7
+ \end{fpLines}
+ \\
 \hline
 \fpModulLabel{mod1top}{mod1bot}{Modul 1\\[2pt]\textit{Multippel-integrasjon}}
 
@@ -194,8 +317,30 @@ Tabellen under viser OMTRENTLIG fremdriftsplanen for kurset, uke for uke, med ti
      \item Potensialfunksjoner
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul2}Øving 3 & \cellcolor{fpModul2}\fpKomp\ kap 2.1, 2.2 og 2.4 \\
-\cline{2-5}
+ & \cellcolor{fpModul2}Øving 3 & \cellcolor{fpModul2}
+ \fpKompLine{kap 2.1, 2.2 og 2.4}
+ \vspace{2pt}\fpAE
+ \begin{fpItems}
+   \item Vektorfelt: 16.1
+   \item Gradient, div. curl: 13.7,\textbf{17.1},17.2
+   \item Konserv. felt: \textbf{16.2}
+ \end{fpItems}
+ & \cellcolor{fpModul2}
+ \begin{fpLines}
+   \item \textbf{13.7:} 1, 3, (5,) 7, (9,) 11
+ \end{fpLines}
+ \vspace{4pt}
+ \begin{fpLines}
+   \item \textbf{16.1:} 1, 3
+   \item \textbf{16.2:} 1, 3, 5
+ \end{fpLines}
+ \vspace{4pt}
+ \begin{fpLines}
+   \item \textbf{17.1:} 1, 5, 7
+   \item \textbf{17.2:} (17)
+ \end{fpLines}
+ \\
+\cline{2-6}
 
 \cellcolor{fpModul2} & \cellcolor{fpModul2}40 &
  \cellcolor{fpModul2}
@@ -210,8 +355,20 @@ Tabellen under viser OMTRENTLIG fremdriftsplanen for kurset, uke for uke, med ti
      \item Fluksintegral i 2D og 3D
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul2}\multirow{2}{2.7cm}{\centering Øving 4} & \cellcolor{fpModul2}\fpKomp\ kap 2.3, 2.5, 2.7 \\
-\cline{2-3}\cline{5-5}
+ & \cellcolor{fpModul2}\multirow{2}{1.8cm}{\centering Øving 4} & \cellcolor{fpModul2}
+ \fpKompLine{kap 2.3, 2.5, 2.7}
+ \vspace{2pt}\fpAE
+ \begin{fpItems}
+   \item Linjeint. av vektorfelt: \textbf{16.4}
+   \item Fluksintegral: \textbf{16.6}
+ \end{fpItems}
+ & \cellcolor{fpModul2}
+ \begin{fpLines}
+   \item \textbf{16.4:} 1, 3
+   \item \textbf{16.6:} 1, 3, 5
+ \end{fpLines}
+ \\
+\cline{2-3}\cline{5-6}
 
 \cellcolor{fpModul2} & \cellcolor{fpModul2}41 &
  \cellcolor{fpModul2}
@@ -225,8 +382,20 @@ Tabellen under viser OMTRENTLIG fremdriftsplanen for kurset, uke for uke, med ti
      \item Gauss divergenssetning
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul2} & \cellcolor{fpModul2}\fpKomp\ kap 2.6,2.8 \\
-\cline{2-5}
+ & \cellcolor{fpModul2} & \cellcolor{fpModul2}
+ \fpKompLine{kap 2.6, 2.8}
+ \vspace{2pt}\fpAE
+ \begin{fpItems}
+   \item Greens: \textbf{17.3}
+   \item Gauss: \textbf{17.4}
+ \end{fpItems}
+ & \cellcolor{fpModul2}
+ \begin{fpLines}
+   \item \textbf{17.3:} 1, 3, 5
+   \item \textbf{17.4:} 1, 3, (11, 13)
+ \end{fpLines}
+ \\
+\cline{2-6}
 
 \cellcolor{fpModul2}\tikzmark{mod2bot} & \cellcolor{fpModul2}42 &
  \cellcolor{fpModul2}
@@ -240,7 +409,17 @@ Tabellen under viser OMTRENTLIG fremdriftsplanen for kurset, uke for uke, med ti
      \item Repetisjon og oppgaveregning med de store teoremene
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul2} & \cellcolor{fpModul2}\fpKomp\ kap 2.9 \\
+ & \cellcolor{fpModul2} & \cellcolor{fpModul2}
+ \fpKompLine{kap 2.9}
+ \vspace{2pt}\fpAE
+ \begin{fpItems}
+   \item Stokes: \textbf{17.5}
+ \end{fpItems}
+ & \cellcolor{fpModul2}
+ \begin{fpLines}
+   \item \textbf{17.5:} 1, 7
+ \end{fpLines}
+ \\
 \hline
 \fpModulLabel{mod2top}{mod2bot}{Modul 2\\[2pt]\textit{Vektoranalyse}}
 
@@ -258,8 +437,12 @@ Tabellen under viser OMTRENTLIG fremdriftsplanen for kurset, uke for uke, med ti
      \item Bevaringslover
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul3}Øving 5 & \cellcolor{fpModul3}\fpKomp\ kap 3.1-3.2 \\
-\cline{2-5}
+ & \cellcolor{fpModul3}Øving 5 & \cellcolor{fpModul3}
+ \fpKompLine{kap 3.1-3.2}
+ \vspace{2pt}{\centering YouTube: Introduksjon\par}
+ & \cellcolor{fpModul3}
+ \\
+\cline{2-6}
 
 \cellcolor{fpModul3} & \cellcolor{fpModul3}44 &
  \cellcolor{fpModul3}
@@ -273,8 +456,11 @@ Tabellen under viser OMTRENTLIG fremdriftsplanen for kurset, uke for uke, med ti
      \item Numerikk for PDEer: 2D
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul3}\multirow{2}{2.7cm}{\centering Øving 6} & \cellcolor{fpModul3}\fpKomp\ kap 3.3 \\
-\cline{2-3}\cline{5-5}
+ & \cellcolor{fpModul3}\multirow{2}{1.8cm}{\centering Øving 6} & \cellcolor{fpModul3}
+ \fpKompLine{kap 3.3}
+ & \cellcolor{fpModul3}
+ \\
+\cline{2-3}\cline{5-6}
 
 \cellcolor{fpModul3} & \cellcolor{fpModul3}45 &
  \cellcolor{fpModul3}
@@ -288,8 +474,10 @@ Tabellen under viser OMTRENTLIG fremdriftsplanen for kurset, uke for uke, med ti
      \item Endelig-volum-metode
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul3} & \cellcolor{fpModul3}\fpKomp\ kap 3.4-3.5 \\
-\cline{2-5}
+ & \cellcolor{fpModul3} & \cellcolor{fpModul3}
+ & \cellcolor{fpModul3}
+ \\
+\cline{2-6}
 
 \cellcolor{fpModul3}\tikzmark{mod3bot} & \cellcolor{fpModul3}46 &
  \cellcolor{fpModul3}
@@ -303,8 +491,15 @@ Tabellen under viser OMTRENTLIG fremdriftsplanen for kurset, uke for uke, med ti
      \item Endelig-volum-metode
    \end{itemize}
  \end{itemize}
- & \cellcolor{fpModul3}\multirow{2}{2.7cm}{\centering Øving 7} & \cellcolor{fpModul3}\fpKomp\ kap 3.5-3.6 \\
-\cline{1-3}\cline{5-5}
+ & \cellcolor{fpModul3}\multirow{2}{1.8cm}{\centering Øving 7} & \cellcolor{fpModul3}
+ Presentasjon av master ved Robin T.\ Bye:
+ \begin{fpItems}
+   \item \textit{MSMECAUT\_2025-11-18.pdf}
+   \item \textit{MSMECAUT\_Brochure.pdf}
+ \end{fpItems}
+ & \cellcolor{fpModul3}
+ \\
+\cline{1-3}\cline{5-6}
 \fpModulLabel{mod3top}{mod3bot}{Modul 3\\[2pt]\textit{PDEer}}
 
 % ===================== Repetisjon =====================
@@ -313,7 +508,7 @@ Tabellen under viser OMTRENTLIG fremdriftsplanen for kurset, uke for uke, med ti
  \begin{itemize}[nosep,leftmargin=1em]
    \item Repetisjon
  \end{itemize}
- & & \\
+ & & & \\
 \hline
 
 \end{longtable}

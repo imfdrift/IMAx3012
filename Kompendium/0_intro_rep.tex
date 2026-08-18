@@ -164,6 +164,173 @@ den har partiellderiverte.
 De aller aller fleste funksjonene vi bruker vil være kontinuerlige og deriverbare, slik at
 vi ofte lar være å presisere dette. Vi antar at derivasjonsregler er kjent fra tidligere kurs.
 
+\subsection*{Parametrisering av linjestykker}
+Vi kommer også til å parametrisere aktivt i dette kurset. Spesielt skal vi lære å parametrisere kurver og flater. Det kan derfor være kjekt med en aldri så liten oppfriskning av parametrisering av linjestykker. Her ser vi kun på det aller enkleste tilfellet, nemlig et \emph{rett} linjestykke -- mer generelle kurver kommer vi tilbake til senere i kompendiet.
+
+Å \emph{parametrisere} en mengde med punkter vil si å beskrive punktene som verdiene til en funksjon av én (eller flere) parametre. For et linjestykke mellom to punkter $P$ og $Q$ med stedvektorer $\vect{p}$ og $\vect{q}$, er ideen at vi lar en parameter $t$ ``gli'' fra $0$ til $1$, og for hver verdi av $t$ regner vi oss frem til ett punkt langs linjestykket:
+
+\begin{defn}{Parametrisering av et linjestykke}
+La $P$ og $Q$ være to punkter med stedvektorer $\vect{p}$ og $\vect{q}$. Linjestykket fra $P$ til $Q$ parametriseres ved
+\[
+\vect{r}(t) = \vect{p} + t\,(\vect{q}-\vect{p}), \qquad t\in[0,1].
+\]
+\end{defn}
+
+Legg merke til at $\vect{d}:=\vect{q}-\vect{p}$ er en retningsvektor for linjen (den peker fra $P$ mot $Q$), slik at vi også kan skrive parametriseringen som
+\[
+\vect{r}(t) = \vect{p} + t\,\vect{d}.
+\]
+Dette er den samme punkt-retning-formen vi kjenner fra linjelikninger fra før, bare skrevet med en parameter $t$ i stedet for at $y$ uttrykkes direkte som funksjon av $x$ -- en stor fordel, siden denne formen også fungerer for loddrette linjestykker, og for linjestykker i flere dimensjoner.
+
+Vi ser lett at
+\begin{itemize}
+\item $\vect{r}(0) = \vect{p}$, altså startpunktet $P$,
+\item $\vect{r}(1) = \vect{p}+(\vect{q}-\vect{p}) = \vect{q}$, altså sluttpunktet $Q$,
+\item for $t\in(0,1)$ får vi punkter som ligger \emph{mellom} $P$ og $Q$ (lineær interpolasjon).
+\end{itemize}
+Dersom vi i stedet lar $t$ variere over hele $\R$, parametriserer vi hele den \emph{uendelige} rette linjen gjennom $P$ og $Q$, ikke bare linjestykket mellom dem.
+
+La oss se på et konkret eksempel.
+
+\begin{eks}{Parametrisering av et linjestykke}\label{eks:param-linje}
+La $P=(1,1)$ og $Q=(5,4)$. Vi ønsker å parametrisere linjestykket fra $P$ til $Q$.
+
+\begin{center}
+\begin{tikzpicture}
+  \begin{axis}[
+    axis lines = middle,
+    axis equal image,
+    xlabel = {$x$}, ylabel = {$y$},
+    xmin=-1, xmax=6.4, ymin=-1, ymax=5.2,
+    xtick={1,2,3,4,5}, ytick={1,2,3,4},
+    width=8cm,
+    enlargelimits=false,
+  ]
+    \addplot[thick, blue, -latex] coordinates {(1,1) (5,4)};
+    \addplot[mark=*, mark size=1.6pt, color=black, forget plot] coordinates {(1,1)};
+    \addplot[mark=*, mark size=1.6pt, color=black, forget plot] coordinates {(5,4)};
+    \addplot[mark=*, mark size=1.3pt, color=gray, forget plot] coordinates {(3,2.5)};
+    \node[below right, font=\footnotesize] at (axis cs:1,1) {$P$, $t=0$};
+    \node[above left, font=\footnotesize] at (axis cs:5,4) {$Q$, $t=1$};
+    \node[above, font=\footnotesize] at (axis cs:3,2.5) {$t=\tfrac12$};
+  \end{axis}
+\end{tikzpicture}
+\captionof{figure}{Linjestykket fra $P=(1,1)$ til $Q=(5,4)$, parametrisert ved $\vect{r}(t)=(1+4t,\,1+3t)$. Den grå prikken viser punktet ved $t=\tfrac12$.}
+\label{fig:param_linje}
+\end{center}
+
+\textbf{Steg 1: Finn retningsvektoren.}
+\[
+\vect{d} = \vect{q}-\vect{p} = (5,4)-(1,1) = (4,3).
+\]
+
+\textbf{Steg 2: Sett opp parametriseringen.} Med $\vect{p}=(1,1)$ og $\vect{d}=(4,3)$ gir formelen fra definisjonen over
+\[
+\vect{r}(t) = (1,1) + t\,(4,3) = (1+4t,\ 1+3t), \qquad t\in[0,1],
+\]
+altså komponentvis $x(t)=1+4t$ og $y(t)=1+3t$ (se figur~\ref{fig:param_linje}).
+
+\textbf{Steg 3: Kontroller endepunktene.}
+\[
+\vect{r}(0) = (1,1) = P, \qquad \vect{r}(1) = (1+4,\ 1+3) = (5,4) = Q. \ \checkmark
+\]
+
+\textbf{Steg 4: Et punkt underveis.} Setter vi inn $t=\tfrac12$ får vi midtpunktet av linjestykket:
+\[
+\vect{r}\!\left(\tfrac12\right) = \left(1+4\cdot\tfrac12,\ 1+3\cdot\tfrac12\right) = (3,\ 2.5),
+\]
+som stemmer med at midtpunktet mellom to punkter er gjennomsnittet av koordinatene deres: $\tfrac12\big((1,1)+(5,4)\big) = (3,2.5)$.
+\end{eks}
+
+\subsection*{Tangenter og normaler}
+
+Anta at $f$ er deriverbar i punktet $x_0$. Fra tidligere kurs vet vi at den deriverte $f'(x_0)$ er stigningstallet til \emph{tangentlinjen} til grafen $y=f(x)$ i punktet $(x_0,f(x_0))$. Siden tangentlinjen går gjennom $(x_0,f(x_0))$ med dette stigningstallet, kan vi skrive den på punkt-stigningstall-form:
+
+\begin{defn}{Tangentlinjen til $y=f(x)$ i $x=x_0$}
+Dersom $f$ er deriverbar i $x_0$, er tangentlinjen til grafen $y=f(x)$ i punktet $(x_0,f(x_0))$ gitt ved
+\[
+y = f(x_0) + f'(x_0)\,(x-x_0).
+\]
+\end{defn}
+
+En retningsvektor for tangentlinjen er $\vect{t} = (1,\, f'(x_0))^\top$: dersom $x$ øker med $1$, øker $y$ langs tangenten med nettopp $f'(x_0)$.
+
+\emph{Normallinjen} til kurven i samme punkt står vinkelrett på tangentlinjen, og her kommer skalarproduktet til nytte: to vektorer $\vect{v}$ og $\vect{w}$ står vinkelrett på hverandre nøyaktig når $\vect{v}\cdot\vect{w}=0$. Vi leter derfor etter en retningsvektor $\vect{n}=(a,b)^\top$ for normallinjen som oppfyller
+\[
+\vect{t}\cdot\vect{n} = 1\cdot a + f'(x_0)\cdot b = 0.
+\]
+Velger vi for eksempel $b=1$, gir dette $a = -f'(x_0)$, altså $\vect{n} = (-f'(x_0),\,1)^\top$. Stigningstallet til normallinjen blir dermed $b/a = -1/f'(x_0)$ (forutsatt $f'(x_0)\neq 0$), og normallinjen kan skrives
+\[
+y = f(x_0) - \frac{1}{f'(x_0)}\,(x-x_0).
+\]
+
+La oss se på et konkret eksempel hvor vi også tegner opp situasjonen.
+
+\begin{eks}{Tangent og normal til et tredjegradspolynom}\label{eks:tangent-normal-kubikk}
+La $f(x) = x^3 - x$, og se på punktet der $x_0 = 1$. Vi ønsker å finne tangentlinjen og normallinjen til grafen $y=f(x)$ i dette punktet.
+
+\begin{center}
+\begin{tikzpicture}
+  \begin{axis}[
+    axis lines = middle,
+    axis equal image,
+    xlabel = {$x$}, ylabel = {$y$},
+    xmin=-2.4, xmax=2.6, ymin=-2.3, ymax=2.7,
+    xtick={-2,-1,1,2}, ytick={-2,-1,1,2},
+    width=9cm,
+    legend pos=outer north east,
+    legend style={font=\small},
+    enlargelimits=false,
+  ]
+    \addplot[domain=-1.8:1.8, samples=150, thick, blue] {x^3-x};
+    \addlegendentry{$f(x)=x^3-x$}
+    \addplot[domain=-2.4:2.6, samples=2, thick, red] {2*x-2};
+    \addlegendentry{Tangent i $x_0=1$}
+    \addplot[domain=-2.4:2.6, samples=2, thick, green!55!black, dashed] {-0.5*x+0.5};
+    \addlegendentry{Normal i $x_0=1$}
+    \addplot[mark=*, mark size=1.8pt, color=black, forget plot] coordinates {(1,0)};
+  \end{axis}
+\end{tikzpicture}
+\captionof{figure}{Grafen til $f(x)=x^3-x$ med tangentlinjen (rød) og normallinjen (grønn, stiplet) i punktet $P=(x_0,f(x_0))=(1,0)$ (markert med en prikk).}
+\label{fig:tangent_normal_kubikk}
+\end{center}
+
+\textbf{Steg 1: Finn punktet.} Vi setter $x_0=1$ inn i $f$:
+\[
+f(1) = 1^3 - 1 = 0,
+\]
+så tangeringspunktet er $(x_0,f(x_0)) = (1,0)$ (se figur~\ref{fig:tangent_normal_kubikk}).
+
+\textbf{Steg 2: Deriver.} Den deriverte er
+\[
+f'(x) = 3x^2 - 1 \quad\Longrightarrow\quad f'(1) = 3\cdot 1^2 - 1 = 2.
+\]
+
+\textbf{Steg 3: Sett opp tangentlinjen.} Med punktet $(1,0)$ og stigningstall $f'(1)=2$ gir tangentlinjeformelen
+\[
+y = f(x_0) + f'(x_0)(x-x_0) = 0 + 2(x-1) = 2x-2.
+\]
+En retningsvektor for tangenten er dermed $\vect{t} = (1,2)^\top$ (rød linje i figuren).
+
+\textbf{Steg 4: Finn normalen ved hjelp av skalarproduktet.} Vi leter etter $\vect{n}=(a,b)^\top$ slik at $\vect{t}\cdot \vect{n}=0$:
+\[
+\vect{t}\cdot \vect{n} = 1\cdot a + 2\cdot b = 0.
+\]
+Velger vi $b=1$, gir dette $a=-2$, så $\vect{n} = (-2,1)^\top$ er en retningsvektor for normalen. Stigningstallet til normalen er dermed
+\[
+\frac{b}{a} = \frac{1}{-2} = -\frac12.
+\]
+Normallinjen gjennom $(1,0)$ med dette stigningstallet blir
+\[
+y = 0 - \frac12(x-1) = -\frac12 x + \frac12
+\]
+(grønn, stiplet linje i figuren). Vi kan enkelt verifisere at tangent- og normalvektoren faktisk står vinkelrett på hverandre:
+\[
+\vect{t}\cdot\vect{n} = (1)(-2) + (2)(1) = -2+2=0. \ \checkmark
+\]
+\end{eks}
+
+\subsection*{Nivåkurver}
 
 \subsection*{Integrasjon av énvariabelfunksjoner}
 Når det gjelder integrasjon så antar vi at dete er kjent fra foregående kurs. Her er en liste over tema du bør friske opp dersom du har glemt det:
