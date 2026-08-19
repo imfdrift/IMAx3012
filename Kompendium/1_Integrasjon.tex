@@ -276,12 +276,12 @@ I forrige seksjon så vi på dobbeltintegraler over rektangler. Problemet med de
 hvor \( D \) kan ha en annen form enn et rektangel. Det vi skal se på er de såkalte standardområdene for integrasjon, hvor en begrensning av området er gitt ved hjelp av funksjoner som beskriver en side i $x$- eller $y$-retning.
 
 \begin{oppsum}{Standard integrasjonsområder}
-Vi har to typer områder hvor den ene begrensningen i $x$- (eller $y$-)retning er avhengig av $y$- (eller $x$-)variabelen. For begge typene er definisjonen av integralet gitt som vist under:
+Vi har to typer områder hvor den ene begrensningen i $x$- (eller $y$-)retning er avhengig av $y$- (eller $x$-)variabelen. For begge typene er definisjonen av integralet gitt som vist under:\footnote{I andre kilder brukes også betegnelsene \emph{Type 1} og \emph{Type 2} (eller \emph{Type I}/\emph{Type II}) om disse to områdetypene, se for eksempel \cite{Adams}. Vi bruker gjennomgående $y$-enkelt og $x$-enkelt i dette kompendiet.}
 \begin{align*}
-  \text{\textbf{Type 1: }} & & D = \{ (x, y) \mid a \leq x \leq b, \ g_1(x) \leq y \leq g_2(x) \} \\
-  y-\text{\textbf{enkelt}} &&\iint_D f(x, y)\, dA := \int_a^b \int_{g_1(x)}^{g_2(x)} f(x, y)\, dy\, dx\\
-  \text{\textbf{ Type 2: }} & & D = \{ (x, y) \mid c \leq y \leq d, \ h_1(y) \leq x \leq h_2(y) \} \\
-  x-\text{\textbf{enkelt}}&& \iint_D f(x, y)\, dA := \int_c^d \int_{h_1(y)}^{h_2(y)} f(x, y)\, dx\, dy
+  \text{\textbf{$y$-enkelt: }} & & D = \{ (x, y) \mid a \leq x \leq b, \ g_1(x) \leq y \leq g_2(x) \} \\
+  &&\iint_D f(x, y)\, dA := \int_a^b \int_{g_1(x)}^{g_2(x)} f(x, y)\, dy\, dx\\
+  \text{\textbf{$x$-enkelt: }} & & D = \{ (x, y) \mid c \leq y \leq d, \ h_1(y) \leq x \leq h_2(y) \} \\
+  && \iint_D f(x, y)\, dA := \int_c^d \int_{h_1(y)}^{h_2(y)} f(x, y)\, dx\, dy
 \end{align*}
 Se \Cref{fig:arealtyper} for en grafisk fremstilling. 
 
@@ -291,8 +291,16 @@ Den variable grensen kommer alltid i det indre integralet.
 \end{oppsum}
 \begin{figure}[ht]
 \centering
-\includegraphics[width=12cm]{Fig/area_types.png}
-\caption{Områder av type 1 og type 2 i planet.}\label{fig:arealtyper}
+\begin{tikzpicture}
+  \node[inner sep=0, anchor=south west] (areatypesimg) at (0,0) {\includegraphics[width=12cm]{Fig/area_types.png}};
+  % dekk over det håndskrevne "Type 1" og skriv inn "y-enkelt" i stedet (litt smalere boks, slik at høyre kant av tegningen ikke dekkes)
+  \fill[white] ($(areatypesimg.south west)+(2.095,2.774)$) rectangle ($(areatypesimg.south west)+(4.10,3.612)$);
+  \node[blue!55!black, font=\Large] at ($(areatypesimg.south west)+(3.0975,3.193)$) {$y$-enkelt};
+  % dekk over det håndskrevne "Type 2" og skriv inn "x-enkelt" i stedet (litt smalere boks, slik at høyre kant av tegningen ikke dekkes)
+  \fill[white] ($(areatypesimg.south west)+(7.374,2.942)$) rectangle ($(areatypesimg.south west)+(9.30,3.779)$);
+  \node[blue!55!black, font=\Large] at ($(areatypesimg.south west)+(8.337,3.360)$) {$x$-enkelt};
+\end{tikzpicture}
+\caption{$y$-enkle og $x$-enkle områder i planet.}\label{fig:arealtyper}
 \end{figure}
 \begin{oppsum}{Egenskaper for dobbeltintegraler}
 La $D$ være et integrasjonsområde. For alle funksjoner $f,g$ og $c \in \R$ konstant gjelder:
@@ -309,8 +317,48 @@ Noen ganger er det nyttig eller nødvendig å bytte integrasjonsrekkefølge for 
 \end{enumerate}
 \end{oppsum}
 
+\begin{rem}{Regulære domener}
+De fleste områder vi ønsker å integrere over, er verken $x$-enkle eller $y$-enkle. Slike områder kan imidlertid som regel deles opp i endelig mange ikke-overlappende delområder som hver for seg er både $x$-enkle og $y$-enkle. Et slikt område kaller vi et \textbf{regulært domene}.\footnote{Terminologien er hentet fra \cite{Adams}, hvor et slikt område kalles en \emph{regular domain}.} \Cref{fig:regulaertdomene} viser et eksempel: en ringformet region med et hull, som verken er $x$-enkel eller $y$-enkel i seg selv, men som kan deles inn i fire delområder ved hjelp av radielle kutt. Hvert av de fire delområdene er både $x$-enkelt og $y$-enkelt.
+
+Siden dobbeltintegralet er additivt over ikke-overlappende delområder (se egenskap 2 over), kan vi integrere over et regulært domene $D = D_1 \cup D_2 \cup \dots \cup D_n$ ved å summere integralene over hver del:
+\[
+\iint_D f(x, y)\, dA = \sum_{i=1}^n \iint_{D_i} f(x, y)\, dA,
+\]
+hvor hvert delintegral $\iint_{D_i} f\, dA$ regnes ut som et $x$-enkelt eller $y$-enkelt integral slik vi har vist over.
+\end{rem}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1]
+  % koordinatakser
+  \draw[->] (-0.3,0) -- (4.2,0) node[right] {$x$};
+  \draw[->] (0,-0.3) -- (0,3.2) node[above] {$y$};
+
+  % regulært domene: en ringformet region med et hull
+  \begin{scope}
+    \clip (2.3,1.8) ellipse (1.8cm and 1.2cm);
+    \fill[teal!15] (2.3,1.8) ellipse (1.8cm and 1.2cm);
+    \fill[white] (2.5,1.8) circle (0.5cm);
+  \end{scope}
+  \draw[thick, red!70!black] (2.3,1.8) ellipse (1.8cm and 1.2cm);
+  \draw[thick, red!70!black] (2.5,1.8) circle (0.5cm);
+
+  % radielle kutt som deler området i fire x-enkle/y-enkle delområder:
+  % høyre (0°) og venstre (180°) rett ut, topp (100°) svakt mot venstre, bunn (280°) svakt mot høyre
+  \foreach \ang in {0,100,180,280}{
+    \draw[thick, red!70!black]
+      ({2.5+0.5*cos(\ang)},{1.8+0.5*sin(\ang)}) --
+      ({2.3+1.8*cos(\ang)},{1.8+1.2*sin(\ang)});
+  }
+
+  \node at (1.5,2.35) {$D$};
+\end{tikzpicture}
+\caption{Et regulært domene $D$: en ringformet region med et hull, delt inn i fire delområder ved radielle kutt. Hvert delområde er både $x$-enkelt og $y$-enkelt. Etter \cite{Adams}, Figur 15.12.}
+\label{fig:regulaertdomene}
+\end{figure}
+
 \begin{eks}{Tenk!}
-Parametriser integralet som iterert integral. Er integrasjonsområdet av type 1 eller type 2 ? 
+Parametriser integralet som iterert integral. Er integrasjonsområdet $y$-enkelt eller $x$-enkelt?
 \begin{enumerate}
   \item \[
     \iint_D e^{x/y}\, dA, \quad D = \{ (x, y) \mid 1 \leq y \leq 2, \ y \leq x \leq y^3 \}
@@ -324,25 +372,27 @@ Parametriser integralet som iterert integral. Er integrasjonsområdet av type 1 
 \end{enumerate}
 \end{eks}
 
-\subsection{Anvendelser av dobbeltintegraler}
+\subsection{Flere anvendelser av dobbeltintegraler}
+La oss se på noen anvendelser av dobbelintegral.
 
-\begin{oppsum}{Geometrisk interpretasjon: Areal}
+\subsubsection*{Areal og volum}
+Vi kan benytte dobbelintegral både til å beregne volum og areal. 
+\begin{oppsum}{Geometrisk tolkning: Areal}
 Arealet av et område \( D \) kan finnes ved å integrere konstantfunksjonen $1$:
 \[
 \text{Areal} = \iint_D 1\cdot dA
 \]
-For type 1 område har vi dermed:
+Volumet av et område \( D \) kan finnes ved å integrere høyden $z=h(x,y)$ over domenet: 
 \[
-\iint_D 1\cdot dA = \int_a^b \int_{g_1(x)}^{g_2(x)} 1\cdot dy\, dx = \int_a^b (g_2(x) - g_1(x))\, dx
-\]
-
-En tilsvarende type formel kan naturligvis skrives ned for type 2.
-
-Vi lar gjerne være å oppgi konstantfunksjonen $1$ og skriver bare
-\[
-\text{Areal} = \iint_D dA
+\text{Volum} = \iint_D h(x,y)\cdot dA
 \]
 \end{oppsum}
+
+Når vi faktisk skal beregne, deler vi opp i $x$ og/eller $y$-enkle domener. For et $y$-enkelt område kan for eksempel arealdet beregnes som 
+\[
+\iint_D dA = \int_a^b \int_{g_1(x)}^{g_2(x)} 1\cdot dy\, dx = \int_a^b (g_2(x) - g_1(x))\, dx
+\]
+
 
 \begin{eks}{Bergning av volum}{}
 Volumet under flaten \( z = f(x, y) \) og over området \( D \) i \( xy \)-planet.
@@ -356,7 +406,7 @@ V &= \int_{-2}^{2} \int_{x^2}^{8 - x^2} (16xy + 100) dy\, dx = \int_{-2}^{2}\lef
 \end{align*}
 \end{eks}
 
-
+\subsubsection*{Gjennomsnittsverdi}
 I analogi med definisjonen av gjennomsnittsverdi for funksjoner av én variabel, gir vi følgende definisjon:
 \begin{defn}{Gjennomsnitt av en funksjon}
 \emph{Gjennomsnittsverdi} til en funksjon \( f(x,y) \) over området \( D \) er tallet
@@ -389,17 +439,82 @@ Så det ytre integralet blir:
 \]
 \end{eks}
 
-En anvendelsen av dobbeltintegraler er å finne arealet av flater i tredimensjonale rom når flatene er grafer av funksjoner. 
+\subsubsection*{Overflateareal av flater i rommet}
+En anvendelsen av dobbeltintegraler er å finne arealet av overflater i tredimensjonale rom når flatene er grafer av funksjoner. Vi skal komme tilbake til slikt når vi har begynt mer ordentlig med vektorkalkulus, men allerede nå kan vi utlede en nyttig formel. La oss se for oss en funksjon 
+\[z=f(x,y),\]
+se figur~\ref{anv:flateareal}. Dersom vi skal beregne overflatearealet så kan vi se for oss at vi tilnærmer denne overlfaten med små plan $\Delta S_i$ som alle har en prosjeksjon $\Delta A$ ned i $xy$-planet. Ved å summere arealet av alle planene $\Delta S_i$ over hele domenet i $xy$-planet, så kan vi finne det totale overflatearealet. Vi skal nå se hvordan vi kan finne det rette uttrykket for $\Delta S$.
 
-Husk at en funksjon $z = f(x, y)$ over et område $D$ i $xy$-planet danner en flate 
-\[F :=\{x\vect{i}+y\vect{j}+f(x,y)\vect{k} \colon (x,y) \in D\}\]
-Vi er interessert i å regne ut arealet av flaten:
-\begin{oppsum}{Arealet på en flate $z=f(x,y)$}
+\textbf{Det første steget} er å innse at tangentplanet over ethvert punkt $P$ på grafen kan spennes ut av to tangentvektorer; en som ligger i $xz$-planet og én som ligger i $yz$-planet. Ved å huske tilbake til \Cref{defn:tangentlinje}, kan vi finne uttrykkene for disse tangentvektorene. Der fant vi nemlig at tangentlinjen til grafen $z=f(x)$ i punktet $P=(a,f(a))$ har retningsvektor $\vect t=(1,f'(a))^\top$: øker $x$ med $\Delta x$, øker $z$ langs tangentlinjen med $f'(a)\Delta x$. Tenker vi oss grafen liggende i $xz$-planet i rommet, kan vi skrive den samme retningsvektoren på $\vect i,\vect k$-form:
+\(
+\vect t = \vect i + f'(a)\vect k,
+\)
+se \Cref{fig:tangent_1var_motivasjon}.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1]
+  \draw[->] (-0.4,0) -- (6.2,0) node[right] {$x$};
+  \draw[->] (0,-0.4) -- (0,3.6) node[above] {$z$};
+  \draw[thick, orange!85!black]
+    (0.3,1.6) .. controls (1.3,2.6) and (1.8,1.0) .. (2.9,1.9)
+    .. controls (3.8,2.6) and (4.6,1.3) .. (5.8,2.1);
+  \node[orange!85!black, right] at (5.9,2.15) {$z=f(x)$};
+  \draw[dashed] (2.9,0) node[below] {$a$} -- (2.9,1.9);
+  \fill (2.9,1.9) circle (1.6pt);
+  \node[above left=1pt] at (2.9,1.9) {$P$};
+  \draw[thick, teal] (1.6,1.185) -- (4.3,2.67);
+  \node[teal, align=center] at (1.15,0.85) {Tangentlinje\\ i punktet $P$};
+  \draw[->, thick, red] (2.9,1.9) -- (4.2,2.615) node[right] {$\vect T$};
+  \draw[gray] (3.0,0.55) -- (4.2,0.55) -- (4.2,1.21) -- cycle;
+  \node[gray, below] at (3.6,0.5) {$\Delta x$};
+  \node[gray, right] at (4.25,0.88) {$\Delta z$};
+\end{tikzpicture}
+\caption{Tangentlinjen til grafen $z=f(x)$ i punktet $P=(a,f(a))$, med tilhørende tangentvektor $\vect T = \vect i + f'(a)\vect k$. Stigningen $f'(a) = \Delta z/\Delta x$ er forholdet mellom sidene i den lille trekanten.}
+\label{fig:tangent_1var_motivasjon}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=10cm]{Fig/flateelement_tangentplan.png}
+\caption{Flateelementet $\Delta S$ i tangentplanet til $z=f(x,y)$ i punktet $P=(a,b,f(a,b))$, utspent av kantvektorene $\vect T_1=\vect i+f_x(a,b)\vect k$ og $\vect T_2=\vect j+f_y(a,b)\vect k$, med normalvektor $\vect n=\vect T_1\times \vect T_2$. $\Delta S$ ligger rett over det lille rektangelet $\Delta A=\Delta x\cdot \Delta y$ i $xy$-planet.}
+\label{fig:tangent_2var_motivasjon}
+\end{figure}
+
+\textbf{Steg 2: To variabler, to tangentvektorer.} La nå $z=f(x,y)$ være en deriverbar flate, og se på punktet $P=(a,b,f(a,b))$. Vi lager to tangentvektorer til flaten i $P$ ved å holde henholdsvis $y$ og $x$ fast, og bruke resonnementet over på hver av de resulterende kurvene:
+\begin{itemize}
+  \item Holder vi $y=b$ fast, får vi kurven $z=f(x,b)$ i planet $y=b$. Nøyaktig som over har denne kurven tangentvektor
+  \(\vect t_1 = \vect i + f_x(a,b)\vect k.\). Ettersom projeseringen ned på $x$-aksen har størrelse $\Delta x$, kan vi dessuten konkludere at den vektoren som både er tangent til kurven \textit{og} har samme lengde som ene sidekanten til $\Delta S$, må være 
+   \[\vect T_1 = \Delta x(\vect i + f_x(a,b)\vect k).\]
+
+  \item Holder vi $x=a$ fast, får vi kurven $z=f(a,y)$ i planet $x=a$, med tangentvektor
+  \(\vect t_2 = \vect j + f_y(a,b)\vect k.\) På samme vis vil det gi 
+  \[\vect T_2 = \vect j + f_y(a,b)\vect k,\]
+  som altså angir den andre lengden i $\Delta S$.
+\end{itemize}
+Vektorene $\vect T_1$ og $\vect T_2$ ligger begge i tangentplanet til flaten i $P$, og de utgjør sidekantene til  $\Delta S$ (se \Cref{fig:tangent_2var_motivasjon}). 
+
+Fra \Cref{defn:vektorprodukt} i kapittel 0 vet vi at kryssproduktet av $\vect T_1$ og $\vect T_2$ derfor gir arealet av $\Delta S$:
+\[
+\vect n = \vect T_1 \times \vect T_2 =
+\Delta x\Delta y\begin{vmatrix} \vect i & \vect j & \vect k \\ 1 & 0 & f_x(a,b) \\ 0 & 1 & f_y(a,b) \end{vmatrix}
+= \Delta A(-f_x(a,b)\,\vect i - f_y(a,b)\,\vect j + \vect k),
+\]
+med lengde
+\[
+\lVert \vect n \rVert = \sqrt{f_x(a,b)^2+f_y(a,b)^2+1}\,\Delta A.
+\]
+Her brukte vi $\Delta A=\Delta x\Delta y$.
+Om vi nå lar $\Delta A\to 0$ på den vanlige måten og integrerer så får vi arealet av hele flaten, slik som oppsummert under.
+
+
+
+\begin{oppsum}{Arealet av en flate $z=f(x,y)$}
 Hvis flaten $S$ i tredimensjonal rom er definert som $z=f(x,y)$ for $(x,y) \in D$ et område i $xy$-planet og $f$ er deriverbar, så kan flatearealet beregnes som 
 \begin{align} \label{anv:flateareal}
 S = \iint_D \sqrt{\left( \frac{\partial f}{\partial x} \right)^2 + \left( \frac{\partial f}{\partial y} \right)^2 + 1}\, dA
 \end{align}
 \end{oppsum}
+Vi kommer tilbake til tangent- og normalvektorer til flater mer generelt i \Cref{defn:tang_norm}.
 
 \begin{eks}{}
 Finn arealet av den delen av planet $3x + 2y + z = 6$ som ligger i første oktant. Vi omskriver likningen til $z = f(x, y)$:
@@ -787,8 +902,8 @@ Vi bruker itererte integraler
 \end{align*}
 \end{eks}
 
-\begin{defn}{Generelle områder – Første type}
-Vi definerer et område $E$ av \emph{type 1} (eller et $z$\emph{-enkelt område}) slik:
+\begin{defn}{Generelle områder – $z$-enkle områder}
+Vi definerer et $z$\emph{-enkelt område} $E$ slik:\footnote{Analogt med dobbeltintegraler (se \Cref{sect:dobbelint}) omtales disse tre områdetypene i andre kilder også som \emph{Type 1}, \emph{Type 2} og \emph{Type 3} (eller \emph{Type I}, \emph{Type II}, \emph{Type III}). Vi bruker gjennomgående $z$-enkelt, $x$-enkelt og $y$-enkelt i dette kompendiet.}
 \[
 E = \{(x, y, z) \mid (x, y) \in D,\, u_1(x, y) \leq z \leq u_2(x, y)\}
 \]
@@ -803,7 +918,7 @@ Hvis \( T \) er tetraederet med hjørner \((0, 0, 0)\), \((1, 0, 0)\), \((0, 1, 
 \[
 \iiint_T y \, dV.
 \]
-Tetraederet er vist i bildet til høyre. Det er et $xy$-enkelt område. Et snitt i planet normalt på \(x\)-aksen i posisjon \(x\) er trekanten \(T(x)\), vist i figuren. Her er \(x\) konstant og \(y\) og \(z\) er variable i snittet. Dobbeltintegralet av \(y\) over \(T(x)\) er en funksjon av \(x\).
+Tetraederet er vist i bildet til høyre. Det er et $z$-enkelt område. Et snitt i planet normalt på \(x\)-aksen i posisjon \(x\) er trekanten \(T(x)\), vist i figuren. Her er \(x\) konstant og \(y\) og \(z\) er variable i snittet. Dobbeltintegralet av \(y\) over \(T(x)\) er en funksjon av \(x\).
 \end{minipage} 
 \begin{minipage}{8cm}
 \tdplotsetmaincoords{70}{120}
@@ -866,16 +981,16 @@ I beregningen ovenfor utførte vi integrasjon i to trinn for å tydelig vise fre
 \label{ex:tetrahedron}
 \end{eks}
 
-\begin{defn}{Andre og tredje type område}
-Et område av andre type eller $x$-enkelt område $E$ defineres som:
+\begin{defn}{$x$-enkle og $y$-enkle områder}
+Et $x$\emph{-enkelt område} $E$ defineres som:
 \[
 E = \{(x, y, z) \mid (y, z) \in D,\, u_1(y, z) \leq x \leq u_2(y, z)\}
 \]
-For type 2 områder er integralet definert som:
+For et slikt område er integralet definert som:
 \[
 \iiint_E f(x, y, z)\, dV = \iint_D \left[\int_{u_1(y,z)}^{u_2(y,z)} f(x, y, z)\, dx\right]\, dA
 \]
-Et område  $E$ av \emph{type 3} eller $y$\emph{-enkelt område} defineres som:
+Et $y$\emph{-enkelt område} $E$ defineres som:
 \[
 E = \{(x, y, z) \mid (x, z) \in D,\, u_1(x, z) \leq y \leq u_2(x, z)\}
 \]
@@ -886,8 +1001,8 @@ For disse områder definerer man integralet slik
 \end{defn}
 
 \begin{rem}{OBS: Variable grenser i tripleintegraler}
-Merk at området $D$ vi har sett på i type 1–3-integrasjonsområdene, i hvilket som helst av planene, kan være av type I eller type II som beskrevet tidligere.
-Hvis $D$ i $xy$-planet er av type I , så gjelder
+Merk at området $D$ vi har sett på i de $x$-, $y$- og $z$-enkle integrasjonsområdene, i hvilket som helst av planene, kan være $y$-enkelt eller $x$-enkelt som beskrevet tidligere.
+Hvis $D$ i $xy$-planet er $y$-enkelt, så gjelder
 \[
 E = \{(x,y,z) \mid a \leq x \leq b, \; g_{1}(x) \leq y \leq g_{2}(x), \; u_{1}(x,y) \leq z \leq u_{2}(x,y) \}.
 \]
@@ -1739,6 +1854,7 @@ Disse to vektorene ligger i tangentplanet til flaten (se \Cref{fig:tang_norm}), 
 \vect{n} = \vect{r}_u \times \vect{r}_v
 \end{align}
 En slik vektor kaller vi \emph{normalenvektor}, og hvis vektoren har lengde $1$, sier vi at det er en \emph{enhetsnormalenvektor}.
+\label{defn:tang_norm}
 \end{defn}
 %\end{minipage} \quad
 \begin{figure}\centering
