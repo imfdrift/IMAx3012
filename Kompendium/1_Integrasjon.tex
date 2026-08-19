@@ -1,6 +1,6 @@
 \chapter{Integrasjon i flere dimensjoner}
 \label{chap:Integrasjon}
-I dette kapittelet diskuteres integrasjon av funksjoner med flere variabler og vi skal integrere over områder i flerdimensjonale rom. Vi bygger direkte videre på Riemannsum-tankegangen fra énvariabeltilfellet, repetert i kapittel 0: også der tenker vi på integralet som en grenseverdi av en sum av rektangelarealer.
+I dette kapittelet diskuteres integrasjon av funksjoner med flere variabler og vi skal integrere over områder i flerdimensjonale rom. Vi bygger direkte videre på Riemannsum-tankegangen fra énvariabeltilfellet (repetert i kapittel 0): vi ser for oss integralet som en grenseverdi av en sum av rektangelarealer.
 
 \paragraph{Ved integrasjon i to dimensjoner} (eller flere for den saks skyld) får vi tilsvarende type summer, bare at vi nå summerer bidrag over et areal (eller volum) i stedet for et intervall. Men la oss aller først se på noen anvendelser av to-variable integraler.
 
@@ -32,8 +32,8 @@ av to variabler. Vi lurer på hva volumet mellom grafen og $xy$-planet er. Grafe
 \end{figure}
 
 Fra figur~\ref{fig:1} ser vi at området mellom grafen til $h(x,y)$ og $xy$-planet er et volum. Vi skriver
-\[\iint_D h(x,y) dA,\]
-hvor $D$ er integrasjonsdomenet i $xy$-planet slik som angitt i teksten over. Siden $xy$-planet består av to retninger bruker vi to integraltegn. Som vi skal se må vi nemlig integrere langs to retnigner, eller variabler: Fra figuren ser vi at integrasjonsdomenet kan deles opp i små element $\Delta A$ som alle har sidekanter \(\Delta x\) og \(\Delta y\), altså at
+\[V=\iint_D h(x,y) dA,\]
+hvor $D$ er integrasjonsdomenet i $xy$-planet slik som angitt i teksten over. Siden $xy$-planet består av to retninger bruker vi to integraltegn. Som vi skal se må vi nemlig integrere langs to retninger, eller variabler: Fra figuren ser vi at integrasjonsdomenet kan deles opp i små elementer $\Delta A$ som alle har sidekanter \(\Delta x\) og \(\Delta y\), altså at
 
 \[\Delta A=\Delta x\cdot\Delta y.\]
 
@@ -44,10 +44,10 @@ Volumet av én enkelt søyle under grafen blir da
 En approksimering til det totale volumet $V$ mellom grafen og $xy$-planet må derfor kunne uttrykkes som en dobbel Riemann-sum, analogt med 1D-tilfellet. Vi får
 
 \[V\approx h(x_1^*,y_1^*) \Delta x \Delta y + h(x_2^*,y_2^*) \Delta x \Delta y + \cdots + h(x_n^*,y_n^*) \Delta x\Delta y = \sum_{i=1}^n\sum_{j=1}^m h(x_i^*,y_j^*)\Delta x\Delta y.\]
-Om vi nå tar grenseverdien og lar $n,m\to \infty$ får vi integralet. Vi skriver at
+Om vi nå tar grenseverdien og lar $n,m\to \infty$ får vi integralet over. Vi skriver at
 
 \[\iint_D h(x,y) dA=\int_{-1}^{1}\int_{-1}^1 h(x,y)dxdy = \lim_{n,m\to \infty}\sum_{i=1}^n\sum_{j=1}^m f(x_i^*,y_j^*)\Delta x\Delta y,\]
-hvor vi her valgte å sette inn de spesifikke integrasjonsgrensene for dette eksemplet. Men resultatet gjelder selvsagt også tilsvarende for generelle integrasjonsgrenser. Dette kommer vi tilbake til i neste delkapittel. Merk at tankegangen også lett kan generasliseres til integraler i $n$ variabler.
+hvor vi her valgte å sette inn de spesifikke integrasjonsgrensene for dette eksemplet. Men resultatet gjelder selvsagt også tilsvarende for generelle integrasjonsgrenser. Dette kommer vi tilbake til i neste delkapittel. Merk at tankegangen også lett kan generaliseres til integraler i $n$ variabler.
 
 \subsection*{Anvendelse: vanntrykk på demning}
 En ingeniør som er involvert i byggingen av en demning for å holde tilbake vannet i et reservoar, må kunne beregne den totale kraften vannet utøver på demningen, slik at demningen bygges med tilstrekkelig styrke.
@@ -59,7 +59,7 @@ For å kunne beregne denne kraften må vi bruke følgende ingredienser:
   \begin{equation}
     p = kd \label{eq:pressure}
   \end{equation}
-  der \( k \) er en konstant\footnote{Kanskje husker du fra fysikken at konstanten $k=\rho\cdot\textrm{g}$, hvor $\rho$ er massetettheten til vannet og $\textrm{g}=9.81\,\textrm{m}/\textrm{s}^2$ er tyngdens akselerasjon.}.
+  der \( k \) er en konstant\footnote{Kanskje husker du fra fysikken at konstanten er $k=\rho\cdot\textrm{g}$, hvor $\rho$ er massetettheten til vannet og $\textrm{g}=9.81\,\textrm{m}/\textrm{s}^2$ er tyngdens akselerasjon.}.
   \item Kraften $\vect{F}$ på et areal $\vect{A}$ som utsettes for konstant trykk $p$, er gitt ved
   \begin{align}
 &\text{kraft} =\text{trykk} \cdot \text{areal}\nonumber\\
@@ -68,7 +68,7 @@ For å kunne beregne denne kraften må vi bruke følgende ingredienser:
   \end{align}
   hvor $\vect{A}$ her er en vektor som står normalt på arealet, og med størrelse $A$.
 \end{enumerate}
-Dersom vi legger inn et koordinatsystem med origo ved bunnen av reservoaret kan vi lett vise at vanndybden blir \( d=h-z \), og \( \Delta A \) er et lite areal på demningens overflate (se figur~\ref{fig:reservoar}.
+Dersom vi legger inn et koordinatsystem med origo ved bunnen av reservoaret, kan vi lett vise at vanndybden blir \( d=h-z \), og \( \Delta A \) er et lite areal på demningens overflate (se figur~\ref{fig:reservoar}).
 
 \begin{figure}[ht]\centering
 \begin{tikzpicture}[scale=1.2, x={(1cm,0cm)}, y={(0.3cm,0.6cm)}, z={(0cm,1cm)}]
@@ -94,9 +94,9 @@ Dersom vi legger inn et koordinatsystem med origo ved bunnen av reservoaret kan 
 \draw[thick] (0,2,0) -- (\L,2,0) -- (\L,2,\H) -- (0,2,\H) -- cycle;
 
 % Axes
-\draw[->, thick] (0,0,0) -- (1.2*\L,0,0);
-\draw[->, thick] (0,0,0) -- (0,2.8,0);
-\draw[->, thick] (0,0,0) -- (0,0,1.4*\H) node[anchor=south] {høyde};
+\draw[->, thick, brown!60!white] (0,0,0) -- (1.2*\L,0,0) node[anchor=north] {$x$};
+\draw[->, thick, brown!60!white] (0,0,0) -- (0,2.8,0) node[anchor=south east, xshift=-2pt] {$y$};
+\draw[->, thick, brown!60!white] (0,0,0) -- (0,0,1.4*\H) node[anchor=south] {høyde ($z$)};
 
 %Reservoire wall
 \draw[thick] (\L+.5,0,\H+.5) -- (\L+.5,2,\H+.5) -- (\L+.5,2,0) -- (\L+.5,0,0) -- (\L, 0,0) -- (\L, 0,\H+.5) -- (\L, 2,\H+.5) -- (\L+.5, 2,\H+.5);
@@ -106,8 +106,8 @@ Dersom vi legger inn et koordinatsystem med origo ved bunnen av reservoaret kan 
 \node[rotate=90] at (\L+.25, 0,2) {Vegg};
 
 % Height h and arrows
-\draw[<->,thick] (.1,0,0) -- (.1,0,\H);
-\node at (.35,0,\H/2) {$h$};
+\draw[<->,thick] (1,0,0) -- (1,0,\H);
+\node at (1.25,0,\H/2) {$h$};
 \draw[<->,thick] (-.5,0,0) -- (-.5,0,\z);
 \node at (-0.75,0,\z/2) {$z$};
 
@@ -125,21 +125,21 @@ Dersom vi legger inn et koordinatsystem med origo ved bunnen av reservoaret kan 
 \end{tikzpicture}
 \caption{Skjematisk oversikt over reservoaret}\label{fig:reservoar}
 \end{figure}
-Ved å bruke \eqref{eq:pressure}, er trykket ved \( \delta A \sim k(h - z) \). Ved å bruke \eqref{eq:kraftformel}, er (størrelsen på) kraften på et lite areal \( \Delta A\) nå gitt som \( \Delta F= k(h - z)\Delta A \). Begge disse uttrykkene er tilnærminger, siden \( y \) varierer litt fra toppen til bunnen av \( \Delta A \). Nå har vi:
+Ved å bruke \eqref{eq:pressure}, er trykket ved \( \Delta A \sim k(h - z) \). Ved å bruke \eqref{eq:kraftformel}, er (størrelsen på) kraften på et lite areal \( \Delta A\) nå gitt som \( \Delta F= k(h - z)\Delta A \). Begge disse uttrykkene er tilnærminger, siden \( y \) varierer litt fra toppen til bunnen av \( \Delta A \). Nå har vi:
 \begin{align*}
-\text{Total kraft} &= \text{summen av kreftene på alle } \delta A \text{ som utgjør overflate} \\
+\text{Total kraft} &= \text{summen av kreftene på alle } \Delta A \text{ som utgjør overflaten} \\
 \rightarrow F &\approx \sum_{\text{alle } \Delta A} k(h - z)\Delta A
 \end{align*}
 
-For en bedre tilnærming lar vi \( \Delta A \) bli mindre, og for det eksakte resultatet finner vi grensen når \( \Delta A \to 0 \). Som i forrige eksempel finner vi også her et dobbelintegral, denne gangen for størrelsen til kraften:
+For en bedre tilnærming lar vi \( \Delta A \) bli mindre, og for det eksakte resultatet finner vi grensen når \( \Delta A \to 0 \). Som i forrige eksempel finner vi også her et dobbeltintegral, denne gangen for størrelsen til kraften:
 
 \[F=\iint_Dk(h-z)dzdy.\]
 Her er $D$ ment å være demningens utstrekning i $zy$-planet.
 
-\paragraph{I begge eksemplene} over på anvendelser var det nødvendig å summere mange en størrelse over et areal. Summene som opptrer ser ut som Riemannsummer. 
+\paragraph{I begge eksemplene} over på anvendelser var det nødvendig å summere en størrelse over et areal. Summene som opptrer ser ut som Riemannsummer. 
 
 
-For funksjoner av én variabel integrerte vi over et intervall (et én-dimensjonalt rom). Da gir det mening at for funksjoner av \textit{to variabler} integrerer vi over et område i planet, altså et \textit{to-dimensjonalt rom}. 
+For funksjoner av én variabel integrerte vi over et intervall (et én-dimensjonalt rom). Da gir det mening at vi for funksjoner av \textit{to variabler} integrerer over et område i planet, altså et \textit{to-dimensjonalt rom}.
 
 
 \subsection*{Formelt: Integrasjon over et rektangulært domene}
@@ -181,20 +181,20 @@ En tolkning av dobbeltintegralet er volumet under funksjonen \( f(x, y) \geq 0\)
 \]
 \textbf{OBS}:
 Integralet gir et volum i fysisk forstand hvis $f(x,y)$, $dx$ og $dy$ har lengde som måleenheter og
-$f(x,y)\geq 0$.  Det tilsvarer det bestemte integralet for en funksjon av en variabel $\int_a^b f(x)d x$ som gir et arealet når $dx$ og $f(x)$ har er lengder og $f(x)>0$. Hvis funksjonen ikke er positiv så må vi dele opp integrasjonsområdet og summere absoluttverdien til integralet av delene.  
+$f(x,y)\geq 0$.  Det tilsvarer det bestemte integralet for en funksjon av en variabel $\int_a^b f(x)d x$ som gir et areal når $dx$ og $f(x)$ er lengder og $f(x)>0$. Hvis funksjonen ikke er positiv, må vi dele opp integrasjonsområdet og summere absoluttverdiene til integralene av delene.
 \end{rem}
 Definisjonen av dobbeltintegral ved hjelp av grenseverdier kan ikke brukes i praksis når vi må regne for hånd (men vi skal møte ideen igjen når vi lager numeriske metoder for integraler i \Cref{sect:num_met1}). I neste avsnitt skal vi lære hvordan vi kan forenkle beregning ved hjelp av de kjente endimensjonale integraler.
 
 \section{Dobbeltintegraler i kartesiske koordinater}\label{sect:dobbelint}
 
-I forrige delkapittel ga vi definisjonen på dobbeltintegralet ved hjelp av grenserverdier. I dette delkapitlet antar vi fremdeles at vi integrerer over et rektangel:
+I forrige delkapittel ga vi definisjonen på dobbeltintegralet ved hjelp av grenseverdier. I dette delkapitlet antar vi fremdeles at vi integrerer over et rektangel:
 \[
 R = [a, b] \times [c, d]
 \]
 Generelle områder behandler vi senere.
 Neste resultat viser hvordan vi regner ut dobbeltintegraler over rektangulære områder i praksis.
 
-\begin{thrm}{Fubini's teorem}
+\begin{thrm}{Fubinis teorem}
 Dersom \( f(x, y) \) er kontinuerlig på \( R \) gjelder at
 \[
 \iint_R f(x, y) \, dA = \int_a^b \bigl(\int_c^d f(x, y) \, dy \bigr) \, dx = \int_c^d \bigl(\int_a^b f(x, y) \, dx \bigr) \, dy
@@ -217,7 +217,7 @@ verdien av integralet. Men det kan godt være at
 \end{itemize}
 
 \begin{oppsum}{Hvordan beregner man dobbeltintegraler i praksis?}
-For å regne ut dobbelintegraler starter vi med det indre integralet. Vi holder den andre variabelen konstant og integrerer som om det var et vanlig én-variabelintegral.
+For å regne ut dobbeltintegraler starter vi med det indre integralet. Vi holder den andre variabelen konstant og integrerer som om det var et vanlig én-variabelintegral.
 
 Dette minner om partiellderivasjon, hvor vi behandler en variabel som konstant for å derivere med hensyn på den andre.
 \end{oppsum}
@@ -246,21 +246,21 @@ Beregn:
 \[
 \iint_R  x e^{x^2 +y} \, dA, \quad R = [-1, 0] \times \left[0, 1\right]
 \]
-Siden $e^{x^2+y}=e^{x^2}e^y$ kan vi skrive integranden som et produkt, så :
+Siden $e^{x^2+y}=e^{x^2}e^y$ kan vi skrive integranden som et produkt, så:
 \[
 \left( \int_{-1}^{0} xe^{x^2} \, dx \right) \left( \int_0^{1} e^y \, dy \right) = \left.\frac{e^{x^2}}{2}\right|_{-1}^0 \left.e^y\right|_0^{1} = \frac{1}{2}(1-e)(e-1)=-\frac{1}{2}(e-1)^2 \simeq -1.4762
 \]
 \end{eks}
 
-Så langt har vi bare diskutert bestemete integraler. I praksis kan det forekomme at vi ønsker å beregne ubestemte integraler og det forklarer vi nå:
+Så langt har vi bare diskutert bestemte integraler. I praksis kan det forekomme at vi ønsker å beregne ubestemte integraler og det forklarer vi nå:
 \begin{eks}{Ubestemte integraler av to-variable funksjoner}
-Anta at vi er i nødt å beregne integralene 
+Anta at vi er nødt til å beregne integralene
 \[
 \int (2x \cos^2(y) + xy) \, dy, \quad \int (x - ye^{x}) \, dx
 \]
-med hensyn til én variabel. Der behandles den andre variablen som en konstant. \textbf{OBS:} Integrasjonskonstanten må derfor være en funksjon av den andre variabelen.
+med hensyn til én variabel. Her behandles den andre variabelen som en konstant. \textbf{OBS:} Integrasjonskonstanten må derfor være en funksjon av den andre variabelen.
 \begin{align*}
-\int (2x\cos^2 (y) + xy) \, dy = x(x+\sin(y)\cos(y) + \frac{1}{2}x y^2 + g(x)
+\int (2x\cos^2 (y) + xy) \, dy = xy+x\sin(y)\cos(y) + \frac{1}{2}x y^2 + g(x)
 \end{align*} 
 På samme vis får vi
 \begin{align*}
@@ -273,10 +273,10 @@ I forrige seksjon så vi på dobbeltintegraler over rektangler. Problemet med de
 \[
 \iint_D f(x, y)\, dA
 \]
-hvor \( D \) kan ha en annen form enn et rektangel. Det vi skal se på er de så kallte standardområder for integrasjon hvor en begrensning av området er gitt ved hjelp av funksjoner som beskriver en side i $x$ eller $y$ retning. 
+hvor \( D \) kan ha en annen form enn et rektangel. Det vi skal se på er de såkalte standardområdene for integrasjon, hvor en begrensning av området er gitt ved hjelp av funksjoner som beskriver en side i $x$- eller $y$-retning.
 
 \begin{oppsum}{Standard integrasjonsområder}
-Vi har to typer områder hvor den ene begrensning i $x$- (eller $y$-)retning er avhengig av $y$- (eller $x$) variabelen. For begge typene er definisjonen av integralet gitt som vist under:
+Vi har to typer områder hvor den ene begrensningen i $x$- (eller $y$-)retning er avhengig av $y$- (eller $x$-)variabelen. For begge typene er definisjonen av integralet gitt som vist under:
 \begin{align*}
   \text{\textbf{Type 1: }} & & D = \{ (x, y) \mid a \leq x \leq b, \ g_1(x) \leq y \leq g_2(x) \} \\
   y-\text{\textbf{enkelt}} &&\iint_D f(x, y)\, dA := \int_a^b \int_{g_1(x)}^{g_2(x)} f(x, y)\, dy\, dx\\
@@ -295,13 +295,13 @@ Den variable grensen kommer alltid i det indre integralet.
 \caption{Områder av type 1 og type 2 i planet.}\label{fig:arealtyper}
 \end{figure}
 \begin{oppsum}{Egenskaper for dobbeltintegraler}
-La $D$ være et integrasjonsområdet. For alle funksjoner $f,g$ og $c \in \R$ konstant gjelder:
+La $D$ være et integrasjonsområde. For alle funksjoner $f,g$ og $c \in \R$ konstant gjelder:
 \begin{enumerate}
   \item \[\iint_D (f + cg)\, dA = \iint_D f\, dA + c\iint_D g\, dA \text{  (lineæritet)}\] 
-  \item Hvis området deles i to delmengder \( D = D_1 \cup D_2 \)  (slik at $D_1, D_2$ ha ingen punkter felles), så er: 
+  \item Hvis området deles i to delmengder \( D = D_1 \cup D_2 \)  (slik at $D_1, D_2$ ikke har noen punkter felles), så er:
   \[\iint_D f\, dA = \iint_{D_1} f\, dA + \iint_{D_2} f\, dA\]
 \item \textbf{Bytte av integrasjonsrekkefølge.} 
-Noen ganger er det nyttig eller nødvendig å bytte integrasjonsrekkefølge for å kunne utføre integrasjonen. Det endrer ikke verdien til integralet men vi må passe på grensene når vi gjør det. \emph{ For å unngå feil så bør du tegne en figur.} Her er et (enkelt) \textbf{eksempel} som illustrerer
+Noen ganger er det nyttig eller nødvendig å bytte integrasjonsrekkefølge for å kunne utføre integrasjonen. Det endrer ikke verdien til integralet, men vi må passe på grensene når vi gjør det. \emph{For å unngå feil bør du tegne en figur.} Her er et (enkelt) \textbf{eksempel} som illustrerer
 \[
 \int_0^3 \int_{x^2}^9 x^3 e^{y^3} dy\, dx
 = \int_0^9 \int_0^{\sqrt{y}} x^3 e^{y^3} dx\, dy
@@ -375,7 +375,7 @@ Den gjennomsnittsverdien av \( x^2 + y^2 \) for de tilfeldig valgte punktene vil
 \[
 \bar{f} = \frac{1}{\text{arealet til } T} \iint_T (x^2 + y^2)\, dA
 \]
-Trekanten har areal \( \frac{1}{2} \), så ved hjelp av Fubini`s teorem:
+Trekanten har areal \( \frac{1}{2} \), så ved hjelp av Fubinis teorem:
 \[
 \bar{f} = 2 \int_0^1 \int_0^x (x^2 + y^2)\, dy\, dx
 \]
@@ -430,7 +430,7 @@ Her er $r=\sqrt{x^2+y^2}$.
 
 \begin{eks}{Integrasjon over en disk}
 \[
-\iint_D f(x, y)\, dA, \quad D = \text{disk med radius 1 rund origo}
+\iint_D f(x, y)\, dA, \quad D = \text{disk med radius 1 rundt origo}
 \]
 I kartesiske koordinater beskrives disken med:
 \[
@@ -444,9 +444,9 @@ I polarkoordinater kan samme område beskrives mye enklere, som:
 \]
 og her ser vi at det er faktisk et rektangel hvor vi kan unngå å bruke kompliserte funksjoner for å beskrive mengden. Integralet blir der 
 \[\iint_D f(x, y)\, dA= \int_{0}^1 \int_{0}^{2\pi} f(r\cos(\theta),r\sin(\theta)) r\, d\theta \, dr\]
-Integralet har blitt enklere men det kan se ut som om vi ha en skrivefeil: Hvorfor er det en ekstra $r$ i formelen?
+Integralet har blitt enklere, men det kan se ut som om vi har en skrivefeil: Hvorfor er det en ekstra $r$ i formelen?
 \end{eks}
-Vi kan ikke bare bytte ut \( dx\, dy \) med \( dr\, d\theta \). For å beregne areal elementet må vi sjekke hvordan arealet til et lite område i polarkoordinater endrer seg. Som \Cref{fig:arealpolar} viser endrer arealet seg annerledes i polarkoordinater enn når vi endrer størrelsen i kartesiske koordinater. Dette gir oss en tilnærming:
+Vi kan ikke bare bytte ut \( dx\, dy \) med \( dr\, d\theta \). For å beregne arealelementet må vi sjekke hvordan arealet til et lite område i polarkoordinater endrer seg. Som \Cref{fig:arealpolar} viser endrer arealet seg annerledes i polarkoordinater enn når vi endrer størrelsen i kartesiske koordinater. Dette gir oss en tilnærming:
 \begin{figure}[ht]\centering
 \includegraphics[width=12cm]{Fig/imageedit_7_9308218702.jpg}
 \caption{Arealelement i polarkoordinater, (\href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{CC BY-NC-SA 4.0} M. Levitus, \cite{MLon})}\label{fig:arealpolar}
@@ -461,7 +461,7 @@ som i grensen hvor $\Delta r,\Delta\theta\rightarrow 0$ gir \eqref{areal:polar}.
 dA = r\, dr\, d\theta
 \end{align}
 \end{defn}
-Kanskje husker du at arealelementet i kartesiske koordinater er $dA=dxdy$. En naiv gjetning ville kanskje derfor gjettet at arealelementet i polarkoordinater er $dA=drd\theta$. Men dette er altså feil, noe en også kan se av benevningen (et areal bør ha bevnevning kvadratmeter; $m^2$). Faktoren $r$ som sniker seg inn kalles \textit{Jacobideterminanten} for polarkoordinater, noe vi snart skal komme tilbake til.
+Kanskje husker du at arealelementet i kartesiske koordinater er $dA=dxdy$. En naiv gjetning ville kanskje derfor være at arealelementet i polarkoordinater er $dA=drd\theta$. Men dette er altså feil, noe en også kan se av benevningen (et areal bør ha benevning kvadratmeter; $m^2$). Faktoren $r$ som sniker seg inn kalles \textit{Jacobideterminanten} for polarkoordinater, noe vi snart skal komme tilbake til.
 
 \begin{oppsum}{Konverteringsformler Polarkoordinater}
 For å konvertere funksjonen og grensene bruker vi:
@@ -472,7 +472,7 @@ Dermed blir integralet:
 \[
 \iint_D f(x, y)\, dA = \int_\alpha^\beta \int_{h_1(\theta)}^{h_2(\theta)} f(r \cos \theta, r \sin \theta) \, r\, dr\, d\theta
 \]
-Her har vi brukt \eqref{areal:polar} for arealelementet $dA =r\, dr\, d\theta$. Husk at $h_1,h_2$ er funksjoner som er avhengig av integrasonsområdet $D$ og vi beskrev her faktisk en integrasjonsområdet hvor radius $r$ er avhengig av vinkel $\theta$ (det er den vanligste tilfelle).
+Her har vi brukt \eqref{areal:polar} for arealelementet $dA =r\, dr\, d\theta$. Husk at $h_1,h_2$ er funksjoner som er avhengige av integrasjonsområdet $D$, og vi beskrev her faktisk et integrasjonsområde hvor radiusen $r$ er avhengig av vinkelen $\theta$ (det er det vanligste tilfellet).
 \end{oppsum}
 
 \begin{eks}{}\mbox{}\\
@@ -606,18 +606,18 @@ Regionen er nedre halvsirkel av radius $1$. I polarkoordinater:
 Det finnes en annen måte å forstå integraler i andre koordinatsystemer. Det skal vi se nå på for dobbeltintegraler
 
 \subsection*{Variabelbytte}
-I tidligere kurs hav vi lært at vanlige integraler kan beregnes ved hjelp av substitusjonsregelen:
+I tidligere kurs har vi lært at vanlige integraler kan beregnes ved hjelp av substitusjonsregelen:
 \[
 \int_a^b f(g(x)) g'(x)\, dx = \int_c^d f(u)\, du
 \]
 Dette var et eksempel på å endre integrasjonsvariabel. Nå ønsker vi å gjøre noe tilsvarende for dobbeltintegraler.
 
 \begin{defn}{Transformasjoner}
-En \emph{transformasjon}\footnote{Teknisk sett ønsker vi vanligvis å ha en en-til-en (=bijektiv) funksjon som omdanner et området til et annet. I vanlig ingeniørmåte skal vi snakke ikke så mye om disse tekniske detaljer.} er et sett av ligninger som endrer variablene:
+En \emph{transformasjon}\footnote{Teknisk sett ønsker vi vanligvis å ha en en-til-en (=bijektiv) funksjon som omdanner et område til et annet. I vanlig ingeniørpraksis skal vi ikke snakke så mye om disse tekniske detaljene.} er et sett av ligninger som endrer variablene:
 \[
 x = g(u, v), \quad y = h(u, v)\quad \text{eller kortere } x=x(u,v), y=y(u,v)
 \]
-Her vi anta at funksjoner $g,h$ er minst kontinuerlige (men praktisk sett krever vi at de er kontinuerlig deriverbar). Området $R$ i $xy$-planet transformeres til et område $S$ i $uv$-planet. 
+Her antar vi at funksjonene $g,h$ er minst kontinuerlige (men i praksis krever vi at de er kontinuerlig deriverbare). Området $R$ i $xy$-planet transformeres til et område $S$ i $uv$-planet. 
 \end{defn}
 
 \begin{defn}{Jacobideterminant og arealelementet}
@@ -651,7 +651,7 @@ Lag en transformasjon for å finne arealet av ellipsen \( E \) gitt ved
 \[
 \frac{x^2}{a^2} + \frac{y^2}{b^2} < 1
 \]
-Vi bruker transformasjonen \( x = au \), \( y = bv \). Der er ellipsen \( E \) bildet av den disken \( D \) gitt ved \( u^2 + v^2 < 1 \), ved en én-til-én-transformasjon. Anta at \( a > 0 \) og \( b > 0 \). Da har vi:
+Vi bruker transformasjonen \( x = au \), \( y = bv \). Da er ellipsen \( E \) bildet av disken \( D \) gitt ved \( u^2 + v^2 < 1 \), ved en én-til-én-transformasjon. Anta at \( a > 0 \) og \( b > 0 \). Da har vi:
 \[
 dx\,dy = \frac{\partial(x,y)}{\partial(u,v)} \, du\,dv
 \quad \text{ hvor } \frac{\partial(x,y)}{\partial(u,v)} =
@@ -728,19 +728,19 @@ for en gitt funksjon over et rektangle $R=[a,b]\times [c,d]$. Husk at vi kan for
 \includegraphics[width=8cm]{Fig/surf3D_rect1.jpg}
 \caption{Integralet som volum under en flate. Kilde: \cite{SaH}, \href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{CC BY-NC-SA 4.0}}
 \end{figure}
-I definisjonen av dobbeltintegralet har vi sett at den er grenseverdien til noen dobbelte Riemann summer. Som i 1D lager vi en approksimasjon ved å dele inn integrasjonsområdet i småbiter og deretter beregner vi summer volum over en liten boks i integrasjonsområdet. Sjekk \Cref{fig:litenbox} 
+I definisjonen av dobbeltintegralet har vi sett at den er grenseverdien til noen dobbelte Riemann summer. Som i 1D lager vi en approksimasjon ved å dele inn integrasjonsområdet i småbiter og deretter beregner vi summen av volumet over hver liten boks i integrasjonsområdet. Sjekk \Cref{fig:litenbox}.
 \begin{figure}[ht]\centering
 \includegraphics[width=8cm]{Fig/surf_box.jpg}
 \caption{Elementer i Riemann summer tilsvarer (orientert) volum over en liten boks. Kilde: \cite{SaH}: \href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{CC BY-NC-SA 4.0}.}\label{fig:litenbox}
 \end{figure}
-Det vi må dermed implementere for våre numeriske beregninger er en automatisert måte å lage slike oppdelinger av integrasjonsområdet. Vi illustrerer det i \Cref{dobbelt:mesh}.
+Det vi må dermed implementere for våre numeriske beregninger er en automatisert måte å lage slike oppdelinger av integrasjonsområdet på. Vi illustrerer det i \Cref{dobbelt:mesh}.
 \begin{figure}[ht]\centering
 \includegraphics[width=10cm]{Fig/mesh_surf.jpg}
 \caption{Gitter for integrasjon. Kilde: \cite{SaH}:\href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{CC BY-NC-SA 4.0}.}\label{dobbelt:mesh}
 \end{figure}
 
 
-Python kommandoer som hjelper med det finnes i Numpy pakke:
+Python-kommandoer som hjelper med det finnes i NumPy-pakken:
 \begin{lst}{}
 import numpy as np
 
@@ -748,25 +748,25 @@ np.meshgrid
 
 np.mgrid
 \end{lst}
-fra SciPy
+Tilsvarende finnes det kommandoer i SciPy-pakken:
 \begin{lst}{}
 import scipy as sp
 
 sp.integrate.dblquad
 \end{lst}
 
-Ved JuPyter Hub finner deren to notater hvor vi skal se på 
+Ved Jupyter Hub finner dere to notatbøker hvor vi skal se på
 \begin{itemize}
 \item integrasjon ved hjelp av gittermetoden og Scipy
 \item numerisk integrasjon av diskret data.
 \end{itemize}
 \section{Trippelintegral}\label{sect:trippelint}
 
-Vi har definert hvordan man integrerer over områder i todimensjonal rom. Det er nå enkelt å utvide til tre dimensjoner og integrerer over områder $E \subseteq \R^3$. For dette definerer man \emph{trippelintegral}:
+Vi har definert hvordan man integrerer over områder i todimensjonalt rom. Det er nå enkelt å utvide til tre dimensjoner og integrere over områder $E \subseteq \R^3$. For dette definerer man \emph{trippelintegral}:
 \[
 \iiint_E f(x, y, z)\, dV := \lim \sum_{i=1}^{l} \sum_{j=1}^{m} \sum_{k=1}^{n} f(x^{*}_{ijk}, y^{*}_{ijk}, z^{*}_{ijk}) \, \Delta x \, \Delta y \, \Delta z.
 \]
-Egentlig måtte man sjekke nå betydning av grenseverdien som gir trippelintegralet (det vi har gjort allerede for dobbeltintegraler). Vi skal se på det litt senere i \Cref{sect:num_met1}. Istedet starter vi med enkle integrasjonsområder som er bokser.  En variant av Fubini`s teorem \ref{thm:fubini} gjelder her og dermed kan vi istedet av grenseverdidefinisjon se på trippelintegralet ved hjelp av itererte integraler:
+Egentlig måtte man nå sjekke betydningen av grenseverdien som gir trippelintegralet (det vi allerede har gjort for dobbeltintegraler). Vi skal se på det litt senere i \Cref{sect:num_met1}. I stedet starter vi med enkle integrasjonsområder som er bokser. En variant av Fubinis teorem \ref{thm:fubini} gjelder her, og dermed kan vi i stedet for grenseverdidefinisjonen se på trippelintegralet ved hjelp av itererte integraler:
 
 \begin{defn}{Trippelintegral via itererte integraler}
 For en boks $B = [a,b] \times [c,d] \times [r,s]$, er integralet:
@@ -788,7 +788,7 @@ Vi bruker itererte integraler
 \end{eks}
 
 \begin{defn}{Generelle områder – Første type}
-Vi definerer et området $E$ av \emph{type 1} (eller et $z$\emph{-enkelt området}) slik:
+Vi definerer et område $E$ av \emph{type 1} (eller et $z$\emph{-enkelt område}) slik:
 \[
 E = \{(x, y, z) \mid (x, y) \in D,\, u_1(x, y) \leq z \leq u_2(x, y)\}
 \]
@@ -803,7 +803,7 @@ Hvis \( T \) er tetraederet med hjørner \((0, 0, 0)\), \((1, 0, 0)\), \((0, 1, 
 \[
 \iiint_T y \, dV.
 \]
-Tetraederet er vist i bildet til høyre. Det er et $xy$-enkelt området. Et snitt i planet normalt på \(x\)-aksen i posisjon \(x\) er trekanten \(T(x)\), vist i figuren. Her er \(x\) konstant og \(y\) og \(z\) er variable i snittet. Dobbeltintegralet av \(y\) over \(T(x)\) er en funksjon av \(x\).
+Tetraederet er vist i bildet til høyre. Det er et $xy$-enkelt område. Et snitt i planet normalt på \(x\)-aksen i posisjon \(x\) er trekanten \(T(x)\), vist i figuren. Her er \(x\) konstant og \(y\) og \(z\) er variable i snittet. Dobbeltintegralet av \(y\) over \(T(x)\) er en funksjon av \(x\).
 \end{minipage} 
 \begin{minipage}{8cm}
 \tdplotsetmaincoords{70}{120}
@@ -867,7 +867,7 @@ I beregningen ovenfor utførte vi integrasjon i to trinn for å tydelig vise fre
 \end{eks}
 
 \begin{defn}{Andre og tredje type område}
-Et området av andre type eller $x$-enkelt området $E$ defineres som:
+Et område av andre type eller $x$-enkelt område $E$ defineres som:
 \[
 E = \{(x, y, z) \mid (y, z) \in D,\, u_1(y, z) \leq x \leq u_2(y, z)\}
 \]
@@ -875,7 +875,7 @@ For type 2 områder er integralet definert som:
 \[
 \iiint_E f(x, y, z)\, dV = \iint_D \left[\int_{u_1(y,z)}^{u_2(y,z)} f(x, y, z)\, dx\right]\, dA
 \]
-Et område  $E$ av \emph{type 3} eller $y$\emph{-enkelt området} defineres som:
+Et område  $E$ av \emph{type 3} eller $y$\emph{-enkelt område} defineres som:
 \[
 E = \{(x, y, z) \mid (x, z) \in D,\, u_1(x, z) \leq y \leq u_2(x, z)\}
 \]
@@ -886,7 +886,7 @@ For disse områder definerer man integralet slik
 \end{defn}
 
 \begin{rem}{OBS: Variable grenser i tripleintegraler}
-Merk at området $D$ vi har sett på i 1-3 type integrasjonsområdet i hvilket som helst av planene kan være av type I eller type II som beskrevet tidligere. 
+Merk at området $D$ vi har sett på i type 1–3-integrasjonsområdene, i hvilket som helst av planene, kan være av type I eller type II som beskrevet tidligere.
 Hvis $D$ i $xy$-planet er av type I , så gjelder
 \[
 E = \{(x,y,z) \mid a \leq x \leq b, \; g_{1}(x) \leq y \leq g_{2}(x), \; u_{1}(x,y) \leq z \leq u_{2}(x,y) \}.
@@ -895,7 +895,7 @@ I $xyz$-rommet har vi en komplisert form $E$ med toppflate $z = u_{2}(x,y)$ og b
 \[
 x = a, \quad x = b, \quad y = g_{1}(x), \quad y = g_{2}(x).
 \]
-Da er begge grenser i de indre integralene avhengig av de andre variabler og trippelintegralet er
+Da er begge grenser i de indre integralene avhengige av de andre variablene, og trippelintegralet er
 \[
 \iiint_{E} f(x,y,z) \, dV 
 = \int_{a}^{b} \int_{g_{1}(x)}^{g_{2}(x)} \int_{u_{1}(x,y)}^{u_{2}(x,y)} 
@@ -921,7 +921,7 @@ V = \iiint_E 1\, dV
 
 Tyngdepunktet til et stivt legeme er det punktet (fast i kroppen) hvor kroppen kan støttes slik at den, i et konstant gravitasjonsfelt, ikke vil oppleve noen ubalanserte dreiemomenter som får den til å rotere.
 
-Dreiemomentene som virker på et masseelement \( dm \) i kroppen kan uttrykkes ved momentene til \( dm \) om de tre koordinatplanene. Antar at kroppen fyller et område \( R \) i tredimensjonalt rom og har en kontinuerlig tetthet \( \delta(x, y, z) \), så er masseelementet
+Dreiemomentene som virker på et masseelement \( dm \) i kroppen kan uttrykkes ved momentene til \( dm \) om de tre koordinatplanene. Vi antar at kroppen fyller et område \( R \) i tredimensjonalt rom og har en kontinuerlig tetthet \( \delta(x, y, z) \), så er masseelementet
 $
 dm = \delta(x, y, z) \, dV,
 $
@@ -929,7 +929,7 @@ som opptar et volumelement \( dV \). Total masse til kroppen er dermed gitt som
 \[m=\iiint \delta(x,y,z) dV.\]
 Vi sier at kroppen har momentene
 $(x - x_0) \, dm, \quad (y - y_0) \, dm, \quad (z - z_0) \, dm
-$ om planene\footnote{Vi anbefaler å skissere betydning til $x-x_0$ og hvorfor mengden til $(x,y,z)$ slik at $x=x_0$ danner en plan i tredimensjonalt rom!} \( x = x_0 \), \( y = y_0 \), og \( z = z_0 \), henholdsvis.
+$ om planene\footnote{Vi anbefaler å skissere betydningen av $x-x_0$ og hvorfor mengden av $(x,y,z)$ slik at $x=x_0$ danner et plan i det tredimensjonale rommet!} \( x = x_0 \), \( y = y_0 \), og \( z = z_0 \), henholdsvis.
 Dermed er de totale momentene til kroppen om disse tre planene:
 \begin{align*}
 M_{x=x_0} =\iiint_R (x - x_0)\delta(x, y, z)\,dV = M_{x=0} - x_0 m,\\
@@ -950,7 +950,7 @@ Tyngdepunktet til et legeme som fyller et område \( R \) i det tredimensjonale 
 \hat{x} = \frac{1}{m} \iiint_R x \, \delta(x, y, z)\, dV, \quad
 \hat{y} = \frac{1}{m} \iiint_R y \, \delta(x, y, z)\, dV, \quad
 \hat{z} = \frac{1}{m} \iiint_R z \, \delta(x, y, z)\, dV\\
-\text{ hvor totale massen til kroppen er beregnet som }m = \iiint_R \delta dV
+\text{ hvor den totale massen til kroppen er beregnet som }m = \iiint_R \delta dV
 \end{align*}
 \end{defn}
 Disse formlene kan kombineres til en enkelt vektorformel for posisjonsvektoren \( \vect{r} = x\vect{i} + y\vect{j} + z\vect{k} \) til tyngdepunktet:
@@ -967,22 +967,22 @@ Hvis tettheten er konstant, kanselleres den ut i uttrykkene for tyngdepunktet. I
 \end{rem}
 
 \begin{eks}{}
-Beregn sentroidet av tretrahedron $T$ (fra \Cref{ex:tetrahedron}) som ligger mellom koordinatplanene og planet gitt som $x+y+z=1$. 
+Beregn sentroidet av tetraederet $T$ (fra \Cref{ex:tetrahedron}) som ligger mellom koordinatplanene og planet gitt som $x+y+z=1$.
 
-Tetthet er konstant, så vi anta at tettheten er lik $1$. Massen til $T$ er dermed lik volum\footnote{Husk en tetraeder er en spesiell tilfelle av en pyramide. \href{https://no.wikipedia.org/wiki/Pyramide}{Wikipedia} minner oss at dens volum er en tredjedel av grunnflaten ganger høyden. Her grunnflaten er et rettvinklet trekant slik at $A=1/2$, høyde er $1$. Hvis man ikke liker det kan man også regne et trippelintegral.}, dvs. $m=V=\frac{1}{6}$. Symmetrien i problemet gjør at sentroiden $(\overline{x},\overline{y},\overline{z})$ oppfyller $\overline{x}=\overline{y}=\overline{z}$. Det er dermed nok at vi beregner 
+Tettheten er konstant, så vi antar at tettheten er lik $1$. Massen til $T$ er dermed lik volumet\footnote{Husk at en tetraeder er et spesielt tilfelle av en pyramide. \href{https://no.wikipedia.org/wiki/Pyramide}{Wikipedia} minner oss at dens volum er en tredjedel av grunnflaten ganger høyden. Her er grunnflaten en rettvinklet trekant slik at $A=1/2$, og høyden er $1$. Hvis man ikke liker det, kan man også regne ut et trippelintegral.}, dvs. $m=V=\frac{1}{6}$. Symmetrien i problemet gjør at sentroiden $(\overline{x},\overline{y},\overline{z})$ oppfyller $\overline{x}=\overline{y}=\overline{z}$. Det er dermed nok at vi beregner 
 \[\overline{y}=\frac{M_{y=0}}{m} = 6 \cdot \iiint_T y dV = 6 \cdot \frac{1}{24} =  \frac{1}{4}\]
 (se \Cref{ex:tetrahedron} for regning!). Dermed er sentroid her $(\tfrac{1}{4},\tfrac{1}{4},\tfrac{1}{4})$.
 \end{eks}
 
 \section{Trippelintegraler i andre koordinater}\label{sect:trippelint_andre}
-Som i todimensjonal rom er det ofte enklere å uttrykke noen integraler ved hjelp av andre koordinater. Det gjelder igjen en versjon av variabelbytte formel \Cref{eq:variabelbytte} for trippelintegraler.Vi definerer transformasjoner som en spesiell type av funksjoner (igjen ser vi her ikke så nøye på detaljer). Så hvis \[x=x(u,v,w), \quad y=y(u,v,w), \quad z=z(u,v,w)\]
-er en transformasjon knytter vi volumenelementer sammen ved bruk av determinanten til Jacobi matrise. Så for volum er det 
+Som i todimensjonalt rom er det ofte enklere å uttrykke noen integraler ved hjelp av andre koordinater. Det gjelder igjen en versjon av variabelbytteformelen \Cref{eq:variabelbytte} for trippelintegraler. Vi definerer transformasjoner som en spesiell type funksjoner (igjen går vi her ikke så nøye inn på detaljene). Så hvis \[x=x(u,v,w), \quad y=y(u,v,w), \quad z=z(u,v,w)\]
+er en transformasjon, knytter vi volumelementene sammen ved bruk av determinanten til Jacobi-matrisen. For volumet er det da
 \begin{align}\label{eq:volum_variablebytte}
 dV = dx\, dy\, dz = \frac{\partial (x,y,z)}{\partial (u,v,w)} du\, dv\, dw. \\ 
 \text{hvor } \frac{\partial(x,y,z)}{\partial(u,v,w)}:= \begin{vmatrix} \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} & \frac{\partial x}{\partial w} \\ \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} & \frac{\partial y}{\partial w} \\ \frac{\partial z}{\partial u} & \frac{\partial z}{\partial v} & \frac{\partial z}{\partial w}\end{vmatrix}\notag\end{align}
-Hvis vi ha et trippelintegral av en funksjon, så betyr det at vi må multiplisere funksjonen med determinanten for å integrere i de andre koordinatene. Det er akkurat \eqref{eq:variabelbytte} for trippelintegraler!
+Hvis vi har et trippelintegral av en funksjon, så betyr det at vi må multiplisere funksjonen med determinanten for å integrere i de andre koordinatene. Det er akkurat \eqref{eq:variabelbytte} for trippelintegraler!
 \begin{oppsum}{Variabelbytte for trippelintegraler}
-La $x=x(u,v,w),y=y(u,v,w), z=z(u,v,w)$ være en transformasjon. Så gjelder formelen for variabelbytte for dobbeltintegraler:
+La $x=x(u,v,w),y=y(u,v,w), z=z(u,v,w)$ være en transformasjon. Så gjelder formelen for variabelbytte for trippelintegraler:
 \begin{align*}
 \iiint_R f(x, y,z)\, dV = \iiint_S f(x(u, v,w), y(u, v,w), z(u,v,w))\frac{\partial(x, y,z)}{\partial(u, v,w)}\, du\, dv\, dw
 \end{align*}
@@ -1044,7 +1044,7 @@ Et annet koordinatsystem som dukker opp ofte i anvendelser er kulekoordinater. I
 polvinkelen $\theta$ fra den positive $x$-aksen (samme som i det
 sylindriske koordinatsystemet), og vinkelen $\varphi$ fra den positive
 $z$-aksen og linjen $\textbf{0}P$ (se \Cref{fig:kule}). Merk at $\rho > 0$ og
-$0 \leq \varphi \leq \pi$. (ikke $2\pi$!.) Kulekoordinater er nyttige for trippelintegraler over områder som er symmetriske med hensyn til origo.
+$0 \leq \varphi \leq \pi$ (ikke $2\pi$!). Kulekoordinater er nyttige for trippelintegraler over områder som er symmetriske med hensyn til origo.
 
 \begin{figure}[ht]\begin{center}
 \includegraphics[width=8cm]{Fig/Spherical_Coordinates_(Colatitude,_Longitude).svg.png}
@@ -1066,12 +1066,12 @@ Omvendt, fra rektangulære koordinater til kulekoordinater kan vi bruke:
 \]
 \end{oppsum}
 Se \Cref{sect:koordinater} for mer konverteringsformler.
-\begin{rem}{To konvernsjoner}
-Det finnes to navnkonvensjoner for kulekoordinater. Vi bruker matematisk konvesjon. I fysikk (og noen praktiske anvendelser) er konvensjonen å bytte $\theta$ og $\varphi$. I tillegg skriver de gjerne $r$ istedet av $\rho$ for avstand. Vi ta her $\rho$ for å skille det fra avstand til origo som er i bruk i sylinder- og polarkoordinater.
+\begin{rem}{To konvensjoner}
+Det finnes to navnkonvensjoner for kulekoordinater. Vi bruker den matematiske konvensjonen. I fysikken (og noen praktiske anvendelser) er konvensjonen å bytte $\theta$ og $\varphi$. I tillegg skriver de gjerne $r$ i stedet for $\rho$ for avstand. Vi tar her $\rho$ for å skille det fra avstand til origo som er i bruk i sylinder- og polarkoordinater.
 
 Vær forsiktig hvilken konvensjon en kilde bruker! 
 \end{rem}
-Liknende polar- og sylinderkoordinater endrer i integrasjon. Det nye elementet kan enten utledes ved hjelp av geometriske betrakntinger (se \Cref{fig:volum_kulekoord}) eller ved hjelp av variabelbytte formel for trippelintegraler.
+I likhet med polar- og sylinderkoordinater endrer volumelementet seg når vi bytter til kulekoordinater i integrasjonen. Det nye elementet kan enten utledes ved hjelp av geometriske betraktninger (se \Cref{fig:volum_kulekoord}) eller ved hjelp av variabelbytteformelen for trippelintegraler.
 
 
 \begin{figure}[ht]\centering
@@ -1211,7 +1211,7 @@ V(E) = \int_{0}^{2\pi} \int_{0}^{\pi/4} \int_{0}^{1}
 \label{fig:cone_sphere}
 \end{figure}
 
-Siden integrasjonsgrenser er ikke avhengig av variabler, kan vi i siste eksempel også lett bytte integrasjonsrekkenfølge. Situasjonen er vanskeligere hvis vi har integralgrenser som er avhengig av hverandre.
+Siden integrasjonsgrensene ikke er avhengige av variablene, kan vi i siste eksempel også lett bytte integrasjonsrekkefølge. Situasjonen er vanskeligere hvis vi har integralgrenser som er avhengige av hverandre.
 
 \begin{eks}{Snitt av en kegle og kule II}
 La $M$ være området som er begrenset nedenfra av kjeglen 
@@ -1331,7 +1331,7 @@ I = 2\pi \int_{0}^{3a^2} (4a^2 - u)\sqrt{u}\, du = 2\pi \left| 4a^2 \frac{u^{3/2
 \end{eks}
 
 \section{Numerisk beregning av trippelintegraler}\label{sect:num_met1}
-For å lage en numerisk integrasjonsregel for trippelintegraler må vi forstå hvordan trippelintegraler er egentlig definert. Anta at vi skal integrere over en boks Vi kan definere en rektangulær boks \( B \subset \mathbb{R}^3 \) som
+For å lage en numerisk integrasjonsregel for trippelintegraler må vi forstå hvordan trippelintegraler egentlig er definert. Anta at vi skal integrere over en boks. Vi kan definere en rektangulær boks \( B \subset \mathbb{R}^3 \) som
 \[
 B = \{ (x, y, z) \mid a \leq x \leq b,\, c \leq y \leq d,\, e \leq z \leq f \}.
 \]
@@ -1407,7 +1407,7 @@ Da er den rektangulære boksen \( B \) delt inn i \( lmn \) delbokser  (se \Cref
 \[
 B_{ijk} = [x_{i-1}, x_i] \times [y_{j-1}, y_j] \times [z_{k-1}, z_k].
 \]
-Der er trippelintegralet definert som grenseverdi av Riemann summen
+Da er trippelintegralet definert som grenseverdien av Riemann-summen
 \[
 \sum_{i=1}^{l} \sum_{j=1}^{m} \sum_{k=1}^{n} f(x^{*}_{ijk}, y^{*}_{ijk}, z^{*}_{ijk}) \, \Delta x \, \Delta y \, \Delta z.
 \]
@@ -1446,7 +1446,7 @@ Hver parametrisering definerer en \emph{tangentvektor} til kurven \[\vect{r}'(t)
 \end{defn}
 Vi viser noen vanlige parametriseringer for enkelte vanlige funksjoner i \Cref{table:para}. 
 
-Merk at en mengden $C$ tilatter mange forskjellige parametriseringer. For eksempel kan sirkelen $C=\{(x,y) \colon x^2+y^2 = r^2\}$ parametriseres som gitt i \Cref{table:para}, men vi kan også velge en parametrisering som løper gjennom sirkelen med dobbel hastighet:
+Merk at mengden $C$ tillater mange forskjellige parametriseringer. For eksempel kan sirkelen $C=\{(x,y) \colon x^2+y^2 = r^2\}$ parametriseres som gitt i \Cref{table:para}, men vi kan også velge en parametrisering som løper gjennom sirkelen med dobbel hastighet:
 \begin{align}\label{para:doublespeed}
 x= r\cos (2t), \quad y= r \sin (2t), \quad 0 \leq t \leq \pi
 \end{align}
@@ -1457,7 +1457,7 @@ Tangentvektoren blir da
 med lengde \(\|\vect{r}^\prime\|=\sqrt{\frac{d\vect{r}}{dt}\cdot\frac{d\vect{r}}{dt}}=\sqrt{\left(\frac{dr_1}{dt}\right)^2+...+\left(\frac{dr_n}{dt}\right)^2}.\)
 For en slik parametrisering har vi at et buelengde-element $ds$ for en kurve $\mathcal{C}$ i $\R^n$ er gitt som 
 \[ds=\sqrt{dr_1^2+...dr_n^2}.\]
-Med dette beggrepsaparatet kan vi nå definere linjeintegralet på føglende vis.
+Med dette begrepsapparatet kan vi nå definere linjeintegralet på følgende vis.
 
 \begin{figure}[ht]\centering
 \includegraphics[width=7cm]{Fig/kurve_func.png}
@@ -1493,8 +1493,8 @@ Hvis vi bytter retningen til en kurve, endres ikke verdien av linjeintegralet, d
 \begin{rem}{}
 Dette noe uventede resultatet skyldes altså definisjonen av linjeintegralet over buelengde $s$. Som nevnt så er $ds$ alltid positiv, så øvre integrasjonsgrense er \textit{alltid} større enn nedre. Vi bør med andre ord merke oss at 
 \[\int_\mathcal{C} f\, ds=\int_{-\mathcal{C}} f\, ds=\int_a^bf(\vect{r}(t))\|\vect{r}^\prime\|dt\]
-En kan saktens slure på hva det da vil si å integree fra $b$ til $a.$ Det naturlige vil være å definere dette som linjeintegralet av funksjonen $-f$. Vi får:
-\[\int_\mathcal{C} -f\, ds=-\int_a^bf(\vect{r}(t))\|\vect{r}^\prime\|dt:=\int_b^af(\vect{r}(t))\|\vect{r}^\prime\|dt,\]. 
+En kan saktens lure på hva det da vil si å integrere fra $b$ til $a.$ Det naturlige vil være å definere dette som linjeintegralet av funksjonen $-f$. Vi får:
+\[\int_\mathcal{C} -f\, ds=-\int_a^bf(\vect{r}(t))\|\vect{r}^\prime\|dt:=\int_b^af(\vect{r}(t))\|\vect{r}^\prime\|dt.\]
 \end{rem}
 
 \subsubsection{Notasjon i 2D og 3D}
@@ -1511,9 +1511,9 @@ Verdien er altså den samme som i forrige utregning. Mer generelt har vi at inte
 
 
 \begin{eks}{}
-Beregn $\int_{C_1} x^2+y\, ds$ for $C_1$ er linje fra $(2,-1)$ til $(5,3)$ med parametrisering $\vect{r}(t)=((1-t)2+5t, (1-t)(-1)+3t))^\top=(2+3t,-1+4t)^\top$. Vi ha $\lVert \vect{r}'(t)\rVert = 5$
+Beregn $\int_{C_1} x^2+y\, ds$ der $C_1$ er linjen fra $(2,-1)$ til $(5,3)$ med parametrisering $\vect{r}(t)=((1-t)2+5t, (1-t)(-1)+3t))^\top=(2+3t,-1+4t)^\top$. Vi har $\lVert \vect{r}'(t)\rVert = 5$
 \[\int_{C_1} x^2+4y\, ds = \int_0^1 ((2+3t)^2-4+16t)\cdot 5 dt =\int_0^1 (28t+9t^2)\cdot 5 dt = 85\]
-La nå $C_2$ være den omvendte veien, dvs. linja fra $(5,3)$ til $(2,-1)$. Vi ha en parametrisering $((1-t)5+t2,(1-t)3-t)^\top=(5-3t,3-4t)^\top$ som gir 
+La nå $C_2$ være den omvendte veien, dvs. linja fra $(5,3)$ til $(2,-1)$. Vi har en parametrisering $((1-t)5+t2,(1-t)3-t)^\top=(5-3t,3-4t)^\top$ som gir
 \[\int_{C_2} x^2+4y\, ds = \int_0^1 ((5-3t)^2+12-16t)\cdot 5\, dt= \int_0^1 (37-46t+9t^2)\cdot 5\, dt= 85\]
 \end{eks}
 
@@ -1521,9 +1521,9 @@ La nå $C_2$ være den omvendte veien, dvs. linja fra $(5,3)$ til $(2,-1)$. Vi h
   Vi kan regne med linjeintegraler som vanlig for integraler. Dette betyr at:
   \begin{align}
   \int_C (\lambda f+g)\, ds = \lambda \int_C f \, ds + \int_C g \, ds, \quad \lambda \in \R \label{lin_int_linear}\\
-  \int_{C_1 \cup C_2} f \, ds = \int_{C_1} f \, ds + \int_{C_1} f \, ds \label{lin_int_add}
+  \int_{C_1 \cup C_2} f \, ds = \int_{C_1} f \, ds + \int_{C_2} f \, ds \label{lin_int_add}
   \end{align}
-  Her betyr notasjon $C_1\cup C_2$ at kurven $C$ er sammensatt av to kurver. Spesielt kan vi dermed utvide definisjon av integralet til stykkvis glatte kurver.
+  Her betyr notasjonen $C_1\cup C_2$ at kurven $C$ er sammensatt av to kurver. Spesielt kan vi dermed utvide definisjonen av integralet til stykkvis glatte kurver.
 \end{oppsum}
 \begin{rem}{Stykkevis glatte kurver}
 Dersom en kurve er sammensatt av flere kurver \( C_1, C_2, \ldots, C_n \), da er:
@@ -1539,13 +1539,13 @@ Beregn \( \int_C 4x^3\, ds \), hvor \( C \) er en kurve bestående av tre segmen
     \item \( C_2: x(t) = t,\, y(t) = t^3 - 1,\quad 0 \leq t \leq 1 \)
     \item \( C_3: x(t) = 1,\, y(t) = t,\quad 0 \leq t \leq 2 \)
 \end{itemize}
-Summen av de tre integrandene gir \( \int_C 4x^3\, ds = 9 \)
+Summen av de tre integralene gir \( \int_C 4x^3\, ds = 9. \)
 \end{eks}
 
 \section{Parametriske flater og flateintegraler}\label{sect:flateint}
 
-Vi skal nå se på hvordan man kan representere flater i 3D rommet ved hjelp av parametrisering. På samme måte som en kurve i planet kan beskrives ved parametrene \( x = f(t),\ y = g(t) \), kan vi også beskrive flater i rommet ved å bruke to parametre. Merk at selv om ordet \textit{flate} høres veldig flatt ut, så er det ikke nødvendigvis det. En "flat" flate kaller vi for et \textit{plan.} Et eksempel på et plan er $xy$-planet. 
-Ordet \textit{falte} er altså her brukt i vid forstand. For å guide intuisjonen kan du se for deg et øyeblikksbilde av et laken i vinden. Dette øyeblikksbildet er det intuitive bildet vi må ha når vi snakker om flater i matematikken. Kanskje ville "overflate" vært et bedre begrep enn "flate," men dessverre er det lite vi får gjort med inngrodd terminologi\footnote{En av oss insisterer på at \textit{laken} er ordet vi bør bruke i stedet for \textit{flate}. Men vi velger å beholde ordet \textit{flate}.}.
+Vi skal nå se på hvordan man kan representere flater i 3D-rommet ved hjelp av parametrisering. På samme måte som en kurve i planet kan beskrives ved parametrene \( x = f(t),\ y = g(t) \), kan vi også beskrive flater i rommet ved å bruke to parametre. Merk at selv om ordet \textit{flate} høres veldig flatt ut, så er det ikke nødvendigvis det. En "flat" flate kaller vi for et \textit{plan.} Et eksempel på et plan er $xy$-planet. 
+Ordet \textit{flate} er altså her brukt i vid forstand. For å guide intuisjonen kan du se for deg et øyeblikksbilde av et laken i vinden. Dette øyeblikksbildet er det intuitive bildet vi må ha når vi snakker om flater i matematikken. Kanskje ville "overflate" vært et bedre begrep enn "flate," men dessverre er det lite vi får gjort med inngrodd terminologi\footnote{En av oss insisterer på at \textit{laken} er ordet vi bør bruke i stedet for \textit{flate}. Men vi velger å beholde ordet \textit{flate}.}.
 
 
 \begin{defn}{Parametrisk flate}
@@ -1578,7 +1578,7 @@ En trekant $T$ med hjørner $\vect{u},\vect{v},\vect{w}$ kan parametriseres slik
 \[\vect{r}(s,t):=\vect{u}+s(\vect{v}-\vect{u})+t(\vect{w}-\vect{u}),\]
 hvor $ 0\leq s\leq 1, 0\leq t\leq 1-s$.
 
-Liknende kan man parametriserer konvekse geometriske figurer som ligger i et planet.
+Tilsvarende kan man parametrisere konvekse geometriske figurer som ligger i et plan.
 \end{minipage}
 \begin{minipage}{7cm}
 \begin{tikzpicture}
@@ -1615,9 +1615,9 @@ Liknende kan man parametriserer konvekse geometriske figurer som ligger i et pla
 \end{eks}
 
 \subsection{Omdreiningsflater}
-Omdreiningslegeme er i geometrien et legeme som fremkommer ved at en plan figur dreier seg om en akse som ligger i samme plan som figuren. Overflaten av et omdreiningslegeme er derfor en omdreiningsflate.
+Et omdreiningslegeme er i geometrien et legeme som fremkommer ved at en plan figur dreier seg om en akse som ligger i samme plan som figuren. Overflaten av et omdreiningslegeme er derfor en omdreiningsflate.
 
-Når vi skal studere omdreiningsflater så er det naturlig å benytte seg av sylinderkoordinater; $\vect{r}=(r\cos \varphi ,r \sin \varphi ,z)^\top$. Som før lar vi altså polarkoordinatdelen ligge i $xy$-planet, noprmalt på $z$-aksen som rotasjonsakse. I det videre skal vi utnytte følgende observasjon: Merk at $\cos(0)=1$ og $\sin(0)=0$. Dette medfører at i $xz$-planet så blir sylinderkoordinatene $(r,0,z)$, ettersom $\varphi=0$. 
+Når vi skal studere omdreiningsflater så er det naturlig å benytte seg av sylinderkoordinater; $\vect{r}=(r\cos \varphi ,r \sin \varphi ,z)^\top$. Som før lar vi altså polarkoordinatdelen ligge i $xy$-planet, normalt på $z$-aksen som rotasjonsakse. I det videre skal vi utnytte følgende observasjon: Merk at $\cos(0)=1$ og $\sin(0)=0$. Dette medfører at i $xz$-planet så blir sylinderkoordinatene $(r,0,z)$, ettersom $\varphi=0$. 
 
 La oss bruke et eksempel til å vise hvordan man utnytter dette til å parametrisere en omdreiningsflate. Som eksempel velger vi paraboloiden $x^2+y^2=z$ for $0\leq z\leq 4$ (se \Cref{fig:paraboloid}).
 \begin{figure}
@@ -1693,10 +1693,10 @@ Prosedyren for å parametrisere blir som følger:
 \item Nå er parametrisering i sylinderkoordinater gitt som 
 \[\vect{r}(\theta, z) = f(z)\cos (\theta) \vect{i}+f(z)\sin(\theta)\vect{j} + z\vect{k}, \quad 0\leq \theta\leq 2\pi,\ 0\leq z\leq 4\]
 \end{enumerate}
-Prosedyren beskrevet over her fungerer også på andre omdreiningsflater. Vi valgte å legge polarkoordinatene i $xy$-planet, men dette var naturligvis et vilkårlig valg, basert på konvensjon. En kunne gjort et hvilket som helst annet valg, for deretter å velge rotasjonsakse normalt på det valgte polarkoordinat-planet. Men å begynne å rotere rundt en akse som ikke står normalt på polarkoordinatene vil ødelegge prosedyren over, og er frarådet. Da får man ikke utynttet symmetrien i sylinderkoordinatene. Konklusjon: Roter rundt den aksen som står normalt på det valgte polarkoordinat-planet.
+Prosedyren beskrevet over fungerer også på andre omdreiningsflater. Vi valgte å legge polarkoordinatene i $xy$-planet, men dette var naturligvis et vilkårlig valg, basert på konvensjon. En kunne gjort et hvilket som helst annet valg, for deretter å velge rotasjonsakse normalt på det valgte polarkoordinat-planet. Men å begynne å rotere rundt en akse som ikke står normalt på polarkoordinatene vil ødelegge prosedyren over, og er frarådet. Da får man ikke utnyttet symmetrien i sylinderkoordinatene. Konklusjon: Roter rundt den aksen som står normalt på det valgte polarkoordinat-planet.
 
 \subsection{Tangentplanet til en flate}
-La oss se på hvordan vi finner tangentplanet til den parametiske flaten \( S \) gitt ved:
+La oss se på hvordan vi finner tangentplanet til den parametriske flaten \( S \) gitt ved:
 \[
 \vect{r}(u, v) = x(u, v)\, \vect{i} + y(u, v)\, \vect{j} + z(u, v)\, \vect{k}
 \]
@@ -1706,7 +1706,7 @@ Først definerer vi:
 \\
 \vect{r}_v(u, v) = \frac{\partial x}{\partial v}(u, v)\, \vect{i} + \frac{\partial y}{\partial v}(u, v)\, \vect{j} + \frac{\partial z}{\partial v}(u, v)\, \vect{k}
 \end{align*}
-Vi kaller en parametrisering $\vect{r}$ \emph{regulær} hvis $\vect{r}_u, \vect{r}_v$ er lineært uavhengig for hver punkt i domenet til $\vect{r}$.\footnote{Faktisk forutsetter alt som følger at vi jobber bare med regulære parametriseringer. De eksempler vi skal se på er alle valgt slik at det er oppfylt.}\smallskip
+Vi kaller en parametrisering $\vect{r}$ \emph{regulær} hvis $\vect{r}_u, \vect{r}_v$ er lineært uavhengige for hvert punkt i domenet til $\vect{r}$.\footnote{Faktisk forutsetter alt som følger at vi jobber bare med regulære parametriseringer. De eksempler vi skal se på er alle valgt slik at det er oppfylt.}\smallskip
 
 \begin{minipage}{7cm}
 \textbf{Tangent i $v$-retning:}
@@ -1738,12 +1738,12 @@ Disse to vektorene ligger i tangentplanet til flaten (se \Cref{fig:tang_norm}), 
 \label{nVec}
 \vect{n} = \vect{r}_u \times \vect{r}_v
 \end{align}
-En slik vektor kaller vi \emph{normalenvektor} og hvis vektoren har lengde $1$ sier vi at det er en \emph{enhetsnormalenvektor}. 
+En slik vektor kaller vi \emph{normalenvektor}, og hvis vektoren har lengde $1$, sier vi at det er en \emph{enhetsnormalenvektor}.
 \end{defn}
 %\end{minipage} \quad
 \begin{figure}\centering
 \includegraphics[width=10cm]{Fig/Tangents_Normal.png}\\
-\caption{Tangent vektorer i et punkt $P$ på flaten $S$ sammen med normalenvektor. De to tangentvektorer spenner en tangentplanet.}\label{fig:tang_norm}
+\caption{Tangentvektorer i et punkt $P$ på flaten $S$ sammen med normalenvektor. De to tangentvektorene spenner ut et tangentplan.}\label{fig:tang_norm}
 \end{figure}
 
 \begin{eks}{Flater som er grafer av funksjoner}
@@ -1759,9 +1759,9 @@ Vi har sett dette allerede for paraboloiden. Nå er det enkelt å beregne tangen
 \end{eks}
 
 \subsection{Flateintegral på parameterflater}
-Med dette verktøyet i bakhånd er vi nå beredt til å diskutere flateintegral. Med flateintegral mener vi her integralet av en funksjon over en flate. Tidligere, da vi så på dobbelintegral, integrerte vi også over en flate, nemlig $xy$-planet (eller en av de andre koordinatplanene). Men et koordinatplan er en særdeles spesialisert flate. La oss minne oss selv på at det mentale bildet vi må basere intuisjonen på er et øyeblikksbilde av et laken i vinden\footnote{En av oss ville gjerne døpt om \textit{flateintegral} til \textit{lakenintegral}, for å presisere at man ikke nødvendigvis integrerer over et flatt domene. Vedkommende stiller seg uforstående til at dette ikke gikk igjennom. Vi beholder \textit{flateintegral}.}. I dette avsnittet skal vi altså integrere funksjoner over slike flater.
+Med dette verktøyet i bakhånd er vi nå beredt til å diskutere flateintegral. Med flateintegral mener vi her integralet av en funksjon over en flate. Tidligere, da vi så på dobbeltintegral, integrerte vi også over en flate, nemlig $xy$-planet (eller en av de andre koordinatplanene). Men et koordinatplan er en særdeles spesialisert flate. La oss minne oss selv på at det mentale bildet vi må basere intuisjonen på er et øyeblikksbilde av et laken i vinden\footnote{En av oss ville gjerne døpt om \textit{flateintegral} til \textit{lakenintegral}, for å presisere at man ikke nødvendigvis integrerer over et flatt domene. Vedkommende stiller seg uforstående til at dette ikke gikk igjennom. Vi beholder \textit{flateintegral}.}. I dette avsnittet skal vi altså integrere funksjoner over slike flater.
 \begin{defn}{Flateintegral}
-Anta at \( F \) er en flate som er parametrisert av $\vect{r}(u, v) , (u,v)\in D$. Flateintegralet av en  funksjon $f(x,y,z)$ over en slik flate er da
+Anta at \( F \) er en flate som er parametrisert av $\vect{r}(u, v), (u,v)\in D$. Flateintegralet av en  funksjon $f(x,y,z)$ over en slik flate er da
 \[\int_F f(\vect{r})\, dS := \iint_D f(\vect{r}(u,v))\lVert \vect{n}\rVert dA\]
 hvor $D$ er parameterdomenet, slik at $(u,v)\in D$ og $\vect{n}$ er normalvektoren gitt i~\eqref{nVec}. Normen til normalvektoren er dermed gitt som 
 \[\lVert \vect{n}\rVert=\lVert\vect{r}_u \times \vect{r}_v\rVert\]
