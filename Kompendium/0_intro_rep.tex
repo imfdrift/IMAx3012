@@ -21,10 +21,9 @@ Innholdet i dette notatet er standard materiale i ingeniørmatematikken og det f
 
 
 \newpage
-\section*{Repetisjon}
 I første forelesning skal vi kort repetere matematikken fra tidligere kurs. Blant annet: Notasjon, kontinuitet av funksjoner, vektorregning, partiellderivasjon og integrasjon i én variabel. Dette er områder vi trenger å friske opp i før vi begynner på nytt stoff, så det er viktig at du tar denne repetisjonsjobben på alvor i den grad du har glemt ting.
 
-\subsection*{$\R^n$ og notasjon for vektorer}
+\section{$\R^n$ og notasjon for vektorer}
 Vektorer blir en sentral del av dette faget, og det er viktig å ha en velfungerende notasjon. I og med at vektorer opptrer i mange sammenhenger, slik som både i funksjonsanalyse og i lineær algebra, kan man bli litt forvirret. Så la oss starte med å kjapt repetere og definere grunnleggende vektornotasjon.
 
 For et naturlig tall $n \in \N$ (hvor $\N = \{1,2,3,\ldots\}$) definererer vi det $n$-dimensjonale reelle vektorrommet
@@ -47,7 +46,7 @@ For det tredimensjonale rommet $\R^3$ skriver vi $\vect{i},\vect{j}, \vect{k}$ f
 \end{defn}
 
 
-\subsection*{Operasjoner med vektorer}
+\section{Operasjoner med vektorer}
 
 Vi minner også om skalarprodukt (prikkprodukt) og vektorprodukt (kryssprodukt). 
 
@@ -106,7 +105,7 @@ $z$-aksen så er det bestemt av ett tall.
 
 
 
-\subsection*{Kontinuerlige funksjoner}
+\section{Kontinuerlige funksjoner}
 Når man skal behandle deriverte, er det viktig å etablere kontinuitet. For flervariable funksjoner så blir dette litt mer komplisert enn for én-variable funksjoner, ettersom man kan nærme seg et punkt fra flere retninger.
 
 \begin{defn}{Kontinuitet av funksjoner på $\R^n$}{}
@@ -154,7 +153,7 @@ Grenseverdien avhenger av retningen man nærmer seg langs, så grensen eksistere
 \textbf{Men}: Å ha samme grense langs mange retninger er ikke nok til å konkludere med kontinuitet – man må vise at grensen er den samme for \emph{alle} baner inn mot punktet.
 \end{rem}
 
-\subsection*{Partiellderiverte}
+\section{Partiellderiverte}
 For en funksjon av flere variabler $f(x,y,z,\ldots)$ skriver vi 
 \[\frac{\partial f}{\partial x} , \frac{\partial f}{\partial y} , \frac{\partial f}{\partial z} , \ldots\]
 for de partiellderiverte. Ofte skal vi også bruke notasjonen kjent fra fysikk eller differensiallikninger hvor \[f_x := \frac{\partial f}{\partial x} , f_y := \frac{\partial f}{\partial y}, \ldots\]
@@ -165,7 +164,7 @@ den har partiellderiverte.
 De aller aller fleste funksjonene vi bruker vil være kontinuerlige og deriverbare, slik at
 vi ofte lar være å presisere dette. Vi antar at derivasjonsregler er kjent fra tidligere kurs.
 
-\subsection*{Parametrisering av linjestykker}
+\section{Parametrisering av linjestykker}
 Vi kommer også til å parametrisere aktivt i dette kurset. Spesielt skal vi lære å parametrisere kurver og flater. Det kan derfor være kjekt med en aldri så liten oppfriskning av parametrisering av linjestykker. Her ser vi kun på det aller enkleste tilfellet, nemlig et \emph{rett} linjestykke -- mer generelle kurver kommer vi tilbake til senere i kompendiet.
 
 Å \emph{parametrisere} en mengde med punkter vil si å beskrive punktene som verdiene til en funksjon av én (eller flere) parametre. For et linjestykke mellom to punkter $P$ og $Q$ med stedvektorer $\vect{p}$ og $\vect{q}$, er ideen at vi lar en parameter $t$ ``gli'' fra $0$ til $1$, og for hver verdi av $t$ regner vi oss frem til ett punkt langs linjestykket:
@@ -247,7 +246,7 @@ altså komponentvis $x(t)=1+4t$ og $y(t)=1+3t$ (se figur~\ref{fig:param_linje}).
 som stemmer med at midtpunktet mellom to punkter er gjennomsnittet av koordinatene deres: $\tfrac12\big((1,1)+(5,4)\big) = (3,2.5)$.
 \end{eks}
 
-\subsection*{Tangenter og normaler}
+\section{Tangenter og normaler}
 
 Anta at $f$ er deriverbar i punktet $x_0$. Fra tidligere kurs vet vi at den deriverte $f'(x_0)$ er stigningstallet til \emph{tangentlinjen} til grafen $y=f(x)$ i punktet $(x_0,f(x_0))$. Siden tangentlinjen går gjennom $(x_0,f(x_0))$ med dette stigningstallet, kan vi skrive den på punkt-stigningstall-form:
 
@@ -336,7 +335,7 @@ y = 0 - \frac12(x-1) = -\frac12 x + \frac12
 \]
 \end{eks}
 
-\subsection*{Nivåkurver}
+\section{Nivåkurver}
 
 For en funksjon av to variabler $z=f(x,y)$ er grafen en flate i $\R^3$. En \emph{nivåkurve} (eller konturlinje) til $f$ er mengden av punkter i $xy$-planet der $f$ har en gitt, fast verdi $c$ -- helt analogt til høydekotene på et kart, der hver kote viser hvor i terrenget høyden er den samme.
 
@@ -427,7 +426,7 @@ markert med rød pil i figuren. Vi ser at pilen peker radielt utover fra sirkele
 \end{center}
 \end{eks}
 
-\subsection*{Integrasjon av énvariabelfunksjoner}
+\section{Integrasjon av énvariabelfunksjoner}
 Vi antar at integrasjon av én variabel stort sett er kjent fra tidligere kurs, men repeterer kort både definisjonen og de viktigste regnereglene her -- vi bygger nemlig direkte videre på dem når vi skal integrere funksjoner av flere variabler i neste kapittel.
 
 \begin{minipage}{7cm}
@@ -525,7 +524,81 @@ Med $u=x^2$, slik at $du=2x\,dx$:
 \]
 \end{eks}
 
-\subsection*{Python}
+\section{Polarkoordinater}
+\label{sec:polarkoord-rep}
+Foruten kartesiske koordinater $(x,y)$ kommer vi til å bruke polarkoordinater flere steder i kurset (se f.eks.\ \Cref{sect:polarkoord}), så vi repeterer helt kort det mest grunnleggende her.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+  % --- polarkoordinatnett (tegnes først, under kartesisk system) ---
+  \foreach \rad in {1,2,3,4}{
+    \draw[gray!35, thin] (0,0) circle (\rad);
+  }
+  \foreach \ang in {0,30,...,330}{
+    \draw[gray!25, thin] (0,0) -- (\ang:4.3);
+  }
+
+  % --- kartesiske akser oppå polarnettet ---
+  \draw[-latex, thick] (-4.6,0) -- (4.6,0) node[right] {$x$};
+  \draw[-latex, thick] (0,-4.6) -- (0,4.6) node[above] {$y$};
+
+  % --- punktet P ---
+  \def\rP{3.3}
+  \def\angP{50}
+  \pgfmathsetmacro{\xP}{\rP*cos(\angP)}
+  \pgfmathsetmacro{\yP}{\rP*sin(\angP)}
+  \coordinate (O) at (0,0);
+  \coordinate (P) at (\angP:\rP);
+
+  % projeksjonslinjer (kartesiske koordinater til P)
+  \draw[dashed] (P) -- (\xP,0) node[below, font=\footnotesize] {$x_1$};
+  \draw[dashed] (P) -- (0,\yP) node[left, font=\footnotesize] {$y_1$};
+
+  % vinkelbue
+  \draw[thick, blue] (0.9,0) arc (0:\angP:0.9);
+  \node[blue, font=\footnotesize] at ({\angP/2}:1.3) {$\theta$};
+
+  % radiuspil
+  \draw[-latex, thick, red] (O) -- (P);
+  \node[red, font=\footnotesize] at ({\angP/2+8}:2.0) {$r$};
+
+  % punktet og etiketten
+  \filldraw[green!45!black] (P) circle (1.6pt);
+  \node[green!45!black, above right, font=\footnotesize] at (P) {$P[r,\theta]=P(x_1,y_1)$};
+
+  % polaraksen
+  \draw[-latex, orange!70!black, thin] (3.9,-0.55) -- (3.75,-0.05);
+  \node[below, font=\footnotesize, text=orange!70!black] at (3.9,-0.6) {polaraksen};
+
+  % origo
+  \node[below left, font=\footnotesize] at (O) {$O$};
+\end{tikzpicture}
+\captionof{figure}{Et punkt $P$ angitt både med kartesiske koordinater $(x_1,y_1)$ og polarkoordinater $P[r,\theta]$. Polarkoordinatnettet (grå sirkler og stråler) er her lagt oppå det kartesiske koordinatsystemet, med polaraksen langs den positive $x$-aksen.}
+\label{fig:polarkoord-rep}
+\end{center}
+
+\begin{defn}{Polarkoordinater}
+Et punkt $P$ i planet kan angis ved polarkoordinatene $P[r,\theta]$, der
+\begin{itemize}
+\item $r$ er avstanden fra origo $O$ til $P$,
+\item $\theta$ er vinkelen mellom polaraksen (den positive $x$-aksen) og linjestykket $OP$, målt mot klokka.
+\end{itemize}
+\end{defn}
+
+\begin{rem}{}
+Polarkoordinater er ikke entydige: $[r,\theta_1]$ og $[r,\theta_2]$ er samme punkt dersom $\theta_1=\theta_2\pm 2\pi n$ for et helt tall $n$. I tillegg gjelder $[-r,\theta]=[r,\theta+\pi]$.
+\end{rem}
+
+\begin{defn}{Sammenheng mellom kartesiske og polare koordinater}
+\[
+x=r\cos\theta, \qquad y=r\sin\theta,
+\]
+\[
+r=\sqrt{x^2+y^2}, \qquad \tan\theta = \frac{y}{x}.
+\]
+\end{defn}
+
+\section{Python}
 Når det gjelder Python så antar vi igjen at det mest grunnleggende er kjent. Dette gjelder 
 \begin{itemize}
 \item Programmene som brukes (f.eks. Anaconda, JupyterHub, VSCode, Spyder e.l.).
