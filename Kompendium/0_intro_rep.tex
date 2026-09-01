@@ -426,6 +426,87 @@ markert med rød pil i figuren. Vi ser at pilen peker radielt utover fra sirkele
 \end{center}
 \end{eks}
 
+\section{Likningen for et plan}
+\label{sec:plan-likning}
+
+Et plan i rommet er entydig bestemt av ett punkt $P_0=(x_0,y_0,z_0)$ på planet, og én vektor $\vect{n}=(a,b,c)^\top$ som står \emph{normalt} på planet. Ideen er akkurat den samme som for normallinjen til en kurve i forrige avsnitt: dersom $P=(x,y,z)$ er et \emph{vilkårlig} annet punkt på planet, så ligger vektoren $\vect{P_0P}=P-P_0=(x-x_0,\,y-y_0,\,z-z_0)^\top$ \emph{i} planet, og må derfor stå vinkelrett på normalvektoren $\vect{n}$. Med skalarproduktet betyr dette at
+\[
+\vect{P_0P}\cdot\vect{n} = 0.
+\]
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+  % Parallellogram som representerer en bit av planet
+  \coordinate (A) at (0,0);
+  \coordinate (B) at (4,0.3);
+  \coordinate (D) at (1,2.0);
+  \coordinate (C) at (5,2.3);
+
+  \filldraw[fill=blue!8, draw=blue!55!black, thick] (A) -- (B) -- (C) -- (D) -- cycle;
+
+  % Punktene P0 og P i planet
+  \coordinate (P0) at (2.2,0.935);
+  \coordinate (P) at (4.15,1.755);
+
+  \draw[thick, -latex, black] (P0) -- (P) node[midway, below right, font=\footnotesize] {$\vect{P_0P}$};
+
+  \filldraw (P0) circle (1.3pt);
+  \node[below, font=\footnotesize] at (P0) {$P_0$};
+  \filldraw (P) circle (1.3pt);
+  \node[right, font=\footnotesize] at (P) {$P$};
+
+  % Normalvektoren n
+  \coordinate (N) at (1.9,2.635);
+  \draw[thick, -latex, red] (P0) -- (N);
+  \node[above, font=\footnotesize, text=red] at (N) {$\vect{n}$};
+\end{tikzpicture}
+\captionof{figure}{En bit av planet (som i virkeligheten strekker seg uendelig langt i alle retninger), bestemt av punktet $P_0$ og normalvektoren $\vect{n}$ (rød), som står vinkelrett på planet. Et vilkårlig annet punkt $P$ på planet gir en vektor $\vect{P_0P}$ (svart) som ligger i planet, og derfor er vinkelrett på $\vect{n}$.}
+\label{fig:plan-normal}
+\end{center}
+
+\begin{defn}{Likningen for et plan}
+Planet gjennom punktet $P_0=(x_0,y_0,z_0)$ med normalvektor $\vect{n}=(a,b,c)^\top$ består av alle punkter $P=(x,y,z)$ som oppfyller
+\[
+\vect{n}\cdot \vect{P_0P} = a(x-x_0)+b(y-y_0)+c(z-z_0) = 0.
+\]
+Dette kan også skrives på formen
+\[
+ax+by+cz=d, \qquad \text{der } d = ax_0+by_0+cz_0.
+\]
+\label{defn:plan-likning}
+\end{defn}
+
+\begin{rem}{}
+Ofte er ikke normalvektoren $\vect{n}$ gitt direkte, men vi kjenner i stedet to vektorer $\vect{u}$ og $\vect{v}$ som begge ligger \emph{i} planet (for eksempel utspent av tre kjente punkter i planet). Da kan vi finne $\vect{n}$ ved hjelp av kryssproduktet (\Cref{defn:vektorprodukt}):
+\[
+\vect{n} = \vect{u}\times\vect{v},
+\]
+siden kryssproduktet av to vektorer alltid står normalt på begge -- og dermed normalt på hele planet de spenner ut.
+\end{rem}
+
+\begin{eks}{Likningen for planet gjennom tre punkter}
+La oss finne likningen for planet gjennom punktene
+\[
+A=(1,0,0), \qquad B=(0,1,0), \qquad C=(0,0,1).
+\]
+
+\textbf{Steg 1: Finn to vektorer i planet.} Vi bruker $A$ som utgangspunkt, og danner
+\[
+\vect{u} = \vect{AB} = B-A = (-1,1,0)^\top, \qquad \vect{v} = \vect{AC} = C-A = (-1,0,1)^\top.
+\]
+
+\textbf{Steg 2: Finn normalvektoren ved kryssprodukt.}
+\[
+\vect{n} = \vect{u}\times\vect{v} = \begin{vmatrix}\vect{i} & \vect{j} & \vect{k} \\ -1 & 1 & 0 \\ -1 & 0 & 1\end{vmatrix} = (1\cdot 1 - 0\cdot 0)\,\vect{i} - \bigl((-1)\cdot 1 - 0\cdot(-1)\bigr)\,\vect{j} + \bigl((-1)\cdot 0 - 1\cdot(-1)\bigr)\,\vect{k} = (1,1,1)^\top.
+\]
+
+\textbf{Steg 3: Sett opp likningen.} Med $P_0=A=(1,0,0)$ og $\vect{n}=(1,1,1)^\top$ gir \Cref{defn:plan-likning}
+\[
+1\cdot(x-1) + 1\cdot(y-0) + 1\cdot(z-0) = 0 \quad\Longleftrightarrow\quad x+y+z=1.
+\]
+Vi kan lett sjekke at alle de tre punktene $A,B,C$ oppfyller denne likningen. \checkmark
+\end{eks}
+
 \section{Integrasjon av énvariabelfunksjoner}
 Vi antar at integrasjon av én variabel stort sett er kjent fra tidligere kurs, men repeterer kort både definisjonen og de viktigste regnereglene her -- vi bygger nemlig direkte videre på dem når vi skal integrere funksjoner av flere variabler i neste kapittel.
 
