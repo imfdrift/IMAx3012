@@ -826,7 +826,7 @@ Regionen er nedre halvsirkel av radius $1$. I polarkoordinater:
 
 Det finnes en annen måte å forstå integraler i andre koordinatsystemer. Det skal vi se nå på for dobbeltintegraler
 
-\section{Variabelbytte mellom koordinatsystem i 2 dimensjoner}
+\section{Variabelbytte mellom koordinatsystem i 2 dimensjoner}\label{sect:varbytte2d}
 I tidligere kurs har vi lært at vanlige integraler kan beregnes ved hjelp av substitusjonsregelen:
 \[
 \int_a^b f(g(x)) g'(x)\, dx = \int_c^d f(u)\, du
@@ -855,19 +855,25 @@ La $x=g(u,v),y=h(u,v)$ være en transformasjon. Så gjelder formelen for variabe
 \end{align}
 \end{oppsum}
 
-\begin{eks}{Polarkoordinater}
-Polarkoordinater er gitt ved transformasjonen
+Som en konkret illustrasjon av definisjonen over regner vi ut Jacobimatrisen for polarkoordinater, gitt ved transformasjonen
 \[
-x = r\cos\theta, \quad y = r\sin\theta
+x = r\cos\theta, \quad y = r\sin\theta.
 \]
-Hvis vi regner ut Jacobideterminanten så får vi:
+De fire partiellderiverte er
 \[
-\frac{\partial(x, y)}{\partial(r, \theta)} = r \Rightarrow dA = r\, dr\, d\theta
+\frac{\partial x}{\partial r} = \cos\theta, \quad \frac{\partial x}{\partial \theta} = -r\sin\theta, \quad \frac{\partial y}{\partial r} = \sin\theta, \quad \frac{\partial y}{\partial \theta} = r\cos\theta,
 \]
-Setter vi det inn får vi den kjente formelen for areal i polarkoordinater, \Cref{areal_i_polar}.
-\end{eks}
+slik at Jacobimatrisen blir
+\[
+\begin{pmatrix} \dfrac{\partial x}{\partial r} & \dfrac{\partial x}{\partial \theta} \\[2mm] \dfrac{\partial y}{\partial r} & \dfrac{\partial y}{\partial \theta} \end{pmatrix} = \begin{pmatrix} \cos\theta & -r\sin\theta \\ \sin\theta & r\cos\theta \end{pmatrix}.
+\]
+Jacobideterminanten er dermed
+\[
+\frac{\partial(x, y)}{\partial(r, \theta)} = \begin{vmatrix} \cos\theta & -r\sin\theta \\ \sin\theta & r\cos\theta \end{vmatrix} = r\cos^2\theta - (-r\sin\theta)\sin\theta = r\bigl(\cos^2\theta+\sin^2\theta\bigr) = r.
+\]
+Setter vi dette inn i \eqref{eq:variabelbytte} får vi den kjente formelen for areal i polarkoordinater, $dA = r\, dr\, d\theta$, altså nøyaktig \Cref{areal_i_polar}.
 
-\begin{eks}{Anvendelse: Areal av en ellipse}
+\begin{eks}{Anvendelse: Areal av en ellipse}\label{eks:ellipse-areal}
 Lag en transformasjon for å finne arealet av ellipsen \( E \) gitt ved
 \[
 \frac{x^2}{a^2} + \frac{y^2}{b^2} < 1
@@ -1221,7 +1227,25 @@ Vi la $x,y,z$ være de vanlige kartesiske koordinater. For sylinderkoordinater $
 x = r \cos \theta, \quad y = r \sin \theta, \quad z = z
 \]
 \end{oppsum}
-For et integral i sylindriske koordinater trenger vi å vite hva volumelementet $dV$ blir i disse koordinatene. Hvis man beregner Jacobi determinant for disse koordinater og setter inn i \eqref{eq:volum_variablebytte} får man:
+For et integral i sylindriske koordinater trenger vi å vite hva volumelementet $dV$ blir i disse koordinatene. Vi regner derfor ut Jacobimatrisen til transformasjonen $x=r\cos\theta,\ y=r\sin\theta,\ z=z$, med hensyn på $(r,\theta,z)$ (i den rekkefølgen). De ni partiellderiverte er
+\[
+\frac{\partial x}{\partial r}=\cos\theta,\quad \frac{\partial x}{\partial \theta}=-r\sin\theta,\quad \frac{\partial x}{\partial z}=0,
+\]
+\[
+\frac{\partial y}{\partial r}=\sin\theta,\quad \frac{\partial y}{\partial \theta}=r\cos\theta,\quad \frac{\partial y}{\partial z}=0,
+\]
+\[
+\frac{\partial z}{\partial r}=0,\quad \frac{\partial z}{\partial \theta}=0,\quad \frac{\partial z}{\partial z}=1,
+\]
+slik at Jacobimatrisen blir
+\[
+\frac{\partial(x,y,z)}{\partial(r,\theta,z)} = \begin{pmatrix} \cos\theta & -r\sin\theta & 0 \\ \sin\theta & r\cos\theta & 0 \\ 0 & 0 & 1 \end{pmatrix}.
+\]
+Vi utvikler determinanten langs siste rad, siden den bare har ett element som ikke er null:
+\[
+\begin{vmatrix} \cos\theta & -r\sin\theta & 0 \\ \sin\theta & r\cos\theta & 0 \\ 0 & 0 & 1 \end{vmatrix} = 1\cdot\begin{vmatrix} \cos\theta & -r\sin\theta \\ \sin\theta & r\cos\theta \end{vmatrix} = r\cos^2\theta + r\sin^2\theta = r.
+\]
+Dette er nøyaktig den samme $2\times2$-determinanten som for polarkoordinater (\Cref{sect:varbytte2d}) -- naturlig nok, siden $z$-koordinaten bare følger med, uendret. Setter vi $\frac{\partial(x,y,z)}{\partial(r,\theta,z)}=r$ inn i \eqref{eq:volum_variablebytte} får man:
 
 \begin{defn}{Volumelement i sylindriske coordinater}
 \[
@@ -1292,7 +1316,28 @@ Det finnes to navnkonvensjoner for kulekoordinater. Vi bruker den matematiske ko
 
 Vær forsiktig hvilken konvensjon en kilde bruker! 
 \end{rem}
-I likhet med polar- og sylinderkoordinater endrer volumelementet seg når vi bytter til kulekoordinater i integrasjonen. Det nye elementet kan enten utledes ved hjelp av geometriske betraktninger (se \Cref{fig:volum_kulekoord}) eller ved hjelp av variabelbytteformelen for trippelintegraler.
+I likhet med polar- og sylinderkoordinater endrer volumelementet seg når vi bytter til kulekoordinater i integrasjonen. Det nye elementet kan enten utledes ved hjelp av geometriske betraktninger (se \Cref{fig:volum_kulekoord}) eller ved hjelp av variabelbytteformelen for trippelintegraler. Vi bruker det siste alternativet her, og regner ut Jacobimatrisen til transformasjonen
+\[
+x = \rho\sin\varphi\cos\theta, \quad y = \rho\sin\varphi\sin\theta, \quad z = \rho\cos\varphi,
+\]
+med hensyn på $(\rho,\varphi,\theta)$ (i den rekkefølgen):
+\[
+\frac{\partial(x,y,z)}{\partial(\rho,\varphi,\theta)} = \begin{pmatrix}
+\sin\varphi\cos\theta & \rho\cos\varphi\cos\theta & -\rho\sin\varphi\sin\theta \\
+\sin\varphi\sin\theta & \rho\cos\varphi\sin\theta & \rho\sin\varphi\cos\theta \\
+\cos\varphi & -\rho\sin\varphi & 0
+\end{pmatrix}.
+\]
+Denne matrisen er litt større, men vi kan fortsatt gjøre determinantregningen overkommelig ved å utvikle langs siste rad, der ett av elementene allerede er $0$:
+\begin{align*}
+\frac{\partial(x,y,z)}{\partial(\rho,\varphi,\theta)}
+&= \cos\varphi \begin{vmatrix} \rho\cos\varphi\cos\theta & -\rho\sin\varphi\sin\theta \\ \rho\cos\varphi\sin\theta & \rho\sin\varphi\cos\theta \end{vmatrix}
+- (-\rho\sin\varphi) \begin{vmatrix} \sin\varphi\cos\theta & -\rho\sin\varphi\sin\theta \\ \sin\varphi\sin\theta & \rho\sin\varphi\cos\theta \end{vmatrix} \\
+&= \cos\varphi\bigl(\rho^2\sin\varphi\cos\varphi\cos^2\theta + \rho^2\sin\varphi\cos\varphi\sin^2\theta\bigr) + \rho\sin\varphi\bigl(\rho\sin^2\varphi\cos^2\theta + \rho\sin^2\varphi\sin^2\theta\bigr) \\
+&= \rho^2\sin\varphi\cos^2\varphi \underbrace{(\cos^2\theta+\sin^2\theta)}_{=1} + \rho^2\sin^3\varphi \underbrace{(\cos^2\theta+\sin^2\theta)}_{=1} \\
+&= \rho^2\sin\varphi\bigl(\cos^2\varphi+\sin^2\varphi\bigr) = \rho^2\sin\varphi.
+\end{align*}
+Siden $\rho\geq 0$ og $\varphi\in[0,\pi]$ (slik at $\sin\varphi\geq 0$), er determinanten $\rho^2\sin\varphi$ i seg selv allerede $\geq 0$. Setter vi dette inn i \eqref{eq:volum_variablebytte} får vi:
 
 
 \begin{figure}[ht]\centering
@@ -1495,6 +1540,40 @@ I begge tilfeller blir resultatet av integrasjonen
 \[
 V(E) = \frac{\pi}{8}.
 \]
+\end{eks}
+
+\begin{eks}{Anvendelse: Volum av en ellipsoide}
+La oss regne ut volumet av ellipsoiden
+\[
+E:\quad \frac{x^2}{a^2}+\frac{y^2}{b^2}+\frac{z^2}{c^2} < 1, \qquad a,b,c>0,
+\]
+ved hjelp av variabelbytteformelen for trippelintegraler \eqref{eq:volum_variablebytte} -- altså verken sylindriske eller kulekoordinater, men en enklere transformasjon. Dette er nøyaktig samme idé som i \Cref{eks:ellipse-areal} for arealet av en ellipse, bare én dimensjon høyere.
+
+Vi bruker transformasjonen
+\[
+x = au, \quad y = bv, \quad z = cw,
+\]
+slik at ellipsoiden $E$ er bildet av enhetskulen $K:\ u^2+v^2+w^2<1$. Siden hver koordinat bare avhenger av sin egen variabel, blir Jacobimatrisen diagonal:
+\[
+\frac{\partial(x,y,z)}{\partial(u,v,w)} = \begin{pmatrix} a & 0 & 0 \\ 0 & b & 0 \\ 0 & 0 & c \end{pmatrix}.
+\]
+Determinanten til en diagonalmatrise er produktet av diagonalelementene, så
+\[
+\frac{\partial(x,y,z)}{\partial(u,v,w)} = abc.
+\]
+Volumelementet blir dermed $dV=dx\,dy\,dz=abc\,du\,dv\,dw$, og volumet av ellipsoiden er
+\[
+\text{Vol}(E) = \iiint_E dx\,dy\,dz = \iiint_K abc\, du\,dv\,dw = abc\iiint_K du\,dv\,dw = abc\cdot \text{Vol}(K).
+\]
+Volumet av enhetskulen $K$ finner vi direkte i kulekoordinater, med $0\leq \rho\leq 1,\ 0\leq \varphi\leq \pi,\ 0\leq\theta\leq 2\pi$:
+\[
+\text{Vol}(K) = \int_0^{2\pi}\int_0^{\pi}\int_0^1 \rho^2\sin\varphi\, d\rho\, d\varphi\, d\theta = \left[\frac{\rho^3}{3}\right]_0^1 \cdot \left[-\cos\varphi\right]_0^{\pi} \cdot 2\pi = \frac{1}{3}\cdot 2 \cdot 2\pi = \frac{4}{3}\pi.
+\]
+Dermed er
+\[
+\text{Vol}(E) = \frac{4}{3}\pi abc.
+\]
+Setter vi $a=b=c=\rho_0$ får vi igjen volumformelen for en kule med radius $\rho_0$, $\frac{4}{3}\pi \rho_0^3$ -- akkurat som forventet, siden ellipsoiden da blir en vanlig kule.
 \end{eks}
 
 \subsection{Anvendelse: Treghetsmoment }
@@ -2113,6 +2192,28 @@ Forutsatt at \( S \) dekkes nøyaktig én gang når \( (u, v) \) går over alle 
 \textrm{Areal} = \iint_S 1 dS = \iint_D\left\|\vect{n}\right\|dA=\iint_D \left\| \vect{r}_u \times \vect{r}_v \right\|\, dA = \iint_D \sqrt{\vect{r}_u^2  \vect{r}_v^2 - (\vect{r}_u \cdot \vect{r}_v)^2}\, dA
 \end{align}
 \end{defn}
+
+\begin{rem}{Dette er (igjen) en Jacobideterminant!}
+Det er verdt å stoppe opp og legge merke til at $\lVert \vect{r}_u \times \vect{r}_v\rVert$ i \eqref{surfacearea} spiller akkurat samme rolle som Jacobideterminanten $\frac{\partial(x,y)}{\partial(u,v)}$ gjorde i formelen for variabelbytte, \eqref{eq:variabelbytte}: begge er skaleringsfaktorer som forteller oss hvor mye et lite areal $du\,dv$ i parameterområdet $D$ blir strukket (eller krympet) når det avbildes over til det egentlige integrasjonsområdet -- her flaten $S$ i stedet for et område i planet.
+
+Forskjellen er at parametriseringen $\vect{r}(u,v)$ nå går fra et $2$-dimensjonalt område $D$ og inn i $\R^3$, slik at Jacobimatrisen
+\[
+J=\begin{pmatrix}\vect{r}_u & \vect{r}_v\end{pmatrix}
+\]
+har tre rader og to kolonner. Den er altså ikke kvadratisk, og vi kan derfor ikke regne ut $\det J$ direkte, slik vi kunne for transformasjonen $x=g(u,v),y=h(u,v)$. Løsningen er å se på den kvadratiske $2\times 2$-matrisen $J^\top J$ i stedet:
+\[
+J^\top J = \begin{pmatrix} \vect{r}_u\cdot\vect{r}_u & \vect{r}_u\cdot\vect{r}_v \\ \vect{r}_v\cdot\vect{r}_u & \vect{r}_v\cdot\vect{r}_v\end{pmatrix},
+\]
+og legge merke til at
+\[
+\det\bigl(J^\top J\bigr) = \vect{r}_u^2\vect{r}_v^2-(\vect{r}_u\cdot\vect{r}_v)^2 = \lVert \vect{r}_u\times\vect{r}_v\rVert^2,
+\]
+altså akkurat uttrykket under rottegnet i \eqref{surfacearea}. Med andre ord er
+\[
+\lVert \vect{r}_u\times\vect{r}_v\rVert = \sqrt{\det\bigl(J^\top J\bigr)}
+\]
+den naturlige generaliseringen av $\left|\frac{\partial(x,y)}{\partial(u,v)}\right|$ til en avbildning som ikke går mellom rom av samme dimensjon. Går $\vect{r}$ i stedet mellom rom av samme dimensjon, som for $x=g(u,v), y=h(u,v)$, blir $J$ kvadratisk, og da er $\det(J^\top J)=(\det J)^2$, slik at $\sqrt{\det(J^\top J)}=\lvert \det J\rvert$ -- vi er altså tilbake til den vanlige Jacobideterminanten. Arealformelen \eqref{surfacearea} er derfor "samme historie" som variabelbytteformelen \eqref{eq:variabelbytte}, bare i en litt mer generell (og litt mer godt skjult) form.
+\end{rem}
 
 \subsubsection{Tilbake til et spesialtilfelle: Arealet av overflaten til en graf}
 La oss knytte en kommentar til spesialtilfellet hvor vi ser på overflaten til en graf. I det spesialtilfellet har vi altså at parametrene også er koordinatakser: $x=u,y=v$ og  $z=f(u,v)$. Dette svarer altså til å integrere grafen til $z=f(x,y)$ over $xy$-planet. Fra \Cref{ex:graf_flate}, så har vi at normalvektoren da er gitt som

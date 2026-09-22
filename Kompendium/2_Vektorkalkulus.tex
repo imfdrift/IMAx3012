@@ -81,7 +81,7 @@ Finn gradientvektorfeltet for følgende funksjoner:
 \end{itemize}
 \end{eks}
 \begin{eks}{Gradienter og nivåkurver}
-Skisser gradientvektorfeltet og nivåkurvene til $f(x, y) = x^2 + y^2$. Nivåkurver er gitt av:
+Skisser gradientvektorfeltet og nivåkurvene til $f(x, y) = x^2 + y^2$ (se \Cref{sec:nivakurver-rep} for en repetisjon av nivåkurver). Nivåkurver er gitt av:
 \[
 f(x, y) = k \Rightarrow x^2 + y^2 = k
 \]
@@ -93,9 +93,9 @@ Gradienten er:
 Vektorene er ortogonale på nivåkurvene og peker i retning av raskest endring.
 \end{eks}
 \begin{oppsum}{Fakta om gradienter}
-For en reellverdig funksjon $f$ gjelder for grad $f$ at det
+For en funksjon $f$ av reelle verdier gjelder for vektoren $\nabla f$ at den
 \begin{itemize}
-\item peker i hver punkt i retning hvor $f$ har størst endring.
+\item i hvert punkt peker i retning av størst endring av $f$.
 \item står ortogonalt på nivåkurvene til $f$.
 \end{itemize}
 \end{oppsum}
@@ -104,7 +104,7 @@ Et vektorfelt $\vect{F}$ er \emph{konservativt} hvis det finnes en funksjon $f$ 
 \[
 \vect{F} = \nabla f
 \]
-Da er $f$ en \emph{potensialfunksjon} for $\vect{F}$. Man sier også kortere at $f$ er en potensial for $\vect{F}$
+Da er $f$ en \emph{potensialfunksjon} for $\vect{F}$. På kortform sier man at $f$ er et potensiale for vektorfeltet $\vect{F}$.
 \end{defn}
 
 \begin{eks}{}
@@ -128,17 +128,17 @@ som oppfyller betingelsene
 \begin{align}\label{tangent:curve}
 \frac{d\vect{r}}{dt}(t) = \vect{v}(\vect{r}(t))= P(\vect{r}(t)) \vect{i} + Q(\vect{r}(t))\vect{j}
 \end{align}  
-samt initialbetingelsene (som sier at kurven går gjennom et gitt punkt \( p_0 =(x_0,y_0)\) for en (initial) verdi \( t_0 \) av parameteren \( t \). Vi ser at den geometriske krav om tangenten til kurven er det gitte vektorfeltet oversettes til den analytiske formuleringen i ligning \eqref{tangent:curve}, som ganske enkelt er et system av ordinære differensiallikninger (ODE-er) av første orden.
+samt initialbetingelsene (som sier at kurven går gjennom et gitt punkt \( p_0 =(x_0,y_0)\) for en (initiell) verdi \( t_0 \) av parameteren \( t \). Vi ser at det geometriske kravet om at tangenten til kurven er det gitte vektorfeltet oversettes til den analytiske formuleringen i ligning \eqref{tangent:curve}, som ganske enkelt er et system av ordinære differensiallikninger (ODE-er) av første orden.
 
 \begin{rem}{}
 Dersom vektorfeltet forsvinner (er null) i et punkt \( P \), er løsningen av \eqref{tangent:curve} gjennom \( P \) konstant, slik at hele kurven kollapser til et punkt. Vi sier da at \( P \) er en likevektstilstand for systemet.
 \end{rem}
 
 \begin{eks}{}
-Se på vektorfelt
+Se på vektorfeltet
 $
 \vect{F}(x,y)= y\vect{i} - \sin (x) \vect{j}
-$ (JuPyter notat for visualisering).
+$ (Se JuPyter-notat for visualisering).
 La oss nå vilkårlig velge et startpunkt \(\vect{r}_0 = -9 \vect{i}+  2\vect{j} \).  
 
 Vi ønsker å finne en kurve som, idet den passerer gjennom dette punktet, alltid er tangent til den lokale verdien av $\vect{F}$. Med andre ord ønsker vi å løse følgende ikke-lineære system av ordinære differensiallikninger:
@@ -184,7 +184,7 @@ Gitt $\vect{F}(x,y,z) = x^2y \vect{i} + xyz \vect{j} - x^2y^2 \vect{k}$.
 \]
 \end{eks}{}
 \paragraph{Fysisk tolkning av divergens:} Dersom vi tenker oss at $\vect{F}$ er hastighetsfeltet til en gass (eller en væske), representerer $\text{div }\vect{F}$ ekspansjonshastigheten per volumenhet i strømmen av gassen (eller væsken). 
-Dersom $\text{div } \vect{F} < 0$, betyr det at gassen (eller væsken) komprimeres.
+Dersom $\text{div } \vect{F} < 0$, betyr det at gassen (eller væsken) komprimeres (eller flyter inn i et sluk).
 
 For et vektorfelt $\vect{F}(x, y) = F_1 \vect{i} + F_2 \vect{j}$ i planet er divergensen gitt ved
 \[
@@ -223,6 +223,24 @@ La området etter tid $t$ være $W(t)$, og la $V(t)$ være volumet (eller areale
 og denne tilnærmelsen blir mer nøyaktig jo mindre området $W$ er, altså når $W \to x_0$.
 
 
+\begin{eks}{Sentralsymmetriske vektorfelt i $d$ dimensjoner}
+Betrakt et \emph{sentralsymmetrisk} (radielt) vektorfelt på formen
+\[
+\vect{F}(\vect{r}) = \frac{C}{r^n}\,\hat{\vect{r}}, \qquad \vect{r}=(x_1,\ldots,x_d)\in\R^d,\quad r=\lVert\vect{r}\rVert,\quad \hat{\vect{r}}=\vect{r}/r,
+\]
+hvor $C$ er en konstant, $d$ er antall dimensjoner og $n$ er en eksponent. Man kan vise at
+\[
+\operatorname{div}\vect{F} = \nabla\cdot\vect{F} = (d-n-1)\,\frac{C}{r^{n+1}}.
+\]
+Dette betyr at $\operatorname{div}\vect{F}=0$ overalt på definisjonsmengden $\R^d\setminus\{\vect{0}\}$ nøyaktig når $n=d-1$:
+\begin{itemize}
+\item[$\bullet$] for $d=2$: da er $\vect{F} = \dfrac{C}{r}\,\hat{\vect{r}}$ divergensfritt,
+\item[$\bullet$] for $d=3$: da er $\vect{F} = \dfrac{C}{r^2}\,\hat{\vect{r}}$ divergensfritt -- dette er nøyaktig formen til blant annet Coulombs lov og Newtons gravitasjonslov!
+\end{itemize}
+
+\paragraph{Kommentar:} Et vektorfelt på formen $\vect{F}=C\vect{r}/r^{n+1}$ er altså ikke generelt sett divergensfritt. At divergensen forsvinner er en direkte konsekvens av $n= d-1$ . Avtagningsraten balanserer nøyaktig mot hvordan "flaten" til en kule av radius $r$ i $\R^d$ vokser med $r^{d-1}$.
+\end{eks}
+
 Vi kommer nå til rotasjon.\footnote{På norsk kan man også bruke betegnelsen 'rot' for rotasjon, men siden det ikke er i bruk i internasjonal litteratur bruker vi heller curl som er engelsk for rotasjon.}
 
 \begin{defn}{Rotasjon (på engelsk curl)}
@@ -240,9 +258,7 @@ defineres \emph{rotasjonen} (engelsk: \emph{curl}) som:
 \label{defn:curl}
 \end{defn}
 
-\begin{rem}{}
- curl er {\large kun} definert i tre dimensjoner.
-\end{rem} 
+Ettersom curl er definert som et kryssprodukt, kan vi se at curlen til et vektorfelt i $\R^3$ alltid er ortogonal på vektorfeltet. Dette betyr at curlen til et vektorfelt i $\R^3$ alltid vil være et vektorfelt som står vinkelrett på det opprinnelige feltet. I tillegg kan vi legge merke til at curl kun er definert i tre dimensjoner, i motsetning til gradient og divergens som er definert i alle dimensjoner. 
 
 \paragraph{Beregning av rotasjon ved hjelp av determinant}
 Når vi skal beregne curlen kan det være lurt å benytte en determinant for utregningen, slik man gjerne gjør for kryssprodukt:
@@ -261,14 +277,14 @@ Dette er ekvivalent med definisjonen~\ref{defn:curl} over.
 
 En annen begrunnelse for denne tolkningen kommer fra Stokes' teorem \Cref{thm:stokes} vi skal se senere på. Likevel kan vi uformelt si at $\text{curl } \vect{F} = 0$ betyr at hvis et lite stivt skovlhjul plasseres i væsken, vil det følge med strømmen, men ikke rotere rundt sin egen akse. Et slikt vektorfelt med $\text{curl } \vect{F} = 0$ kalles \emph{irrotasjonelt}.
 
-Eksperimenter vist at væske som renner ut av et badekar vanligvis er irrotasjonell — bortsett fra helt i sentrum — selv om væsken “roterer” rundt sluket. 
+Eksperimenter viser at væske som renner ut av et badekar vanligvis er irrotasjonell — bortsett fra helt i sentrum — selv om væsken “roterer” rundt sluket. 
 
 
 \begin{eks}{}\label{ex:irrot}
 Strømlinjene til vektorfeltet \[\vect{F}(x,y,z) = \frac{y\vect{i}-x\vect{j}}{x^2+y^2}\]
 er sirkler rundt origo, se figur~\Cref{fig:rotasjonsFritt} og~\Cref{fig:VF-irrot}. Feltet er definert på $\R^3 \setminus \{\vect{0}\}$ og er faktisk irrotasjonelt (altså curlfritt). Bare prøv å regne ut, så ser du at 
 \[\nabla\times\vect{F}=0.\]
-Samtidig ser man tydelig fra figuren at dette vektorfeltet "roterer" rundt origo. Men origo er ikke med i definisjonsmengden. Rotasjonen er derfor rundt et punkt som ikke er med i definisjonsmengden. Ordet \emph{irrotasjonell} derfor skape forvirring: En må se nøye på definisjonsmengden for å se om et vektorfelt er rotasjonsfritt eller ei.
+Samtidig ser man tydelig fra figuren at dette vektorfeltet ``roterer'' rundt origo. Akkurat i origo er ikke $\nabla\times\vect{F}=0$, men origo er ikke med i definisjonsmengden til vektorfeltet. Rotasjonen er derfor rundt et punkt som ikke er med i definisjonsmengden. Ordet \emph{irrotasjonell} kan derfor skape forvirring: En må se nøye på definisjonsmengden for å se om et vektorfelt er rotasjonsfritt eller ei.
 \end{eks}
 \begin{figure}[htpb]
     \centering
@@ -313,13 +329,12 @@ Samtidig ser man tydelig fra figuren at dette vektorfeltet "roterer" rundt origo
 \caption{Vektorfelt $\vec{F}(x, y, z) = \dfrac{y\vec{i} - x\vec{j}}{x^2 + y^2}$}\label{fig:VF-irrot}
 \end{figure}
 
-\begin{prop}
- Hvis $f(x, y, z)$ har kontinuerlige deriverte av andre orden, så er $\mathrm{curl}(\nabla f) = \vect{0}$.
-\end{prop}
-
-\begin{oppsum}[Divergens av curl]\,
-For et vektorfelt $\vect{F}(x,y,z)$ kan en enkelt vise at $\text{div }\cdot(\text{curl }\vect{F})=0.$ Dette følger av matematiske identiteter, og gir god fysisk mening: Det er ingen spredning i rotasjon, eller rotasjon i spredning. Uttrykt ved nabla-operatoren har vi altså at
+\begin{oppsum}[Noen identiteter]\,
+Vi har nå sett to identiteter som knytter sammen de klassiske differensialoperatorene. For det første er curl av et gradientfelt alltid null:
+\[\nabla\times(\nabla f)=\vect{0},\]
+forutsatt at $f(x,y,z)$ har kontinuerlige deriverte av andre orden. På samme måte kan en enkelt vise at divergensen av curl til et vektorfelt $\vect{F}(x,y,z)$ alltid er null:
 \[\nabla\cdot\left(\nabla\times\vect{F}\right)=0.\]
+Begge identitetene følger av matematiske egenskaper ved de partiellderiverte, og gir god fysisk mening: Det er ingen spredning i rotasjon, og ingen rotasjon i spredning.
 \end{oppsum}
 I og med at $\nabla$-operatoren kan betraktes sm en vektor, kan vi også ta prikkproduktet av den med seg selv. Dette gir den såkalte Laplace-operatoren.
 
@@ -335,14 +350,14 @@ Så for to- og tredimensjonale rom får vi igjen de enklere formler
 \end{align*}
 \end{defn}
 \begin{rem}{}
-Alle differensialoperatorer beskrives her med hensyn til kartesiske koordinater. I andre koordinatsystemer ser de annerledes ut. For eksempel, Laplace er 
+Alle differensialoperatorer beskrives er her beskrevet i kartesiske koordinater. I andre koordinatsystemer ser de annerledes ut. Laplace i polarkoordinater er for eksempel gitt som 
 \[\Delta f = \frac{\partial^2 f}{\partial r^2} + \frac{1}{r}\frac{\partial f}{\partial r} + \frac{1}{r^2} \frac{\partial^2 f}{\partial^2 \varphi}\qquad \text{ i Polarkoordinater } (r,\varphi).\]
 \end{rem}
 Laplace-operatoren er viktig i formuleringen av bølgelikninger, som vi skal studere senere, når vi ser på partielle differensiallikninger. Et eksempel er Poisson-likningen; 
 \[\Delta f=g\]
 for to funksjoner $f$ og $g$. Merk at $\Delta f$ er et skalarfelt, i motsetning til $\nabla f, $ som er et vektorfelt.
 
-\paragraph{Identiteter: }Det finnes massevis identiteter som knytter de klassiske differensialoperatorene sammen. I \Cref{app:diffop_ident} finnes det et overblikkstabell med de vanligste identiteter.
+\paragraph{Identiteter: }Det finnes massevis identiteter som knytter de klassiske differensialoperatorene sammen. I \Cref{app:diffop_ident} finnes det en overblikkstabell med de vanligste identitetene.
 Det er mulig å definere vektorfelt ved hjelp av Sympy pakke og la dem beregne differensialoperatorene.
 
 \begin{oppsum}{Differensialoperatorer og Sympy pakke}
@@ -367,42 +382,27 @@ sp.gradient(R.x*R.y*R.z)
 \section{Linjeintegraler av vektorfelt}\label{sect:linint2}
 
 Nå skal vi definere og studere linjeintegraler av vektorfelt. 
-Disse integralene tar verdier i $\R$, ikke i flerdimensjonal rom.
 
 \begin{defn}{Linjeintegral av vektorfelt}
 La $\vect{F} \colon \R^n \rightarrow \R^n$ være et vektorfelt og $C$ en glatt kurve i $\R^n$ med parametrisering $\vect{r} \colon [a,b] \rightarrow \R^n$. Vi definerer \emph{linjeintegralet} av \( \vect{F} \) langs \( C \) som:
 \begin{align}\label{defn:linjeint}
-\int_C \vect{F} \cdot d\vect{r} = \int_a^b \vect{F}(\vect{r}(t)) \cdot \vect{r}\,'(t)\, dt \quad \text{ for } \vect{r}\,'=(r_1'(t),r_2'(t),\ldots, r_n'(t))^\top
+\int_C \vect{F} \cdot d\vect{r} = \int_a^b \vect{F}(\vect{r}(t)) \cdot \vect{v}(t)\, dt \quad \text{ for } \vect{v}(t)=\vect{r}\,'=(r_1'(t),r_2'(t),\ldots, r_n'(t))^\top
 \end{align}
 Merk at integrasjonen virkelig er et skalarprodukt mellom vektorfeltet og differensialvektoren \( d\vect{r} \). Dermed er verdien til linjeintegralet igjen et tall!
 \end{defn}
-Mer konkret for vektorfeltet i tredimensjonalt rom:
+Mer konkret: Gitt vektorfeltet 
 \[
 \vect{F}(x, y, z) = P(x, y, z)\, \vect{i} + Q(x, y, z)\, \vect{j} + R(x, y, z)\, \vect{k}
 \]
-og en glatt, tredimensjonal kurve gitt ved:
+i $\R^3$, samt en glatt kurve \( C \) med parametrisering
 \[
-\vect{r}(t) = x(t)\, \vect{i} + y(t)\, \vect{j} + z(t)\, \vect{k}, \quad a \leq t \leq b
+\vect{r}(t) = x(t)\, \vect{i} + y(t)\, \vect{j} + z(t)\, \vect{k}, \quad a \leq t \leq b.
 \]
 Setter vi formlene inn i \eqref{defn:linjeint} så er linjeintegralet av \( \vect{F} \) langs \( C \) gitt som:
 \begin{align*}
 &\int_C \vect{F} \cdot d\vect{r} = \int_a^b \vect{F}(\vect{r}(t)) \cdot \vect{r}\,'(t)\, dt \quad \text{ for } \vect{r}\,'=(x'(t),y'(t),z'(t))^\top \\=&\int_a^b P(x(t),y(t),z(t)) \cdot x'(t) + Q(x(t),y(t),z(t))\cdot y'(t) + R(x(t),y(t),z(t)) \cdot z'(t)\, dt
 \end{align*}
-\begin{oppsum}{Linjeintegral av vektorfelt vs linjeintegraler ved buelengde}
-Alternativt kan linjeintegralet skrives som et integral med hensyn på buelengde:
-\[
-\int_C \vect{F} \cdot d\vect{r} = \int_C \vect{F} \cdot \vect{t}\, ds
-\]
-hvor \( \vect{t}(t) = \frac{\vect{r}\,'(t)}{\|\vect{r}\,'(t)\|} \) er enhetstangentvektoren.
-Begge former er ekvivalente, men vi bruker vanligvis den første, da den er enklere å regne med.
-\end{oppsum}
-\begin{rem}{Forskjellige Linjeintegraler}
-Merk at linjeintegraler (med hensyn til buelengde) ser relativt lik ut som linjeintegraler av vektorfelt. De kan skilles ved et blikk på integrator:
-\begin{align*}
-\text{Linjeintegral ved buelengde} \quad \int_C f \, {\color{red}ds}\\
-\text{Linjeintegral for vektorfelt} \qquad \int_C \vect{F} {\color{red} \cdot \, d\vect{r}}  
-\end{align*}
-\end{rem}
+
 
 \begin{eks}{}
 Beregn
@@ -412,26 +412,23 @@ Beregn
 og \( C \) er linjesegmentet fra \( (-1, 2, 0) \) til \( (3, 0, 1) \).
 \end{eks}
 
-\begin{oppsum}{Regneregler for linjeintegral av vektorfelt og omvendt retning}
-De vanlige regneregeler for summer \eqref{lin_int_linear} og linjer som er sammensatt av glatte stykker \eqref{lin_int_add} gjelder for linjeintegraler av vektorfelt. Regelene for integral av omvendt retning fra tidligere kapittel er ikke riktig lengre!
-
-En nyttig egenskap ved linjeintegraler av vektorfelt er at hvis vi bruker omvendt orientering på kurven, endres fortegnet til integralet:
-\[
+For linjeintegralet av en funksjon over en parameter-kurve fant vi at integrasjonsretningen ikke har noe å si. Men merk at dette ikke stemmer for linjeintegraler av vektorfelt. Grunnen til dette er at vektorfeltet i seg selv har retning. Dermed vil integrasjonsretningen ha betydning for fortegnet til integralet:
+\begin{empheq}[box=\colorbox{gray!15}]{equation*}
 \int_{-C} \vect{F} \cdot d\vect{r} = - \int_C \vect{F} \cdot d\vect{r}
-\]
+\end{empheq}
 Dette gir mening siden integralet kan uttrykkes som sum av komponentintegraler og retningen bestemmer fortegnet på disse.
-\end{oppsum}
 
 Hovedanvendelsen av linjeintegraler er å beregne arbeidet som utføres på et objekt i et kraftfelt. Hvis et objekt beveger seg langs en kurve $C$ gjennom et kraftfelt $\vect{F}$, kan vi beregne det totale arbeidet som utføres av kraftfeltet ved å dele kurven $C$ opp i små biter.  
 Arbeidet\footnote{Siden vi skriver $A$ for areal bruker vi har $W$ for arbeid som det engelske work.} $dW$ som gjøres på hver liten bit er tilnærmet gitt ved
 \[
-dW = \vect{F} \cdot \vect{t} \, ds = \vect{F} \frac{\vect{r}'(t)}{\|\vect{r}'(t)\|} \|\vect{r}'(t)\| \, dt = \vect{F} \cdot \vect{r}'(t) \, dt.
+dW = \vect{F} \cdot \vect{r} = \vect{F} \cdot \vect{v}(t) \, dt.
 \]
-Som vanlig summerer vi alle de små bidragene og tar grensen når lengden av bitene går mot null, noe som gir et integral.
+Hvor $\vect{v}(t) = \vect{r}'(t)$ er hastighetsvektoren. Som vanlig summerer vi alle de små bidragene og tar grensen når lengden av bitene går mot null, noe som gir et integral.
 \begin{defn}{Arbeid}\label{defn:arbeid}
 La $\vect{F}$ være et vektorfelt og $C$ en kurve definert ved en vektorfunksjon $\vect{r}(t)$. Da er arbeidet utført av $\vect{F}$ på et objekt som beveger seg langs $C$ gitt ved
 \[
-\text{Arbeid} = \int_C \vect{F} \cdot d\vect{r} = \int_a^b \vect{F}(\vect{r}(t)) \cdot \vect{r}'(t) \, dt.\] 
+\text{Arbeid} = \int_C \vect{F} \cdot d\vect{r} = \int_a^b \vect{F}(\vect{r}(t)) \cdot \vect{v}(t) \, dt.\] 
+hvor $\vect{v}(t) = \vect{r}'(t)$ er hastighetsvektoren.
 \end{defn}
 
 \begin{eks}{}
@@ -459,7 +456,7 @@ W &= -\frac{1}{R} \int_0^{2\pi} (\cos(t) \vect{i} + \sin(t) \vect{j}) \cdot (-\s
  &= -\frac{1}{R} \int_0^{2\pi} [- \cos(t) \sin(t) +  \sin(t) \cos(t)] \dd{t}
 = -\frac{1}{R} \int_0^{2\pi} 0 \dd{t} = 0
 \end{align*}
-\textbf{Alternativ:} Bevegelsen skjer langs en sirkel med posisjonvektor $\vect{r}(t)$, og hastighetsvektoren (tangenten) er alltid vinkelrett på $\vect{r}$. Dermed er skalarproduktet $\vect{F} \cdot d \vect{r} = 0$, siden kraften peker radielt og bevegelsen er tangentiell. Derfor er arbeidet null.
+\textbf{Alternativt:} Bevegelsen skjer langs en sirkel med posisjonvektor $\vect{r}(t)$, og hastighetsvektoren (tangenten) er alltid vinkelrett på $\vect{r}$. Dermed er skalarproduktet $\vect{F} \cdot d \vect{r} = 0$, siden kraften peker radielt og bevegelsen er tangentiell. Derfor er arbeidet null.
 \end{eks}
 
 %
@@ -467,7 +464,7 @@ W &= -\frac{1}{R} \int_0^{2\pi} (\cos(t) \vect{i} + \sin(t) \vect{j}) \cdot (-\s
 %
 \subsection*{Analysens fundamentalteorem for linjeintegraler}
 
-Husk analysens fundamentalteorem for vanlige funksjoner:
+Analysens fundamentalteorem for vanlige funksjoner sier at integralet av en deriverte over et intervall er lik differansen mellom funksjonsverdiene i intervallets endepunkter:
 \begin{align}\label{ana_fun_thm}
 \int_a^b F'(x)\, dx = F(b) - F(a).
 \end{align}
@@ -511,10 +508,10 @@ og \( C \) er en hvilken som helst kurve fra punktet \( (1, \frac{1}{2}, 2) \) t
 Det viktigste å merke seg er at for slike linjeintegraler spiller stien ingen rolle – det er kun start- og sluttpunkt som avgjør resultatet.
 \newpage
 \begin{defn}{}
-La \( \vect{F} \) være et kontinuerlig vektorfelt i en mengde \( D \). Anta at $C$ er en kurve i $D$ parametrisert med $\vect{r}$. Vi sier  \( \int_C \vect{F} \cdot d\vect{r} \) er \emph{uavhengig av sti} hvis det samme verdien oppnås for enhver kurve $\tilde{C} \subseteq D$ med samme start- og sluttpunkt som $C$. 
+La \( \vect{F} \) være et kontinuerlig vektorfelt i en mengde \( D \). Anta at $C$ er en kurve i $D$ parametrisert med $\vect{r}$. Vi sier  at \( \int_C \vect{F} \cdot d\vect{r} \) er \emph{uavhengig av sti} hvis den samme verdien oppnås for enhver kurve $\tilde{C} \subseteq D$ med samme start- og sluttpunkt som $C$. 
 \end{defn}
 
-Spørsmålet er nå om vi kan karakterisere integraler som er uavhengig av sti. Det er hensiktsmessig å introdusere noen navner for spesielle mengder og kurver når vi er interessert i integraler uavhengig av sti.
+Spørsmålet er nå om vi kan karakterisere integraler som er uavhengig av sti. Det er hensiktsmessig å introdusere noen navn for spesielle mengder og kurver når vi er interessert i integraler uavhengig av sti.
 
 \begin{minipage}{7cm}
 \begin{defn}{Egenskaper til kurver}
@@ -534,7 +531,7 @@ Vi skal møte lukkete og enkle kurver og linjeintegraler langs dem ofte siden de
  En mengde \( D \) kaller vi 
  \begin{itemize}
  \item \textbf{åpen} hvis den ikke inkluderer noen av sine randpunkter.
- \item \textbf{stjerneformet} hvis det finnes et punkt $\star \in D$ slik at for alle andre punkter $P \in D$ linjestykken mellom $\star$ of $P$ ligger fullstendig i $D$. Punkten $\star$ kaller man også \emph{stjernepunkt} for $D$.
+ \item \textbf{stjerneformet} hvis det finnes et punkt $\star \in D$ slik at for alle andre punkter $P \in D$ er linjestykket mellom $\star$ of $P$ fullstendig i $D$. Punktet $\star$ kaller man da\emph{stjernepunkt} for $D$.
 \end{itemize}
 \end{defn}
 
@@ -547,11 +544,11 @@ Vanligvis er stjernepunkter ikke unik, dvs. hvis et punkt er stjernepunkt for en
 \begin{oppsum}{Fakta om konservative vektorfelt og linjeintegraler}
 La $\vect{F}$ være et kontinuerlig vektorfelt på en mengde $D$.
 \begin{enumerate}
-    \item Hvis \( \vect{F} = \nabla f \) (dvs. vektorfeltet er konservativt), så er \( \int_C \vect{F} \cdot d\vect{r} \) uavhengig av sti. 
+    \item Hvis \( \vect{F} = \nabla f \) (dvs. vektorfeltet er konservativt), så er \( \int_C \vect{F} \cdot d\vect{r} \) sti-uavhengig. 
     \item Hvis $D$ er åpen og stjerneformet, og integralet er uavhengig av sti, så er \( \vect{F} \) konservativ.
     \item \( \int_C \vect{F} \cdot d\vect{r} = 0 \) for alle lukkede kurver \( C \) i \(D\) hvis og bare hvis  \( \int_C \vect{F} \cdot d\vect{r} \) er uavhengig av sti.
 \end{enumerate}
-\textbf{OBS:} På åpne og stjerneformete mengder er linjeintegraler av vektorfelt uavhengig av sti hvis og bare hvis vektorfeltet er konservativt.
+\textbf{OBS:} På åpne og stjerneformede mengder er linjeintegraler av vektorfelt uavhengig av sti hvis og bare hvis vektorfeltet er konservativt.
 \end{oppsum}
 
 %
@@ -626,7 +623,7 @@ Integralet av $\vect{F}$ langs $C$ er
 = \int_0^{2\pi} dt 
 = 2\pi \ne 0.
 \end{align*}
-Siden vi har funnet en lukket kurve der integralet av $\vect{F}$ ikke er null, kan ikke $\vect{F}$ være konservativt.
+Siden vi har funnet en lukket kurve der integralet av $\vect{F}$ ikke er null, kan ikke $\vect{F}$ være konservativt. Det som skjer her er at vektorfeltet er definert på et område som ikke er stjerneformet, og dermed kan vi ikke bruke \Cref{thm:kons_stjern_2D} til å konkludere at $\vect{F}$ er konservativt.
 \end{eks}
 
 Hvis vi ønsker å beregne en potensialfunksjon (for eksempel fordi vi ha funnet ut at vektorfeltet er konservativt!) kan vi gjøre det følgende.
