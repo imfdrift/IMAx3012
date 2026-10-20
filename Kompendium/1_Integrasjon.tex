@@ -517,7 +517,7 @@ S = \iint_D \sqrt{\left( \frac{\partial f}{\partial x} \right)^2 + \left( \frac{
 Vi kommer tilbake til tangent- og normalvektorer til flater mer generelt i \Cref{defn:tang_norm}.
 
 \begin{eks}{}
-Finn arealet av den delen av planet $3x + 2y + z = 6$ som ligger i første oktant. Vi omskriver likningen til $z = f(x, y)$:
+Finn arealet av den delen av planet $3x + 2y + z = 6$ som ligger i første oktant. Vi omskriver ligningen til $z = f(x, y)$:
 \[
 z = 6 - 3x - 2y \Rightarrow f_x = -3, \quad f_y = -2
 \]
@@ -625,11 +625,11 @@ altså det velkjente arealet av en sirkelskive med radius $R$.
 \end{eks}
 
 \begin{eks}{Areal av en sirkel forskjøvet til $y=R$}\label{eks:sirkel-forskjovet}
-Flytt nå sirkelen fra forrige eksempel slik at den i stedet er sentrert i $(0,R)$, med samme radius $R$ (\Cref{fig:sirkel-forskjovet}). Da tangerer sirkelen origo, og likningen blir
+Flytt nå sirkelen fra forrige eksempel slik at den i stedet er sentrert i $(0,R)$, med samme radius $R$ (\Cref{fig:sirkel-forskjovet}). Da tangerer sirkelen origo, og ligningen blir
 \[
 x^2 + (y-R)^2 = R^2.
 \]
-For å finne polarlikningen setter vi inn $x=r\cos\theta$ og $y=r\sin\theta$:
+For å finne polarligningen setter vi inn $x=r\cos\theta$ og $y=r\sin\theta$:
 \[
 r^2\cos^2\theta + (r\sin\theta - R)^2 = R^2 \quad\Longrightarrow\quad r^2\cos^2\theta + r^2\sin^2\theta - 2rR\sin\theta + R^2 = R^2.
 \]
@@ -637,7 +637,7 @@ Siden $\cos^2\theta+\sin^2\theta=1$ forenkles dette til
 \[
 r^2 - 2rR\sin\theta = 0 \quad\Longleftrightarrow\quad r\bigl(r - 2R\sin\theta\bigr) = 0.
 \]
-Løsningen $r=0$ svarer kun til origo selv, så sirkelen er (bortsett fra origo) gitt ved polarlikningen
+Løsningen $r=0$ svarer kun til origo selv, så sirkelen er (bortsett fra origo) gitt ved polarligningen
 \[
 r = 2R\sin\theta.
 \]
@@ -1731,7 +1731,7 @@ sp.integrate.tplquad
 \end{oppsum}
 Sjekk JuPyter notater om integrasjon av funksjoner og diskrete verdier.
 
-Vi ser på gittermetoden som en forberedelse for de numeriske metoder for partielle differensiallikninger vi skal studere i del 3 av notatene.
+Vi ser på gittermetoden som en forberedelse for de numeriske metoder for partielle differensialligninger vi skal studere i del 3 av notatene.
 \newpage
 \section{Linjeintegraler}\label{sect:linint1}
 
@@ -1918,7 +1918,7 @@ som er nøyaktig samme resultat som vi fant algebraisk over.
 \end{rem}
 
 \begin{eks}{Buelengden til en sirkel via polarform}
-La oss teste formelen på et kjent tilfelle: sirkelen med radius $a$ har polarlikning $r=f(\theta)=a$ (konstant), $\theta \in [0,2\pi]$. Da er $f'(\theta)=0$, så
+La oss teste formelen på et kjent tilfelle: sirkelen med radius $a$ har polarligning $r=f(\theta)=a$ (konstant), $\theta \in [0,2\pi]$. Da er $f'(\theta)=0$, så
 \[
 L = \int_0^{2\pi} \sqrt{a^2+0^2}\, d\theta = \int_0^{2\pi} a\, d\theta = 2\pi a,
 \]

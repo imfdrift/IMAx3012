@@ -156,7 +156,7 @@ Grenseverdien avhenger av retningen man nærmer seg langs, så grensen eksistere
 \section{Partiellderiverte}
 For en funksjon av flere variabler $f(x,y,z,\ldots)$ skriver vi 
 \[\frac{\partial f}{\partial x} , \frac{\partial f}{\partial y} , \frac{\partial f}{\partial z} , \ldots\]
-for de partiellderiverte. Ofte skal vi også bruke notasjonen kjent fra fysikk eller differensiallikninger hvor \[f_x := \frac{\partial f}{\partial x} , f_y := \frac{\partial f}{\partial y}, \ldots\]
+for de partiellderiverte. Ofte skal vi også bruke notasjonen kjent fra fysikk eller differensialligninger hvor \[f_x := \frac{\partial f}{\partial x} , f_y := \frac{\partial f}{\partial y}, \ldots\]
 
 I tillegg så minner vi om at en flervariabelfunksjon (i motsetning til en envariabelfunksjon) ikke nødvendigvis er deriverbar, selv om 
 den har partiellderiverte.  
@@ -184,7 +184,7 @@ Merk da at $\vect{d}$ er den deriverte:
 \[\vect{r}'(t)=\frac{\text{d}}{\text{dt}}\vect{r}(t)=\vect{d}\]
 Dette er helt analogt til at stigningstallet $b$ er den deriverte av en rett linje $y=a+bt$. Vektoren som peker langs kurven er med andre ord selve fartsvektoren.
 
-Dette er den samme punkt-retning-formen vi kjenner fra linjelikninger fra før, bare skrevet med en parameter $t$ i stedet for at $y$ uttrykkes direkte som funksjon av $x$ -- en stor fordel, siden denne formen også fungerer for loddrette linjestykker, og for linjestykker i flere dimensjoner.
+Dette er den samme punkt-retning-formen vi kjenner fra linjeligninger fra før, bare skrevet med en parameter $t$ i stedet for at $y$ uttrykkes direkte som funksjon av $x$ -- en stor fordel, siden denne formen også fungerer for loddrette linjestykker, og for linjestykker i flere dimensjoner.
 
 Vi ser lett at
 \begin{itemize}
@@ -427,7 +427,7 @@ markert med rød pil i figuren. Vi ser at pilen peker radielt utover fra sirkele
 \end{center}
 \end{eks}
 
-\section{Likningen for et plan}
+\section{Ligningen for et plan}
 \label{sec:plan-likning}
 
 Et plan i rommet er entydig bestemt av ett punkt $P_0=(x_0,y_0,z_0)$ på planet, og én vektor $\vect{n}=(a,b,c)^\top$ som står \emph{normalt} på planet. Ideen er akkurat den samme som for normallinjen til en kurve i forrige avsnitt: dersom $P=(x,y,z)$ er et \emph{vilkårlig} annet punkt på planet, så ligger vektoren $\vect{P_0P}=P-P_0=(x-x_0,\,y-y_0,\,z-z_0)^\top$ \emph{i} planet, og må derfor stå vinkelrett på normalvektoren $\vect{n}$. Med skalarproduktet betyr dette at
@@ -465,7 +465,7 @@ Et plan i rommet er entydig bestemt av ett punkt $P_0=(x_0,y_0,z_0)$ på planet,
 \label{fig:plan-normal}
 \end{center}
 
-\begin{defn}{Likningen for et plan}
+\begin{defn}{Ligningen for et plan}
 Planet gjennom punktet $P_0=(x_0,y_0,z_0)$ med normalvektor $\vect{n}=(a,b,c)^\top$ består av alle punkter $P=(x,y,z)$ som oppfyller
 \[
 \vect{n}\cdot \vect{P_0P} = a(x-x_0)+b(y-y_0)+c(z-z_0) = 0.
@@ -485,8 +485,8 @@ Ofte er ikke normalvektoren $\vect{n}$ gitt direkte, men vi kjenner i stedet to 
 siden kryssproduktet av to vektorer alltid står normalt på begge -- og dermed normalt på hele planet de spenner ut.
 \end{rem}
 
-\begin{eks}{Likningen for planet gjennom tre punkter}
-La oss finne likningen for planet gjennom punktene
+\begin{eks}{Ligningen for planet gjennom tre punkter}
+La oss finne ligningen for planet gjennom punktene
 \[
 A=(1,0,0), \qquad B=(0,1,0), \qquad C=(0,0,1).
 \]
@@ -501,11 +501,11 @@ A=(1,0,0), \qquad B=(0,1,0), \qquad C=(0,0,1).
 \vect{n} = \vect{u}\times\vect{v} = \begin{vmatrix}\vect{i} & \vect{j} & \vect{k} \\ -1 & 1 & 0 \\ -1 & 0 & 1\end{vmatrix} = (1\cdot 1 - 0\cdot 0)\,\vect{i} - \bigl((-1)\cdot 1 - 0\cdot(-1)\bigr)\,\vect{j} + \bigl((-1)\cdot 0 - 1\cdot(-1)\bigr)\,\vect{k} = (1,1,1)^\top.
 \]
 
-\textbf{Steg 3: Sett opp likningen.} Med $P_0=A=(1,0,0)$ og $\vect{n}=(1,1,1)^\top$ gir \Cref{defn:plan-likning}
+\textbf{Steg 3: Sett opp ligningen.} Med $P_0=A=(1,0,0)$ og $\vect{n}=(1,1,1)^\top$ gir \Cref{defn:plan-likning}
 \[
 1\cdot(x-1) + 1\cdot(y-0) + 1\cdot(z-0) = 0 \quad\Longleftrightarrow\quad x+y+z=1.
 \]
-Vi kan lett sjekke at alle de tre punktene $A,B,C$ oppfyller denne likningen. \checkmark
+Vi kan lett sjekke at alle de tre punktene $A,B,C$ oppfyller denne ligningen. \checkmark
 \end{eks}
 
 \section{Integrasjon av énvariabelfunksjoner}

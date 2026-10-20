@@ -114,7 +114,7 @@ Da er $f$ en \emph{potensialfunksjon} for $\vect{F}$. På kortform sier man at $
 \end{itemize}
 \end{eks}
 
-Teorien for ordinære differensiallikninger (ODE-er) kan betraktes geometrisk som et svar på spørsmålet: Gitt et vektorfelt i \( \mathbb{R}^n \) og et punkt \( p_0 \) i \( \mathbb{R}^n \), kan man finne en kurve \( \gamma \) gjennom \( p_0 \) slik at tangentvektoren i hvert punkt \( p \) på \( \gamma \) samsvarer med verdien til vektorfeltet i \( p \)?
+Teorien for ordinære differensialligninger (ODE-er) kan betraktes geometrisk som et svar på spørsmålet: Gitt et vektorfelt i \( \mathbb{R}^n \) og et punkt \( p_0 \) i \( \mathbb{R}^n \), kan man finne en kurve \( \gamma \) gjennom \( p_0 \) slik at tangentvektoren i hvert punkt \( p \) på \( \gamma \) samsvarer med verdien til vektorfeltet i \( p \)?
 
 La oss forsøke å visualisere denne ideen for $n=2$. Et vektorfelt i \( \mathbb{R}^2 \) er gitt ved en avbildning  
 \[
@@ -128,7 +128,7 @@ som oppfyller betingelsene
 \begin{align}\label{tangent:curve}
 \frac{d\vect{r}}{dt}(t) = \vect{v}(\vect{r}(t))= P(\vect{r}(t)) \vect{i} + Q(\vect{r}(t))\vect{j}
 \end{align}  
-samt initialbetingelsene (som sier at kurven går gjennom et gitt punkt \( p_0 =(x_0,y_0)\) for en (initiell) verdi \( t_0 \) av parameteren \( t \). Vi ser at det geometriske kravet om at tangenten til kurven er det gitte vektorfeltet oversettes til den analytiske formuleringen i ligning \eqref{tangent:curve}, som ganske enkelt er et system av ordinære differensiallikninger (ODE-er) av første orden.
+samt initialbetingelsene (som sier at kurven går gjennom et gitt punkt \( p_0 =(x_0,y_0)\) for en (initiell) verdi \( t_0 \) av parameteren \( t \). Vi ser at det geometriske kravet om at tangenten til kurven er det gitte vektorfeltet oversettes til den analytiske formuleringen i ligning \eqref{tangent:curve}, som ganske enkelt er et system av ordinære differensialligninger (ODE-er) av første orden.
 
 \begin{rem}{}
 Dersom vektorfeltet forsvinner (er null) i et punkt \( P \), er løsningen av \eqref{tangent:curve} gjennom \( P \) konstant, slik at hele kurven kollapser til et punkt. Vi sier da at \( P \) er en likevektstilstand for systemet.
@@ -141,7 +141,7 @@ $
 $ (Se JuPyter-notat for visualisering).
 La oss nå vilkårlig velge et startpunkt \(\vect{r}_0 = -9 \vect{i}+  2\vect{j} \).  
 
-Vi ønsker å finne en kurve som, idet den passerer gjennom dette punktet, alltid er tangent til den lokale verdien av $\vect{F}$. Med andre ord ønsker vi å løse følgende ikke-lineære system av ordinære differensiallikninger:
+Vi ønsker å finne en kurve som, idet den passerer gjennom dette punktet, alltid er tangent til den lokale verdien av $\vect{F}$. Med andre ord ønsker vi å løse følgende ikke-lineære system av ordinære differensialligninger:
 \begin{align*}
 \frac{dx}{dt} &= y(t), \quad x(0)=-9 \\
 \frac{dy}{dt} &= -\sin (x(t)), \quad y(0)=2.
@@ -353,7 +353,7 @@ Så for to- og tredimensjonale rom får vi igjen de enklere formler
 Alle differensialoperatorer beskrives er her beskrevet i kartesiske koordinater. I andre koordinatsystemer ser de annerledes ut. Laplace i polarkoordinater er for eksempel gitt som 
 \[\Delta f = \frac{\partial^2 f}{\partial r^2} + \frac{1}{r}\frac{\partial f}{\partial r} + \frac{1}{r^2} \frac{\partial^2 f}{\partial^2 \varphi}\qquad \text{ i Polarkoordinater } (r,\varphi).\]
 \end{rem}
-Laplace-operatoren er viktig i formuleringen av bølgelikninger, som vi skal studere senere, når vi ser på partielle differensiallikninger. Et eksempel er Poisson-likningen; 
+Laplace-operatoren er viktig i formuleringen av bølgeligninger, som vi skal studere senere, når vi ser på partielle differensialligninger. Et eksempel er Poisson-ligningen; 
 \[\Delta f=g\]
 for to funksjoner $f$ og $g$. Merk at $\Delta f$ er et skalarfelt, i motsetning til $\nabla f, $ som er et vektorfelt.
 
@@ -1375,8 +1375,8 @@ Dette gir oss:
 
 %
 \subsection{Anvendelse: Maxwell's ligninger}
-På 1800-tallet skrev Maxwell ned likningene som beskriver elektrisitet og magnetisme. 
-For å formulere likningene må vi utvide begrepet vektorfelt litt:
+På 1800-tallet skrev Maxwell ned ligningene som beskriver elektrisitet og magnetisme. 
+For å formulere ligningene må vi utvide begrepet vektorfelt litt:
 
 \begin{defn}{Tidsavhengig vektorfelt}
     En funksjon\footnote{Eller mer generelt en funksjon som er definert på en åpen mengde i $\R^n \times \R$ med verdier i $\R^n$.} $E \colon \R^n \times \R \rightarrow \R^n$ kaller vi \emph{tidsavhengig vektorfelt}.
@@ -1384,8 +1384,8 @@ For å formulere likningene må vi utvide begrepet vektorfelt litt:
 \textbf{Obs}: Hvis $E$ er et tidsavhengig vektorfelt, så er for hver $t \in \R$ $E(\cdot, t) \colon \R^n  \rightarrow \R^n$ et vanlig vektorfelt. 
 Det forklarer hvorfor vi kaller de \emph{tidsavhengige} vektorfelt.
 
-På differensialform (hvor vi bruker $\nabla$ operator som er populær i fysikk) ser Maxwell sine likningene slik ut:
-\begin{oppsum}{Maxwell's likninger}
+På differensialform (hvor vi bruker $\nabla$ operator som er populær i fysikk) ser Maxwell sine ligningene slik ut:
+\begin{oppsum}{Maxwell's ligninger}
 \begin{align}\label{max:divEB}
 \nabla \cdot \vect{E} = \frac{\rho}{\varepsilon}  &\qquad \nabla \cdot \vect{B} = 0 \\
 \nabla \times \vect{E} = -\frac{\partial \vect{B}}{\partial t} & \qquad \nabla \times \vect{B} = \mu \left( \vect{J} + \varepsilon \frac{\partial \vect{E}}{\partial t} \right) \label{max:PDE}
@@ -1414,7 +1414,7 @@ Vi skal vise at:
 \vect{E}(\vect{r}) = \frac{1}{4 \pi \varepsilon_0} \frac{Q}{r^2} \hat{r}
 \]
 der \( r = \sqrt{x^2 + y^2 + z^2} \) og \( \hat{r} = \vect{r}/r \).
-Fra Maxwells likninger, \eqref{max:divEB} får vi:
+Fra Maxwells ligninger, \eqref{max:divEB} får vi:
 \[
 \iiint \nabla \cdot \vect{E}\, dV = Q
 \]
@@ -1437,7 +1437,7 @@ Oppdriftskraften $\vect{F}_\textrm{oppdrift}$ på et legeme nedsenket i en væsk
     \vect{F}_\textrm{oppdrift}=-\vect{G}_\textrm{fortrengt}.
 \end{equation}
 \end{oppsum}
-I det følgende eksemplet skal vi bruke Gauss' lov for å beregne oppdriftskraften på et legeme nedsenket i vann. For å gjøre det har vi også behov for likningen som angir trykket i ei væske som funksjon av høyden. Dette kalles loven om hydrostatisk trykk. Den utledes \href{https://www.youtube.com/watch?v=RpJu9hDTsGU&list=PLBSPq-MdQqruVxoeYU6tAZ9t-kDUXXhoE&index=5}{her}, og resultatet går som følger. Trykket (altså kraften per areal) i ei væske på jordas overflate, er gitt ved
+I det følgende eksemplet skal vi bruke Gauss' lov for å beregne oppdriftskraften på et legeme nedsenket i vann. For å gjøre det har vi også behov for ligningen som angir trykket i ei væske som funksjon av høyden. Dette kalles loven om hydrostatisk trykk. Den utledes \href{https://www.youtube.com/watch?v=RpJu9hDTsGU&list=PLBSPq-MdQqruVxoeYU6tAZ9t-kDUXXhoE&index=5}{her}, og resultatet går som følger. Trykket (altså kraften per areal) i ei væske på jordas overflate, er gitt ved
 
 \begin{equation}
     p(z)=\rho\textrm{g}z+p_0
