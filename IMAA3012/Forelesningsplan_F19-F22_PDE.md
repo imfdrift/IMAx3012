@@ -27,12 +27,17 @@ Ingen kode denne uka.
 
 Kompendium: **§3.3 "Numeriske metoder: Endelige differanser"**, t.o.m. Neumann-seksjonen.
 
-- Approksimasjon av deriverte
+- Approksimasjon av deriverte (fremover-, bakover- og sentraldifferanse, differanseformel for andrederiverte)
 - To-punkts randverdiproblem med Dirichlet-betingelser (+ implementering i Python)
 - Iterative metoder: Jacobi- og Gauss-Seidel-iterasjon
 - To-punkts randverdiproblem med Neumann-betingelser
 
-Kode: `IMAA3012_TeachingMaterial/F20_Endelige_Differanser_Jacobi_GaussSeidel.ipynb`
+Kode:
+- `IMAA3012_TeachingMaterial/F20a_Differanseapproksimasjoner_Deriverte.ipynb` -- demonstrerer fremover-,
+  bakover- og sentraldifferanse (geometrisk som sekantlinjer, og numerisk som $O(h)$ vs. $O(h^2)$-konvergens),
+  samt differanseformelen for $f''(x)$.
+- `IMAA3012_TeachingMaterial/F20b_Endelige_Differanser_Jacobi_GaussSeidel.ipynb` -- direkte løsning,
+  Jacobi- og Gauss-Seidel-iterasjon for 1D RVP (bygger på F20a).
 
 ---
 

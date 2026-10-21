@@ -264,11 +264,11 @@ Den enkleste måten å sjekke en løsning på, er å sette den inn i den aktuell
 
 \begin{eks}{Varme- eller diffusjonsligningen}
 \[
-u_t =\kappa \Delta u,
+u_t =\alpha \Delta u,
 \]
-hvor \( \kappa \) er diffusivitetskonstanten. Hvis vi ha en romdimensjon skrives ligningen som
+hvor \( \alpha \) er diffusivitetskonstanten. Hvis vi har én romdimensjon skrives ligningen som
 \begin{align}\label{eq:diffeq}
-u_t = \kappa u_{xx}\end{align}
+u_t = \alpha u_{xx}\end{align}
 Denne ligningen beskriver diffusjon av termisk energi i et homogent medium. 
 \end{eks}
 Selv om det ikke blir relevant i dette kurset kan vi nevne at kvantemekanikken er basert på en difusjonsligning i det komplekse planet: Schrödingerligningen.
@@ -307,7 +307,7 @@ Spesielt representerer løsningen i akustikk et akustisk strålingspotensial.
 
 Til slutt skal vi bare nenve hvorfor man foretrekker å studere andre ordens PDE. 
 
-\begin{oppsum}{Klassifisering av 2.ordens PDE}
+\begin{oppsum}{Klassifisering av 2.ordens PDE}\label{oppsum:klassifisering}
 Den generelle formen for en kvasi-lineær PDE av 2.orden for en funksjon \( u = u(x, y) \) av to uavhengige variabler er
 \begin{align}\label{PDE:Klass}
 u_{xx} + a\, u_{xy} + b\, u_{yy} = c,
@@ -322,7 +322,7 @@ Ved hjelp av matematiske triks og finurligheter\footnote{Inkludert en transforma
 Vi skal ikke gå nærmere inn i analysen av de forskjellige typene, men bare nevne at en metode som fungerer for den ene klassen ikke nødvendigvis fungerer godt for de andre klassene. 
 
 Som et enkelt eksempel kan vi klassifisere den éndimensjonale bølgeligningen. Ved å sammenlikne med kravene over ser vi enkelt at \eqref{wave:eq} er en hyperbolisk PDE. Laplace-ligningen\eqref{eq:Laplace} og Poisson-ligningen\eqref{eq:Poisson} er eksempler på elliptiske PDEer. Ved omskriving finner vi at varmeligningen i 1D,
-\[u_t= \kappa u_{xx} \Leftrightarrow u_{xx} - \frac{1}{\kappa} u_t = 0\]
+\[u_t= \alpha u_{xx} \Leftrightarrow u_{xx} - \frac{1}{\alpha} u_t = 0\]
 er en parabolisk ligning (både $a$ og $b$ er lik $0$ her!)
 \end{oppsum}
 
@@ -344,7 +344,7 @@ Poisson-ligningen & \eqref{eq:Poisson} & 2. & Lineær & Inhomogen hvis $f\neq0$ 
 \hline
 Helmholtz-ligningen & $\Delta u + \lambda u = 0$ & 2. & Lineær & Homogen & Elliptisk \\
 \hline
-Varmeligningen & $u_t - \kappa \Delta u = 0$ & 2 i rom, 1 i tid & Lineær & Homogen & Parabolisk \\
+Varmeligningen & $u_t - \alpha \Delta u = 0$ & 2 i rom, 1 i tid & Lineær & Homogen & Parabolisk \\
 \hline
 \end{tabular}
 \caption{Klassifisering av sentrale 2.ordens PDEer fra dette kapittelet}
@@ -365,7 +365,7 @@ altså er $c_1u_1+c_2u_2$ også en løsning. Dette gjelder også for (muligens u
 
 Vi skal bruke dette prinsippet til å bygge opp løsninger av bølge- og varmeligningen fra enkle byggeklosser: separable løsninger på formen $u(x,t)=X(x)T(t)$.
 
-\subsubsection*{Bølgeligningen: stående bølger}
+\subsubsection*{Bølgeligningen: stående bølger (til orientering)}
 Vi leter etter løsninger av den éndimensjonale bølgeligningen \eqref{wave:eq} på formen $u(x,t)=X(x)T(t)$. Innsatt i ligningen $u_{tt}-c^2u_{xx}=0$ gir dette $X(x)T''(t) = c^2X''(x)T(t)$, altså, så lenge $X(x)T(t)\neq 0$,
 \[
 \frac{T''(t)}{c^2T(t)} = \frac{X''(x)}{X(x)}.
@@ -388,7 +388,7 @@ u(x,t) = \sum_k \big(a_k U_k(x,t) + b_k V_k(x,t)\big)
 \]
 også en løsning av bølgeligningen. Ved $t=0$ gir dette $u(x,0)=\sum_k(a_k\cos(kx)+b_k\sin(kx))$, altså en \emph{Fourierrekke}. Dette betyr at vi i prinsippet kan finne en løsning for enhver initialbetingelse $u(x,0)=f(x)$ ved å finne Fourierrekken til $f$ (dette var pensum i MA2 for noen av dere, men er utenfor pensum for andre i dette kurset).
 
-\subsubsection*{Flere romdimensjoner}
+\subsubsection*{Flere romdimensjoner (til orientering)}
 Samme fremgangsmåte -- separasjon av variable etterfulgt av superposisjon -- generaliserer direkte til bølgeligningen i to og tre dimensjoner, \eqref{gen:waveeq}. I to dimensjoner, med $\Delta u = u_{xx}+u_{yy}$, finner vi for eksempel at
 \[
 u(x,y,t) = \sin(ax)\sin(by)\cos\!\big(c\sqrt{a^2+b^2}\,t\big)
@@ -396,7 +396,7 @@ u(x,y,t) = \sin(ax)\sin(by)\cos\!\big(c\sqrt{a^2+b^2}\,t\big)
 løser $u_{tt}-c^2\Delta u=0$ for alle konstanter $a,b$ (regn gjerne selv ut de partiellderiverte og sett inn i ligningen for å bekrefte dette). Tilsvarende finner man løsninger i tre dimensjoner, og mer generelt i $n$ dimensjoner.
 
 \subsubsection{Varmeligningen (til orientering)}
-Nøyaktig samme separasjonsteknikk kan brukes på varmeligningen \eqref{eq:diffeq}, $u_t = c^2u_{xx}$ (her skriver vi diffusivitetskonstanten som $c^2$ i stedet for $\kappa$, i tråd med notasjonen i \eqref{gen:waveeq}). Ansatsen $u(x,t)=X(x)T(t)$ gir denne gangen
+Nøyaktig samme separasjonsteknikk kan brukes på varmeligningen \eqref{eq:diffeq}, $u_t = c^2u_{xx}$ (her skriver vi diffusivitetskonstanten som $c^2$ i stedet for $\alpha$, i tråd med notasjonen i \eqref{gen:waveeq}). Ansatsen $u(x,t)=X(x)T(t)$ gir denne gangen
 \[
 \frac{T'(t)}{c^2T(t)} = \frac{X''(x)}{X(x)} = -k^2,
 \]
@@ -416,11 +416,17 @@ og igjen gir superposisjon oss løsninger for en bred klasse av initialbetingels
 I nesten alle tilfeller er den generelle løsningen av en partiell differensialligning
 lite nyttig i seg selv. Dette henger sammen med det vi nevnte tidligere, nemlig at den generelle løsningen av en lineær partiell differensialligning inneholder vilkårlige funksjoner. Dette medfører at det finnes uendelig mange løsninger, og bare ved å spesifisere initial- og/eller randbetingelsene kan man bestemme en spesifikk løsning av interesse. For konkrete anvendelser må derfor tilleggsvilkår være oppfylt, vanligvis kalt initial- eller randbetingelser. 
 
-Vanligvis oppstår både initial- og randbetingelser ut fra fysikken i problemet (vi skal se på et slik eksempel i \Cref{sect:bevaringslover}). I tilfeller der én av de uavhengige variablene er tiden \( t \), angir en initialbetingelse tilstanden til den avhengige variabelen \( u(x, t) \) ved et bestemt tidspunkt \( t = t_0 \) eller \( t = 0 \).
-\begin{defn}{Cauchy betingelser}
-Ofte spesifiseres \( u(x, 0) \) og/eller \( u_t(x, 0) \) for å bestemme funksjonen \( u(x, t) \) ved senere tider. Slike betingelser kalles Cauchy-betingelser (eller initialbetingelser). Å finne løsningen til initialverdiproblemet med gitte Cauchy-data for \( t = 0 \) kalles Cauchy-problemet eller initialverdiproblemet.
+Vanligvis oppstår både initial- og randbetingelser ut fra fysikken i problemet (vi skal se på et slik eksempel i \Cref{sect:bevaringslover}). De to typene betingelser brukes imidlertid i to prinsipielt ulike situasjoner: enten lar vi løsningen \emph{utvikle seg} videre fra en gitt starttilstand, eller så krever vi at løsningen tilfredsstiller gitte vilkår \emph{langs hele randen} av et område samtidig. Vi ser først på den første typen.
+
+I tilfeller der én av de uavhengige variablene er tiden \( t \), angir en initialbetingelse tilstanden til den avhengige variabelen \( u(x, t) \) ved et bestemt tidspunkt \( t = t_0 \) eller \( t = 0 \).
+\begin{defn}{Cauchy-betingelser}
+Ofte spesifiseres \( u(x, 0) \) og/eller \( u_t(x, 0) \) for å bestemme funksjonen \( u(x, t) \) ved senere tider. Slike betingelser kalles Cauchy-betingelser (eller initialbetingelser): de gis på kun \emph{én} flate (f.eks. $t=0$), og antallet betingelser må matche ordenen til ligningen i den retningen -- en 2.ordens ligning i $t$ trenger både $u(x,0)$ og $u_t(x,0)$, akkurat som en 2.ordens ODE trenger to initialverdier. Å finne løsningen med gitte Cauchy-data for $t=0$ kalles \emph{Cauchy-problemet} eller \emph{initialverdiproblemet}: løsningen \emph{evolverer} bort fra denne starttilstanden, i stedet for å bli bestemt av vilkår langs en rand som omslutter hele området.
 \end{defn}
-Selv om vi ikke skal bevise det her så kan det vises at disse betingelsene er nødvendige og tilstrekkelige for eksistensen av en entydig løsning. Og entydige løsninger er viktige. Dersom det fantes flere mulige løsninger så hjelper differensialligningen oss lite. Hele poenget med å løse en differensialligninger jo å forutsi hvordan systemet vil utvikle seg med tiden.
+
+\begin{rem}{Cauchy-problem eller initialverdiproblem?}
+Vi bruker her de to navnene om hverandre, slik det er vanlig når $t$ faktisk er tid. Generelt er \emph{Cauchy-problemet} det videre begrepet: data (funksjonsverdi og nok normal-deriverte) gis på \emph{én} flate, som ikke nødvendigvis må være et tidssteg $t=t_0$ -- det kan i prinsippet være en hvilken som helst flate. \emph{Initialverdiproblem} er navnet man bruker når denne flaten faktisk er et tidssteg, slik at løsningen tolkes som noe som utvikler seg videre i tid. Eksempelet under, der vi (kunstig) bruker $y$ som en "tidsvariabel" for Laplace-ligningen, er et Cauchy-problem som ikke er noe fysisk initialverdiproblem.
+\end{rem}
+Selv om vi ikke skal bevise det her så kan det vises at disse betingelsene er nødvendige og tilstrekkelige for eksistensen av en entydig løsning. Og entydige løsninger er viktige. Dersom det fantes flere mulige løsninger så hjelper differensialligningen oss lite. Hele poenget med å løse en differensialligning er jo å forutsi hvordan systemet vil utvikle seg med tiden.
 
 \begin{eks}{Cauchy-problem for Laplace-ligningen}Vi skal igjen se på Laplace-ligningen på det todimesjonale  området $D=\{(x,y) \in \R^2\colon y <0\}$. Siden $\partial D =\{(x,y) \colon y=0\}$ kan vi formulere et Cauchy-problem (vi tenker her på $y$-koordinatet som en tidsvariable) på følgende måte:
 \begin{equation}\label{Cauchy-prob}
@@ -434,7 +440,15 @@ Vi deriverer \[\left.u_y(x,y)\right|_{y=0}=\left.\cosh(y)\sin(x)\right|_{y=0} = 
 Oppsummert, $u$ løser Cauchy-problemet gitt ved \eqref{Cauchy-prob}.
 \end{eks}
 
-I ethvert fysisk problem skal den styrende ligningen løses i et gitt område \( D \) i rommet med foreskrevne verdier for den avhengige variabelen \( u(x, t) \) på randen \( \partial D \) av \( D \). Ofte trenger ikke randen å omslutte et endelig volum — i slike tilfeller ligger deler av randen i uendeligheten. Når randen er uendelig langt unna så er det nødvendig å spesifisere løsningens oppførsel i grensen ($\lim$). Denne typen problem kalles vanligvis et randverdiproblem, og er et av de mest fundamentale problemene innen anvendt matematikk og matematisk fysikk.
+\begin{rem}{Hvorfor stiller man (nesten) aldri Cauchy-problemer for elliptiske ligninger?}
+Eksempelet over viser at man formelt \emph{kan} skrive ned og løse et Cauchy-problem for en elliptisk ligning som Laplace-ligningen, selv om $y$ ikke er noen fysisk tidsvariabel. Likevel gjør man ikke dette i praksis: det kan vises (Hadamards berømte moteksempel) at løsningen avhenger \emph{ustabilt} av dataene $u(x,0)$ og $u_y(x,0)$ -- en vilkårlig liten endring i dataene kan gi en vilkårlig stor endring i løsningen et lite stykke inn i $D$.
+
+Dette henger sammen med klassifiseringen fra \Cref{oppsum:klassifisering}: Cauchy-problemer passer naturlig til \emph{parabolske og hyperbolske} ligninger (varme- og bølgeligningen), som har en utpreget tidsretning å utvikle seg i. \emph{Elliptiske} ligninger (Laplace-, Poisson- og Helmholtz-ligningen) beskriver derimot likevektstilstander uten noen tidsretning, og trenger i stedet randverdiproblemet vi innfører under -- der man kun spesifiserer \emph{én} betingelse (ikke både $u$ og dens normal-deriverte) på \emph{hele} randen samtidig.
+\end{rem}
+
+Den andre typen betingelse oppstår når ligningen i stedet skal løses i et gitt område \( D \) i rommet, med foreskrevne verdier for den avhengige variabelen \( u \) på \emph{hele} randen \( \partial D \) av \( D \) samtidig -- uten noen utpreget retning å evolvere løsningen i. I stedet for å gi flere betingelser på én flate (som i Cauchy-problemet), gir man her \emph{én} betingelse i hvert punkt av en rand som omslutter (eller avgrenser) hele området; løsningen i det indre bestemmes da globalt av all randdataen på én gang, ikke ved å evolvere fra en starttilstand. Denne typen problem kalles et \emph{randverdiproblem}, og er et av de mest fundamentale problemene innen anvendt matematikk og matematisk fysikk.
+
+Merk at randen $\partial D$ ikke nødvendigvis trenger å omslutte et endelig volum -- deler av den kan ligge i det uendelige (f.eks. hvis $D$ er et halvplan eller det ytre av et objekt). Når det skjer, må man erstatte den manglende, fjerne delen av randen med en betingelse på løsningens oppførsel i grensen ($\lim$), f.eks. at $u$ er begrenset eller går mot en gitt verdi. Dette er en komplikasjon som kan oppstå for randverdiproblemer på ubegrensede områder -- det er \emph{ikke} det som definerer et randverdiproblem: et randverdiproblem kan like gjerne være stilt på et begrenset område (som en endelig stav, se neste delkapittel).
 
 
 Det finnes tre viktige typer randbetingelser som ofte oppstår i formuleringen av fysiske problemer. For å formulere dem trenger vi først en definisjon:
@@ -445,140 +459,143 @@ for reelle funksjoner $u (x,y,\ldots)$.
 \end{defn}
 
 \begin{oppsum}{Randbetingelser for PDE}
-Vi ser på en PDE \eqref{eq:PDE1} definert i en område $D$ med rand $\partial D$. 
+Vi ser på en PDE \eqref{eq:PDE1} definert på et område $D$ med rand $\partial D$. 
     \begin{itemize}
   \item[1.]\textbf{Dirichlet-betingelser}, der løsningen \( u \) er foreskrevet i hvert punkt på randen \( \partial D \) av et område \( D \). Problemet med å finne løsningen i \( D \) med foreskrevne verdier av \( u \) på \( \partial D \) kalles et \emph{Dirichlet-randverdiproblem}.
-  \item[2.]\textbf{Neumann-betingelser}, der verdiene til den normale deriverte \( \frac{\partial u}{\partial \hat{\vect{n}}} \) av løsningen på randen \( \partial D \) er spesifisert. I dette tilfellet kalles problemet et \emph{Neumann-randverdiproblem}.
+  \item[2.]\textbf{Neumann-betingelser}, der verdiene til den normal-deriverte \( \frac{\partial u}{\partial \hat{\vect{n}}} \) av løsningen på randen \( \partial D \) er spesifisert. I dette tilfellet kalles problemet et \emph{Neumann-randverdiproblem}.
   \item[3.]\textbf{Robin-betingelser}, der \( \left( \frac{\partial u}{\partial \hat{\vect{n}}} + a u \right) \) er spesifisert på \( \partial D \). Det tilsvarende problemet kalles et \emph{Robin-randverdiproblem}.
 \end{itemize}
 \end{oppsum}
 
+\begin{oppsum}{Cauchy-problem vs. randverdiproblem}
+De to problemtypene er prinsipielt forskjellige, og henger sammen med klassifiseringen i \Cref{oppsum:klassifisering}:
+\begin{itemize}
+\item Et \textbf{Cauchy-problem} gir data (funksjonsverdi og nok normal-deriverte til å matche ordenen) på \emph{én} flate, og løsningen \emph{evolverer} bort fra den. Dette er den naturlige formuleringen for \textbf{parabolske og hyperbolske} ligninger (varme- og bølgeligningen), som har en utpreget tidsretning.
+\item Et \textbf{randverdiproblem} gir \emph{én} betingelse (Dirichlet, Neumann eller Robin) i hvert punkt av \emph{hele} randen $\partial D$ samtidig, og løsningen i det indre bestemmes globalt av all randdataen på én gang. Dette er den naturlige formuleringen for \textbf{elliptiske} ligninger (Laplace-, Poisson- og Helmholtz-ligningen), som beskriver likevektstilstander uten noen tidsretning.
+\end{itemize}
+Om randen $\partial D$ er begrenset eller strekker seg til uendeligheten er en separat sak (se merknaden over), og påvirker ikke dette hovedskillet.
+\end{oppsum}
 
 \section{Bevaringslover}\label{sect:bevaringslover}
 
-Mange ligninger i fysikken er motivert av en kombinasjon av bevaringslover og noen grunnleggende relasjoner. En \emph{bevaringslov} sier at en fysisk størrelse, slik som energi, masse eller momentum, er bevart etter hvert som den fysiske prosessen utvikler seg over tid. Grunnleggende relasjoner uttrykker våre antakelser om hvordan materialet oppfører seg når tilstandsvariablene endrer seg. 
+Mange ligninger i fysikken er motivert av en kombinasjon av bevaringslover og grunnleggende relasjoner. En \emph{bevaringslov} sier at en fysisk størrelse -- som energi, masse eller bevegelsesmengde -- er bevart etter hvert som en fysisk prosess utvikler seg over tid. En bevaringslov alene gir imidlertid ikke en lukket ligning: den må kombineres med \emph{grunnleggende relasjoner} (også kalt konstitutive relasjoner), som uttrykker hvordan materialet faktisk oppfører seg -- for eksempel hvordan varme strømmer som følge av en temperaturforskjell.
 
-I dette kapittelet følger vi \cite[1.3 Physical Derivation of the Heat Equation]{LaT03} på varmeledning i et objekt \( \Omega \subset \mathbb{R}^3 \) med rand \( \Gamma \), og vi skal bestemme varmeligningen ved å bruke energibevaring sammen med noen grunnleggende lineære relasjoner.
+I dette avsnittet følger vi \cite[1.3 Physical Derivation of the Heat Equation]{LaT03} og utleder varmeligningen for et objekt \( \Omega \subset \mathbb{R}^3 \) med rand \( \Gamma \), ved å kombinere energibevaring med to grunnleggende relasjoner: sammenhengen mellom energitetthet og temperatur, og Fouriers lov for varmeledning.
 
 \subsection*{Varmeligningen fra energibevaring}
 
-Vi betrakter varmebalansen i en delmengde \( \Omega_0 \subset \Omega \) med rand \( \Gamma_0 \). Energiprinsippet sier at endringen per tidsenhet av total energi i \( \Omega_0 \) er lik varmeinnstrømningen gjennom \( \Gamma_0 \) pluss varmeeffekten produsert av varmekilder i \( \Omega_0 \).
+Vi betrakter varmebalansen i en vilkårlig delmengde \( \Omega_0 \subset \Omega \) med rand \( \Gamma_0 \). Energiprinsippet sier at endringen per tidsenhet av total energi i \( \Omega_0 \) er lik varmen som strømmer inn gjennom \( \Gamma_0 \), pluss varmen som produseres av eventuelle varmekilder inni \( \Omega_0 \).
 
-For å uttrykke dette matematisk introduserer vi noen fysiske størrelser.\footnote{I parenteser skal vi angi målenheter for hver fysisk størrelse.}
+For å skrive dette matematisk trenger vi noen fysiske størrelser.\footnote{I parenteser angir vi målenheten til hver størrelse.}
 \begin{itemize}
-\item \( e = e(x,y,z, t) \, [\mathrm{J/m^3}] \) \emph{tetthet med indre energi} i punktet \( (x,y,z) \, [\mathrm{m}] \) og tiden \( t \, [\mathrm{s}] \),
-\item den \emph{totale varmemengden} i \( \Omega_0 \) gitt ved
-\[
-\iiint_{\Omega_0} e \, dV \quad [\mathrm{J}].
-\]
-\item vektorfeltet \( \vect{J} = \vect{J}(x,y,z,t) \, [\mathrm{J/(m^2 s)}] \) er varme-\emph{flukstetthet}.
-\item Med \( \hat{\vect{n}} \) som utvendig enhetsnormal til \( \Gamma_0 \) er fluksen, altså\emph{netto varmeutstrøm}, gjennom \( \Gamma_0 \) gitt ved
-\[
-\iint_{\Gamma_0} \vect{J} \cdot \, d\vect{S} \quad [\mathrm{J/s}].
-\]
-\item effekt fra varmekilder modelleres som \( p = p(x,y,z,t) \, [\mathrm{J/(m^3 s)}] \).
+\item \( e = e(x,y,z, t) \, [\mathrm{J/m^3}] \), \emph{tettheten av indre energi} i punktet \( (x,y,z) \) ved tiden \( t \), slik at den \emph{totale} energien i \( \Omega_0 \) er \( \iiint_{\Omega_0} e \, dV \, [\mathrm{J}] \).
+\item \( \vect{J} = \vect{J}(x,y,z,t) \, [\mathrm{J/(m^2 s)}] \), varme-\emph{flukstettheten}: fysisk varmestrømmen som følge av ledning (og eventuelt konveksjon) gjennom en flate, per areal og tid. Med \( \hat{\vect{n}} \) som utadrettet enhetsnormal på \( \Gamma_0 \) er \emph{netto} varmeutstrømning gjennom randen \( \iint_{\Gamma_0} \vect{J} \cdot \, d\vect{S} \, [\mathrm{J/s}] \). Det er nettopp denne flukstettheten $\vect J$ som Fouriers lov sier noe om: varme strømmer fra varmt mot kaldt, proporsjonalt med temperaturgradienten -- vi kommer presist tilbake til dette i neste avsnitt, men nevner det allerede her fordi det er selve den fysiske mekanismen bak $\vect J$.
+\item \( p = p(x,y,z,t) \, [\mathrm{J/(m^3 s)}] \), effekten produsert av varmekilder, per volum.
 \end{itemize}
-Fra prinsippet om energibevaring har vi nå 
+Energiprinsippet gir da
 \[
-\frac{d}{dt} \iiint_{\Omega_0} e \, dV = - \iint_{\Gamma_0} \vect{J} \cdot \, d\vect{S} + \iiint_{\Omega_0} p \, dV.
+\frac{d}{dt} \iiint_{\Omega_0} e \, dV = - \iint_{\Gamma_0} \vect{J} \cdot \, d\vect{S} + \iiint_{\Omega_0} p \, dV,
 \]
-Vi bruker divergensteoremet \Cref{thm:divergens} for å omdanne integralet på høyre side og får 
+der minustegnet foran fluksleddet reflekterer at $\hat{\vect n}$ peker utover, slik at $\vect J\cdot\hat{\vect n}>0$ betyr varme \emph{ut} av $\Omega_0$ (energitap). Divergensteoremet \Cref{thm:divergens} omformer overflateintegralet til et volumintegral, slik at
 \[
-\iiint_{\Omega_0} \left( \frac{\partial e}{\partial t} + \text{div} \vect{J} - p \right) dV = 0, \quad \text{for } t > 0.
+\iiint_{\Omega_0} \left( \frac{\partial e}{\partial t} + \nabla \cdot \vect{J} - p \right) dV = 0, \quad \text{for } t > 0.
 \]
-Siden \( \Omega_0 \subset \Omega \) er vilkårlig, følger det at
+Siden \( \Omega_0 \subset \Omega \) var en vilkårlig delmengde, må selve integranden være null overalt:
 \begin{equation}
-\frac{\partial e}{\partial t} + \text{div} \vect{J} = p \quad \text{i } \Omega, \quad t > 0.
+\frac{\partial e}{\partial t} + \nabla \cdot \vect{J} = p \quad \text{i } \Omega, \quad t > 0.
 \label{eq:energy}
 \end{equation}
+Denne ligningen er fortsatt helt generell -- den sier ingenting spesifikt om varmeledning, bare at energi er bevart. For å gjøre den om til en konkret ligning for temperaturen \( T \) trenger vi de to grunnleggende relasjonene som knytter \( e \) og \( \vect{J} \) til \( T \); det gjør vi i neste avsnitt.
 
 \subsection*{Grunnleggende relasjoner}
-Energitettheten \( e \) avhenger av absolutt temperatur \( T \, [\mathrm{K}] \), samt romlige koordinater $(x,y,z)$. For den første grunnleggende relasjon antar vi at \( e \) avhenger lineært av \( T \) nær en valgt referansetemperatur \( T_0 \), dvs.
+Energitettheten \( e \) avhenger av temperaturen \( T \, [\mathrm{K}] \) (og av posisjonen $(x,y,z)$). Den første grunnleggende relasjonen er at \( e \) kan antas å avhenge lineært av \( T \) nær en valgt referansetemperatur \( T_0 \):
 \begin{equation}
-e = e_0 + \sigma (T - T_0) = e_0 + \sigma \vartheta, \quad \text{der } \vartheta = T - T_0.
+e = e_0 + \sigma (T - T_0).
 \label{eq:constitutive_energy}
 \end{equation}
 \begin{defn}{Varmekapasitet per volum}
-Koeffisienten \( \sigma = \sigma(x,y,z) \, [\mathrm{J/(m^3 K)}] \) er  \emph{varmekapasitet per volum}, og skrives ofte som \( \sigma = \rho c \), der \( \rho \, [\mathrm{kg/m^3}] \) er \emph{massetetthet} og \( c \, [\mathrm{J/(kg K)}] \) er \emph{spesifikk varmekapasitet}.
+Koeffisienten \( \sigma = \sigma(x,y,z) \, [\mathrm{J/(m^3 K)}] \) er \emph{varmekapasitet per volum}, ofte skrevet \( \sigma = \rho c \), der \( \rho \, [\mathrm{kg/m^3}] \) er \emph{massetetthet} og \( c \, [\mathrm{J/(kg K)}] \) er \emph{spesifikk varmekapasitet}.
 \end{defn}
-\textbf{Fouriers lov} sier at varmefluksen ved ledning er proporsjonal med temperaturgradienten, noe som gir følgende grunnleggende relasjon:
+Siden $T_0$ er en konstant, påvirker den verken gradienter eller tidsderiverte -- den opptrer bare som en konstant forskyvning av $e_0$. Vi dropper derfor $T_0$ og skriver bare $T$ i resten av utledningen, med den forståelsen at $T$ her betyr "temperatur relativt til referansen $T_0$".
+
+Den andre grunnleggende relasjonen er \textbf{Fouriers lov}, som sier at flukstettheten ved ledning er proporsjonal med (og motsatt rettet av) temperaturgradienten:
 \[
-\vect{J}_\textrm{d} = -\lambda \nabla \vartheta.
+\vect{J}_\textrm{d} = -\kappa \nabla T.
 \]
 \begin{defn}{Varmeledningsevne}
-Her betegner subskript $_\textrm{d}$ at det er flukstetthet som følge av \textit{diffusjon}. Koeffisienten \( \lambda = \lambda(x,y,z) \, [\mathrm{J/(m \cdot K \cdot s)}] \) kalles \emph{varmeledningsevne}.
+Subskriptet $_\textrm{d}$ markerer at dette er flukstettheten som følge av \emph{diffusjon} (ledning). Koeffisienten \( \kappa = \kappa(x,y,z) \, [\mathrm{J/(m \cdot K \cdot s)}] \) kalles \emph{varmeledningsevne}.
 \end{defn}
-I noen situasjoner (f.eks. gass i porøse medier eller væsker i bevegelse) transporteres varme også ved konveksjon. La oss betegne flukstettheten til varme som følge av konveksjon som
+I noen situasjoner (f.eks. gass i porøse medier, eller væske i bevegelse) transporteres varme i tillegg ved konveksjon, med flukstetthet
 \begin{align}
     \vect{J}_\textrm{c}=\vect{v}e, 
 \end{align}
-hvor \(\vect{v} = \vect{v}(x,y,z,t) \, [\mathrm{m/s}] \) er \emph{konvektiv hastighet}. Da blir den grunnleggende relasjonen:
+der \(\vect{v} = \vect{v}(x,y,z,t) \, [\mathrm{m/s}] \) er den \emph{konvektive hastigheten}. Samlet gir dette
 \begin{equation}
-\vect{J}= -\lambda \nabla \vartheta + \vect{v} e.
+\vect{J}= -\kappa \nabla T + \vect{v} e.
 \label{eq:constitutive_flux}
 \end{equation}
-Nå vi setter inn \eqref{eq:constitutive_energy} og \eqref{eq:constitutive_flux} i \eqref{eq:energy} for å få
+Setter vi \eqref{eq:constitutive_energy} og \eqref{eq:constitutive_flux} inn i bevaringsloven \eqref{eq:energy}, får vi
 
 \begin{oppsum}{Varmeligningen med konveksjon}
 \begin{equation}
-\sigma \frac{\partial \vartheta}{\partial t} - \text{div} (\lambda \nabla \vartheta) + \text{div}(\sigma \vect{v} \vartheta) = q \quad \text{i } \Omega,
+\sigma \frac{\partial T}{\partial t} - \nabla \cdot (\kappa \nabla T) + \nabla \cdot (\sigma \vect{v} T) = q \quad \text{i } \Omega,
 \end{equation}
-der \( q = p - \text{div} (\vect{v} e_0) \).
+der \( q = p - \nabla \cdot (\vect{v} e_0) \).
 \end{oppsum}
 
-\subsection*{Rand- og Initialbetingelser for varmeligning}
-For modellering av varmeledning kombineres differensialligningen med en initialbetingelse ved \( t = 0 \),
+\subsection*{Rand- og initialbetingelser for varmeligningen}
+For å modellere varmeledning fullt ut kombinerer vi differensialligningen med en initialbetingelse ved \( t = 0 \),
 \begin{equation}
-\vartheta(x,y,z, 0) = \vartheta_i(x,y,z), \quad (\text{index } i \text{ brukes her som betegnelse for \textit{indre}})
+T(x,y,z, 0) = T_i(x,y,z), \quad (\text{index } i \text{ for \textit{indre}}),
 \end{equation}
-og en \emph{randbetingelse} som uttrykker at varmefluksen gjennom randen er proporsjonal med forskjellen mellom overflatetemperaturen og omgivelsestemperaturen\footnote{Omgivelse skrives her på engelsk ambience, derfor bruker vi index $a$ siden en $o$ for omgivelse er for lett å mistolke som $0$.}:
+og en randbetingelse. Den vanligste typen -- Newtons avkjølingslov -- sier at varmefluksen gjennom randen er proporsjonal med forskjellen mellom overflatetemperaturen og omgivelsestemperaturen\footnote{Omgivelse skrives her på engelsk \textit{ambience}, derfor bruker vi indeks $a$ -- en $o$ for omgivelse er for lett å forveksle med $0$.}:
 \[
-\vect{J} \cdot \hat{\vect{n}} = \kappa(\vartheta - \vartheta_a), \text{ der } \kappa = \kappa(x,y,z, t) \, [\mathrm{J/(m^2 s K)}]  
+\vect{J} \cdot \hat{\vect{n}} = h(T - T_a), \text{ der } h = h(x,y,z, t) \, [\mathrm{J/(m^2 s K)}]
 \]
-er en varmeovergangskoeffisient. 
+er \emph{varmeovergangskoeffisienten}.
 
-\textbf{Antagelse:} Materialstrømmen går ikke gjennom randen. Dette medfører at  (\( \vect{v} \cdot \hat{\vect{n}} = 0 \)). Da får vi fra \eqref{eq:constitutive_flux}:
+\textbf{Antagelse:} Det strømmer ikke materiale gjennom randen, altså \( \vect{v} \cdot \hat{\vect{n}} = 0 \). Da gir \eqref{eq:constitutive_flux}:
 \[
-\vect{J} \cdot \hat{\vect{n}} = -\lambda \nabla \vartheta \cdot \hat{\vect{n}} = -\lambda \frac{\partial \vartheta}{\partial \hat{\vect{n}}}.
+\vect{J} \cdot \hat{\vect{n}} = -\kappa \nabla T \cdot \hat{\vect{n}} = -\kappa \frac{\partial T}{\partial \hat{\vect{n}}}.
 \]
-Dermed får vi Robin's randbetingelse (se \Cref{defn:normalderiv}):
+Sammen med uttrykket over for $\vect J\cdot\hat{\vect n}$ gir dette en Robin-randbetingelse (se \Cref{defn:normalderiv}):
 \begin{equation} \label{varme:rand}
-\lambda \frac{\partial \vartheta}{\partial \hat{\vect{n}}} + \kappa(\vartheta - \vartheta_a) = 0 \quad \text{på } \Gamma.
+\kappa \frac{\partial T}{\partial \hat{\vect{n}}} + h(T - T_a) = 0 \quad \text{på } \Gamma.
 \end{equation}
-Spesialtilfeller for noen verdier av $\kappa$:
+To spesialtilfeller er verdt å merke seg:
 \begin{itemize}
-\item \( \kappa = 0 \): perfekt isolert (Neumann-betingelse): \( \frac{\partial \vartheta}{\partial \hat{\vect{n}}} = 0 \)
-\item \( \kappa \to \infty \): perfekt kontakt (Dirichlet-betingelse): \( \vartheta = \vartheta_a \)
+\item \( h = 0 \): perfekt isolert rand (Neumann-betingelse): \( \dfrac{\partial T}{\partial \hat{\vect{n}}} = 0 \).
+\item \( h \to \infty \): perfekt varmekontakt med omgivelsene (Dirichlet-betingelse): \( T = T_a \).
 \end{itemize}
 
 \subsection*{Dimensjonsløs form}
-Vi innfører dimensjonsløse størrelser ved hjelp av referanseverdier \( L, \tau, \vartheta_f, \sigma_f, v_f \), osv., og definerer:
+Vi innfører dimensjonsløse størrelser ved hjelp av referanseverdier \( L, \tau, T_f, \sigma_f, v_f \), osv., og definerer:
 \[
-\tilde{t} = \frac{t}{\tau}, \quad \tilde{x} = \frac{x}{L},\quad \tilde{y} = \frac{y}{L},\quad \tilde{z} = \frac{z}{L}, \quad u(\tilde{x},\tilde{y},\tilde{z}, \tilde{t}) = \frac{\vartheta(L \tilde{x},L \tilde{y},L \tilde{z}, \tau \tilde{t})}{\vartheta_f}.
+\tilde{t} = \frac{t}{\tau}, \quad \tilde{x} = \frac{x}{L},\quad \tilde{y} = \frac{y}{L},\quad \tilde{z} = \frac{z}{L}, \quad u(\tilde{x},\tilde{y},\tilde{z}, \tilde{t}) = \frac{T(L \tilde{x},L \tilde{y},L \tilde{z}, \tau \tilde{t})}{T_f}.
 \]
-For å få en dimensjonsløs form av varmeligningen dividerer vi varmeligningen med \( \lambda_f \vartheta_f / L^2 \) og bruker kjerneregelen:
-\[\frac{\partial u}{\partial \tilde{t}} = \tau \frac{\partial}{\partial t}\left(\frac{\vartheta}{\vartheta_f}\right), \qquad \tilde{\nabla} u = L\nabla \left(\frac{\vartheta}{\vartheta_f}\right), \text{ og får}\]
+Vi dividerer varmeligningen med \( \kappa_f T_f / L^2 \) og bruker kjerneregelen:
+\[\frac{\partial u}{\partial \tilde{t}} = \tau \frac{\partial}{\partial t}\left(\frac{T}{T_f}\right), \qquad \tilde{\nabla} u = L\nabla \left(\frac{T}{T_f}\right), \text{ og får}\]
 \begin{equation}\label{eq:varm_dimless}
-D \frac{\partial u}{\partial \tilde{t}} - \widetilde{\text{div}} (a \tilde{\nabla} u) + \widetilde{\text{div}} (\vect{b}u) = f \quad \text{i } \Omega,
+D \frac{\partial u}{\partial \tilde{t}} - \tilde{\nabla} \cdot (a \tilde{\nabla} u) + \tilde{\nabla} \cdot (\vect{b}u) = f \quad \text{i } \Omega,
 \end{equation}
 med
 \[
-D = \frac{L^2 \sigma_f}{\tau \lambda_f}\frac{\sigma}{\sigma_f}, \quad a = \frac{\lambda}{\lambda_f}, \quad \vect{b} = \frac{\vartheta_f \sigma_f L}{\lambda_f}\frac{\sigma}{\sigma_f} \frac{\vect{v}}{v_f}, \quad f=\frac{L^2}{\lambda_f \vartheta_f}q.
+D = \frac{L^2 \sigma_f}{\tau \kappa_f}\frac{\sigma}{\sigma_f}, \quad a = \frac{\kappa}{\kappa_f}, \quad \vect{b} = \frac{T_f \sigma_f L}{\kappa_f}\frac{\sigma}{\sigma_f} \frac{\vect{v}}{v_f}, \quad f=\frac{L^2}{\kappa_f T_f}q.
 \]
-Det er naturlig å velge \( \tau = \dfrac{L^2 \sigma_f}{\lambda_f} \), slik at \( D = 1 \) dersom \( \sigma = \sigma_f \) er konstant. Det dimensjonsløse tallet \( \mathrm{Pe} = \dfrac{v_f \sigma_f L}{\lambda_f} \), som opptrer i definisjonen av \( b \), kalles \emph{Peclet-tallet} og måler den relative styrken mellom konveksjon og konduksjon. Fra nå av utelater vi tilde og skriver\footnote{Ved bruk av produktregelen for $\text{div}$ som sier at $\text{div}(g\vect{w})=g\text{div}\vect{w} +\vect{w} \cdot (\nabla g)$.} \eqref{eq:varm_dimless} som
+Det er naturlig å velge \( \tau = \dfrac{L^2 \sigma_f}{\kappa_f} \), slik at \( D = 1 \) dersom \( \sigma = \sigma_f \) er konstant. Det dimensjonsløse tallet \( \mathrm{Pe} = \dfrac{v_f \sigma_f L}{\kappa_f} \), som opptrer i definisjonen av \( \vect b \), kalles \emph{Pecletallet} og måler den relative styrken mellom konveksjon og konduksjon (ledning). Fra nå av utelater vi tilde og skriver\footnote{Ved bruk av produktregelen for $\nabla\cdot$, som sier at $\nabla\cdot(g\vect{w})=g\,\nabla\cdot\vect{w} +\vect{w} \cdot (\nabla g)$.} \eqref{eq:varm_dimless} som
 
-\begin{oppsum}{Varmeligningen dimensjonsløs form}
+\begin{oppsum}{Varmeligningen på dimensjonsløs form}
 \begin{align}\label{varme:dimless}
-D\frac{\partial u}{\partial t} - \text{div} (a\nabla u)+\vect{b}\cdot \nabla u +cu=f \quad \text{ i } \Omega \text{ der } c=\text{div } \vect{b}
+D\frac{\partial u}{\partial t} - \nabla \cdot (a\nabla u)+\vect{b}\cdot \nabla u +cu=f \quad \text{ i } \Omega, \quad \text{der } c=\nabla \cdot \vect{b},
 \end{align}
-Rand- og initialbetingelser \eqref{varme:rand} transformerer liknende til:
+og rand- og initialbetingelsen \eqref{varme:rand} blir tilsvarende:
 \begin{align}\label{varme:rand2}
-a \frac{\partial u}{\partial \hat{\vect{n}}} + h(u - u_a) = 0 \quad \text{på } \Gamma, \quad u(x,y,z, 0) = u_i(x,y,z),
+a \frac{\partial u}{\partial \hat{\vect{n}}} + \mathrm{Bi}\,\frac{h}{h_f}(u - u_a) = 0 \quad \text{på } \Gamma, \quad u(x,y,z, 0) = u_i(x,y,z),
 \end{align}
-der \( h = \text{Bi} \cdot \kappa/\kappa_f \) og $\text{Bi} = L\kappa_f/\lambda_f$ er det så kallte \emph{Biot tall}.
+der \( \mathrm{Bi} = \dfrac{L h_f}{\kappa_f} \) er det såkalte \emph{Biot-tallet}.
 \end{oppsum}
 
-Den partielle differensialligningen \eqref{varme:dimless} sammen med initialbetingelsen og randbetingelsen \eqref{varme:rand2} kalles et \emph{initial-randverdiproblem}. Uttrykket \( -\text{div} (a \nabla u) \) er skrevet i \emph{divergensform}. Denne formen oppstår naturlig i utledningen av ligningen, og den er hensiktsmessig i store deler av den matematiske analysen. Noen ganger er det lurt (og det finnes i litteraturen) å utvide det og skrive ligningen i \emph{ikke-divergensform}:
+Den partielle differensialligningen \eqref{varme:dimless} sammen med initialbetingelsen og randbetingelsen \eqref{varme:rand2} kalles et \emph{initial-randverdiproblem}. Uttrykket \( -\nabla \cdot (a \nabla u) \) er skrevet i \emph{divergensform}. Denne formen oppstår naturlig i utledningen av ligningen, og den er hensiktsmessig i store deler av den matematiske analysen. Noen ganger er det lurt (og det finnes i litteraturen) å utvide det og skrive ligningen i \emph{ikke-divergensform}:
 \[
 D \frac{\partial u}{\partial t} - a \Delta u + \bar{\vect{b}} \cdot \nabla u + c u = f, \quad \text{der } \bar{\vect{b}} = \vect{b} - \nabla a.
 \]
@@ -598,7 +615,7 @@ Koeffisientene i varmeligningen \eqref{eq:varm_dimless} og i randbetingelsene av
 det vil si ved å redusere problemet til et beslektet lineært problem.  
 Vi illustrerer dette med ligningen
 \[
-F(u) := \frac{\partial u}{\partial t} - \text{div}\left( a(u) \nabla u \right) - f(u) = 0 \quad \text{i } \Omega, \quad t > 0,
+F(u) := \frac{\partial u}{\partial t} - \nabla \cdot \left( a(u) \nabla u \right) - f(u) = 0 \quad \text{i } \Omega, \quad t > 0,
 \]
 som er på formen \eqref{eq:varm_dimless}, og som skal løses sammen med passende initial- og randbetingelser.  
 
@@ -607,14 +624,14 @@ startende med en gjetning \( u^0 \). Gitt \( u^k \), ønsker vi å finne et till
 er en bedre tilnærming til den eksakte løsningen enn \( u_k \).  
 Ved å approksimere \( F(u^{k+1}) = 0 \) med \( F(u^k) + F'(u^k) v^k = 0 \), får vi en linearisert ligning
 \[
-\frac{\partial v^k}{\partial t} - \text{div}\left( a(u^k) \nabla v^k \right) 
-- \text{div}\left( a'(u^k) \nabla u^k \, v^k \right) 
+\frac{\partial v^k}{\partial t} - \nabla \cdot \left( a(u^k) \nabla v^k \right) 
+- \nabla \cdot \left( a'(u^k) \nabla u^k \, v^k \right) 
 - f'(u^k) v^k = -F(u^k) \quad \text{i } \Omega,
 \]
 som løses sammen med en initialbetingelse og lineariserte randbetingelser.  Denne ligningen er en lineær ligning i \( v^k \) av typen \eqref{eq:varm_dimless}, der de nye koeffisientene \( a(u^k(x,t)) \), osv., avhenger av \( x \) og \( t \).
 
 \begin{rem}{Andre bevaringslover}
-Fremgangsmåten i dette kapittelet -- en bevaringslov (kombinert med divergensteoremet \Cref{thm:divergens}) sammen med en grunnleggende (konstitutiv) relasjon -- er ikke spesiell for varmeledning. Samme metode brukes til å utlede bevaringslover for andre transporterte størrelser, for eksempel massekonsentrasjonen $c=c(x,y,z,t)$ til et stoff som transporteres ved konveksjon og diffusjon. Da erstattes Fouriers lov $\vect J_\text{d}=-\lambda\nabla\vartheta$ med \emph{Ficks lov} $\vect j_\text{d}=-\delta\nabla c$, der $\delta$ er en diffusjonskoeffisient, og man ender opp med en \emph{konveksjon-diffusjonsligning} på samme form som \eqref{eq:varm_dimless}. Også randbetingelsen \eqref{varme:rand} generaliserer direkte: dersom transporten gjennom randen antas proporsjonal med forskjellen mellom konsentrasjonen på innsiden og utsiden (akkurat som Newtons avkjølingslov for varme), får man en tilsvarende Robin-betingelse for $c$.
+Fremgangsmåten i dette kapittelet -- en bevaringslov (kombinert med divergensteoremet \Cref{thm:divergens}) sammen med en grunnleggende (konstitutiv) relasjon -- er ikke spesiell for varmeledning. Samme metode brukes til å utlede bevaringslover for andre transporterte størrelser, for eksempel massekonsentrasjonen $c=c(x,y,z,t)$ til et stoff som transporteres ved konveksjon og diffusjon. Da erstattes Fouriers lov $\vect J_\text{d}=-\kappa\nabla T$ med \emph{Ficks lov} $\vect j_\text{d}=-\delta\nabla c$, der $\delta$ er en diffusjonskoeffisient, og man ender opp med en \emph{konveksjon-diffusjonsligning} på samme form som \eqref{eq:varm_dimless}. Også randbetingelsen \eqref{varme:rand} generaliserer direkte: dersom transporten gjennom randen antas proporsjonal med forskjellen mellom konsentrasjonen på innsiden og utsiden (akkurat som Newtons avkjølingslov for varme), får man en tilsvarende Robin-betingelse for $c$.
 \end{rem}
 
 \section{Numeriske metoder: Endelige differanser}\label{sect:endifferanser}
@@ -1350,11 +1367,11 @@ Dermed bygger endeligvolum-metode på en bevaringslov. Det skiller metoden fra e
 \section{Endelig volummetode for 1D diffusjonsproblemer}\label{sect:evm1d}
 I denne seksjonen anvendes den endelige volummetoden for å løse enkle diffusjonsproblemer som involverer varmeledning. Ligningen for én-dimensjonal stasjonær varmeledning er:
 \begin{align}\label{1D-heateq}
-\frac{\partial}{\partial x} \left( k \frac{\partial T}{\partial x} \right) + S = 0
+\frac{\partial}{\partial x} \left( \kappa \frac{\partial T}{\partial x} \right) + S = 0
 \end{align}
-hvor $k$ er varmeledningsevnen og $T$ er temperaturen.
+hvor $\kappa$ er varmeledningsevnen og $T$ er temperaturen.
 \begin{rem}{}
-Varmeledningsevne $k$ i \eqref{1D-heateq} ta plassen av koeffisient $\Gamma$ i \eqref{eV_discretisering}.
+Varmeledningsevne $\kappa$ i \eqref{1D-heateq} ta plassen av koeffisient $\Gamma$ i \eqref{eV_discretisering}.
 
 Kildetermet $S$ kan for eksempel representere varme generert av elektrisk strøm gjennom staven.
 \end{rem}
@@ -1369,7 +1386,7 @@ Betrakt problemet med varmekonduksjon uten kilde i en isolert stav med endene ho
 Tverrsnittsarealet $A$ antas å være konstant (dvs. staven er like tykk over hele lengden).
 Det én-dimensjonale problemet er styrt av en forenklet versjon av \eqref{1D-heateq}:
 \begin{equation}\label{eq:ex343}
-\frac{\partial}{\partial x} \left( k \frac{\partial T}{\partial x} \right) = 0
+\frac{\partial}{\partial x} \left( \kappa \frac{\partial T}{\partial x} \right) = 0
 \end{equation}
 \end{eks}
 Vi skal i det følgende løse \eqref{eq:ex343} nummerisk ved endeligvolum-metode. La oss dele staven i fem like store kontrollvolumer, noe som gir $\delta x = 0.1\,\text{m}$. 
@@ -1415,34 +1432,34 @@ Gitteret består av fem noder.
 
 \paragraph{For nodene 2, 3 og 4} kan temperaturverdiene til øst og vest hentes fra nabonoder. Vi bruker nå at varmeledningsevne, arealgjennomsnitt av staven og avstand $\delta x$ er konstant. Integrasjon av \eqref{eq:ex343} over et av de indre kontrollvolum gir nå diskretiserte ligninger på følgende form:
 \begin{align*}
-\left(\frac{k_e}{\delta x_{PE}}A_e + \frac{k_w}{\delta x_{WP}}A_W \right)T_P &=\left(\frac{k_w}{\delta x_{WP}}A_w\right) T_W + \left(\frac{k_e}{\delta x_{PE}}A_e\right) T_E  \\
-\Leftrightarrow \underbrace{\left(\frac{k}{\delta x}A + \frac{k}{\delta x}A\right)}_{=:a_P}T_P &=\underbrace{\left(\frac{k}{\delta x}A\right)}_{=:a_W} T_W + \underbrace{\left(\frac{k}{\delta x}A\right)}_{=:a_E} T_E
+\left(\frac{\kappa_e}{\delta x_{PE}}A_e + \frac{\kappa_w}{\delta x_{WP}}A_W \right)T_P &=\left(\frac{\kappa_w}{\delta x_{WP}}A_w\right) T_W + \left(\frac{\kappa_e}{\delta x_{PE}}A_e\right) T_E  \\
+\Leftrightarrow \underbrace{\left(\frac{\kappa}{\delta x}A + \frac{\kappa}{\delta x}A\right)}_{=:a_P}T_P &=\underbrace{\left(\frac{\kappa}{\delta x}A\right)}_{=:a_W} T_W + \underbrace{\left(\frac{\kappa}{\delta x}A\right)}_{=:a_E} T_E
 \end{align*}
 Vi får dermed som diskretisert ligning i hver av nodene $2,3,4$ at
 \begin{align}
-a_P T_P = a_W T_W + a_E T_E,\quad \text{hvor } a_W = a_E = \frac{kA}{\Delta x}, \quad a_P = a_W + a_E
+a_P T_P = a_W T_W + a_E T_E,\quad \text{hvor } a_W = a_E = \frac{\kappa A}{\Delta x}, \quad a_P = a_W + a_E
 \end{align}
 Siden det ikke finnes noen varmekilde i modellen, er $S^u = 0$ og $S_P = 0$ (se \eqref{disc_finvol1}).
 
 \paragraph{For randnodene 1 og 5 }må vi inkludere randbetingelsene. Integrasjon av \eqref{eq:ex343} over kontrollvolum\footnote{Integralet blir et trippelintegral ettersom vi integrerer over et volum (som navn til metoden sier). Ligningen her er forresten bare avhengig av koordinat $x$ og det er det hvorfor vi kaller det et 1D-problem (selv om integralene er trippelintegraler).} med node $1$ gir 
 \begin{align}\label{eq:ex343_rand}
-0= \iiint_{KV} \frac{\partial}{\partial x}\left(k\frac{\partial T}{\partial x}\right) \, dV = kA\frac{T_E-T_P}{\delta x} -kA\frac{T_P-T_V}{\partial x/2}=0
+0= \iiint_{KV} \frac{\partial}{\partial x}\left(\kappa\frac{\partial T}{\partial x}\right) \, dV = \kappa A\frac{T_E-T_P}{\delta x} -\kappa A\frac{T_P-T_V}{\partial x/2}=0
 \end{align}
 Husk at fluks gjennom grensflaten med areal $A$ approksimeres ved en lineær relasjon mellom temperaturen ved rand $V$ og node $P$. Vi skriver nå \eqref{eq:ex343_rand} som\footnote{Husk at node $W$ eksisterer ikke siden det ligger til venstre av $V$. Vi har allerede sett bruk av fiktive punkter i randbetingelser i siste kapittel, se \Cref{ex1:RVP}}:
 \begin{align}\label{eq:rand_vest}
-\frac{3k}{\delta x} A T_P = 0\cdot T_W + \frac{k}{\delta x} T_E + \frac{2k}{\delta x} A T_V
+\frac{3\kappa}{\delta x} A T_P = 0\cdot T_W + \frac{\kappa}{\delta x} T_E + \frac{2\kappa}{\delta x} A T_V
 \end{align}
-Nå sammenlikner vi \eqref{eq:rand_vest} med \eqref{disc_finvol1} fiksert temperatur $T_V$ inkluderes som  en kilde i$(S^u+S_PT_P)$ i ligning, hvor $S^u=(2kA/\delta x)T_V$ og $S_P = -2kA/\delta x$ (mens koeffisienten for den fiktive punkt $W$ settes lik $0$).
+Nå sammenlikner vi \eqref{eq:rand_vest} med \eqref{disc_finvol1} fiksert temperatur $T_V$ inkluderes som  en kilde i$(S^u+S_PT_P)$ i ligning, hvor $S^u=(2\kappa A/\delta x)T_V$ og $S_P = -2\kappa A/\delta x$ (mens koeffisienten for den fiktive punkt $W$ settes lik $0$).
 Dermed får vi for node $1$ som gir venstre rand
 \begin{align}\label{eq:ex343_rand1}
-a_P T_P = a_W T_W +a_E  T_E + S^u.\notag \\ \text{hvor } a_W=0, a_E = \frac{kA}{\delta x}, a_P = a_E - S_P  \quad S^u = \frac{2kA}{\delta x} T_V, \ S_P = -\frac{2kA}{\delta x}. 
+a_P T_P = a_W T_W +a_E  T_E + S^u.\notag \\ \text{hvor } a_W=0, a_E = \frac{\kappa A}{\delta x}, a_P = a_E - S_P  \quad S^u = \frac{2\kappa A}{\delta x} T_V, \ S_P = -\frac{2\kappa A}{\delta x}. 
 \end{align}
 Tilsvarende for node $5$, med kjent temperatur $T_H$:
 \begin{align}\label{eq:ex343_rand5}
 a_P T_P = a_W T_W + a_E T_E + S^u, \notag\\ 
-\text{hvor } a_W=\frac{kA}{\delta x}, a_E = 0, a_P = a_W +a_E - S_P  \quad S^u = \frac{2kA}{\delta x} T_H, \ S_P = -\frac{2kA}{\delta x},
+\text{hvor } a_W=\frac{\kappa A}{\delta x}, a_E = 0, a_P = a_W +a_E - S_P  \quad S^u = \frac{2\kappa A}{\delta x} T_H, \ S_P = -\frac{2\kappa A}{\delta x},
 \end{align}
-Ved å sette inn numeriske verdier $kA/\delta x = 100$ man kan bestemme koeffisienter:
+Ved å sette inn numeriske verdier $\kappa A/\delta x = 100$ man kan bestemme koeffisienter:
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
@@ -1477,11 +1494,11 @@ Vi ser nå på et problem som inkluderer interne varmekilder, i tillegg til rand
 
 \begin{eks}{Varmeledning med internt kildeledd}\label{ex:CFD_2nd}\mbox{}
 \begin{minipage}{7cm}
-Figuren til høyre viser en stor plate med tykkelse $L = 2\,\text{cm}$, konstant varmeledningsevne $k = 0.5\,\text{W/}\text{m}\text{/K}$ og jevn varmegenerering $q = 1000\,\text{kW/m}^3$. Flatene $V$ og $H$ er holdt ved temperaturene $T_V = 100^\circ$C og $T_H = 200^\circ$C. 
+Figuren til høyre viser en stor plate med tykkelse $L = 2\,\text{cm}$, konstant varmeledningsevne $\kappa = 0.5\,\text{W/}\text{m}\text{/K}$ og jevn varmegenerering $q = 1000\,\text{kW/m}^3$. Flatene $V$ og $H$ er holdt ved temperaturene $T_V = 100^\circ$C og $T_H = 200^\circ$C. 
 
 Vi antar at dimensjonene i $y$- og $z$-retningene er så store at signifikante temperaturgradienter kun opptrer i $x$-retningen. Dermed har vi igjen et problem i én romlig dimensjon. Styreligningen blir
 \[
-\frac{\partial}{\partial x} \left( k \frac{\partial T}{\partial x} \right) + q = 0
+\frac{\partial}{\partial x} \left( \kappa \frac{\partial T}{\partial x} \right) + q = 0
 \]
 Vi skal igjen diskretisere og fremstille løsning som i tidligere eksempel. Notasjon introdusert der (for noder, øst, vest etc. er fortsatt i bruk).
 \end{minipage} \quad
@@ -1492,33 +1509,33 @@ Vi skal igjen diskretisere og fremstille løsning som i tidligere eksempel. Nota
 Som tidligere deler vi $x$-retning inn i fem kontrollvolumer $KV$, med $\delta x = 0.004\,\text{m}$. Vi antar en enhetsflate i $yz$-planet med areal $A$.
 Ved formell integrasjon av den ligningen over et kontrollvolum får vi:
 \begin{align}\label{ex:2_KV_int}
-\iiint_{KV} \frac{\partial}{\partial x} \left(k \frac{\partial T}{\partial x}\right) dV + \iiint_{KV} q dV =0
+\iiint_{KV} \frac{\partial}{\partial x} \left(\kappa \frac{\partial T}{\partial x}\right) dV + \iiint_{KV} q dV =0
 \end{align}
 Første ledd i \eqref{ex:2_KV_int} behandles som i \Cref{ex:CFD_simplest}. For det andre integralet, kilde i ligningen er evaluert ved gjennomsnittlige produksjon (dvs. $\overline{S} |KV|=q|KV|=qA\delta x$ hvor $|KV|$ betegnes volummål til kontroll volum $KV$) i hver kontrollvolum. Dermed får vi fra \eqref{ex:2_KV_int}
 \[
-0 = \left[ kA \frac{dT}{dx} \right]_e - \left[ kA \frac{dT}{dx} \right]_w + q |KV| = k_e A\frac{T_E-T_P}{\delta x}-k_w A\frac{T_P.T_W}{\delta x} + qA \delta x
+0 = \left[ \kappa A \frac{dT}{dx} \right]_e - \left[ \kappa A \frac{dT}{dx} \right]_w + q |KV| = \kappa_e A\frac{T_E-T_P}{\delta x}-\kappa_w A\frac{T_P-T_W}{\delta x} + qA \delta x
 \]
 Vi kan sortere ligningen og skrive den som
-\[\frac{k_e+k_w}{\delta x}AT_P = \frac{k_e}{\delta x}AT_W+ \frac{k_w\delta x}AT_E + qA\delta x\]
-Husk at $k_e=k_w=k$ og dermed er ligningen for indre noder ($2$, $3$ og $4$):
+\[\frac{\kappa_e+\kappa_w}{\delta x}AT_P = \frac{\kappa_w}{\delta x}AT_W+ \frac{\kappa_e}{\delta x}AT_E + qA\delta x\]
+Husk at $\kappa_e=\kappa_w=\kappa$ og dermed er ligningen for indre noder ($2$, $3$ og $4$):
 \begin{align}\label{ex2:CFD_indre_eq}
 a_P T_P = a_W T_W + a_E T_E + S^u\\
-a_W=a_E=\frac{kA}{\delta x}, \quad a_P = a_w + a_E-S_P, \quad S_P=0,\quad  S^u= qA\delta x\notag
+a_W=a_E=\frac{\kappa A}{\delta x}, \quad a_P = a_w + a_E-S_P, \quad S_P=0,\quad  S^u= qA\delta x\notag
 \end{align}
 \textbf{Randbetingelser} Vi bruker for noder $1$ og $5$ igjen en liner approksimasjon for temperaturen mellom randpunkt og nabonode. Ved node $1$, med kjent temperatur $T_V$, integrasjon av ligningen over kontrollvolumet rundt node $1$ gir oss sammen med lineær approksimasjon for temperatur mellom $V$ og $P$:
-\[kA \left(\frac{T_E-T_P}{\delta x}- \frac{T_P-T_V}{\delta x/2}\right)+qA\delta x=0\]
+\[\kappa A \left(\frac{T_E-T_P}{\delta x}- \frac{T_P-T_V}{\delta x/2}\right)+qA\delta x=0\]
 Dermed er diskretisert ligning ved randnode $1$ gitt som  
 \begin{align}
 a_P T_P = a_WT_W + a_E T_E + S^u\\
-a_W = 0, \quad a_E = \frac{kA}{\delta x}, \quad a_P = a_E - S_P, \quad S_P = -\frac{2kA}{\delta x}, \quad S^u = \frac{2kA}{\delta x} T_V + q A \delta x, \notag
+a_W = 0, \quad a_E = \frac{\kappa A}{\delta x}, \quad a_P = a_E - S_P, \quad S_P = -\frac{2\kappa A}{\delta x}, \quad S^u = \frac{2\kappa A}{\delta x} T_V + q A \delta x, \notag
 \end{align}
 Ved node $5$, med kjent temperatur $T_H$, får vi lignende:
 \begin{align}
 a_P T_P = a_W T_W + a_ET_E + S^u\\
-a_W = \frac{kA}{\delta x}, \quad a_E = 0, \quad a_P = a_W +a_E- S_P, \quad S_P = -\frac{2kA}{\delta x},    \quad S^u = \frac{2kA}{\delta x} T_H + q A \delta x, \notag
+a_W = \frac{\kappa A}{\delta x}, \quad a_E = 0, \quad a_P = a_W +a_E- S_P, \quad S_P = -\frac{2\kappa A}{\delta x},    \quad S^u = \frac{2\kappa A}{\delta x} T_H + q A \delta x, \notag
 \end{align}
 \textbf{Numerisk løsning}
-Setter vi inn verdiene $k = 0.5$, $A = 1$, $q = 1000\,\text{kW/m}^3 = 10^6\,\text{W/m}^3$, $\delta x = 0.004\,\text{m}$, får vi:
+Setter vi inn verdiene $\kappa = 0.5$, $A = 1$, $q = 1000\,\text{kW/m}^3 = 10^6\,\text{W/m}^3$, $\delta x = 0.004\,\text{m}$, får vi:
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
@@ -1553,7 +1570,7 @@ T_1 = 150, \quad T_2 = 218, \quad T_3 = 254, \quad T_4 = 258, \quad T_5 = 230
 
 Den analytiske løsningen finnes ved å integrere den styrende ligningen to ganger og bruke randbetingelsene:
 \[
-T(x) = \left(\frac{T_H - T_V}{L}  + T_V + \frac{q}{2k}(L-x)\right) x + T_V
+T(x) = \left(\frac{T_H - T_V}{L}  + T_V + \frac{q}{2\kappa}(L-x)\right) x + T_V
 \]
 Sammenligning viser at den numeriske løsningen stemmer godt overens med den analytiske, selv med et grovt gitter.
 
@@ -1564,15 +1581,15 @@ I neste eksemplet ser vi på kjøling av en sirkulær ribbe ved hjelp av konvekt
 
 Én-dimensjonal varmeoverføring i denne situasjonen styres av:
 \begin{align*}
-\frac{\partial}{\partial x} \left( kA \frac{\partial T}{\partial x} \right) - hO(T - T_\infty) = 0
+\frac{\partial}{\partial x} \left( \kappa A \frac{\partial T}{\partial x} \right) - hO(T - T_\infty) = 0
 \end{align*}
-hvor $h$ er den konvektive varmeoverføringskoeffisienten til luft\footnote{Dette er altså ikke konveksjon inne i staven. Tanken er at luften rundt staven (/ribben) kjøler staven ved at konveksjonsstrømmer oppstår i luften. Luften rett rundt staven varmes opp av staven og denne varme luften transporteres så vekk ved konveksjon, altså luftstrømmer. På den måten forblir luften rett rundt staven på en konstant temperatur $20^\circ\textrm{C}$.}, $O$ er omkretsen, og $k$ er varmeledningsevnen. Den analytiske løsningen er gitt ved:
+hvor $h$ er den konvektive varmeoverføringskoeffisienten til luft\footnote{Dette er altså ikke konveksjon inne i staven. Tanken er at luften rundt staven (/ribben) kjøler staven ved at konveksjonsstrømmer oppstår i luften. Luften rett rundt staven varmes opp av staven og denne varme luften transporteres så vekk ved konveksjon, altså luftstrømmer. På den måten forblir luften rett rundt staven på en konstant temperatur $20^\circ\textrm{C}$.}, $O$ er omkretsen, og $\kappa$ er varmeledningsevnen. Den analytiske løsningen er gitt ved:
 \begin{align}\label{eq:loes_ribbe}
 \frac{T(x) - T_\infty}{T_V - T_\infty} = \frac{\cosh\left(n(L - x)\right)}{\cosh(nL)}
 \end{align}
-hvor $n^2 = \frac{hO}{kA} = 25m^{-2}$ (husk at $k,A$ er konstant!) og $L = 1\,\text{m}$ (lengde av ribbe), $x$ distanse på ribben.
+hvor $n^2 = \frac{hO}{\kappa A} = 25m^{-2}$ (husk at $\kappa,A$ er konstant!) og $L = 1\,\text{m}$ (lengde av ribbe), $x$ distanse på ribben.
 
-Siden $k,A$ er konstant kan vi omskrive ligningen som styrer prosess som
+Siden $\kappa,A$ er konstant kan vi omskrive ligningen som styrer prosess som
 \begin{align}\label{styr_eq_ribbe}
 \frac{\partial^2T}{\partial^2 x} - n^2 (T-T_\infty)=0
 \end{align}
