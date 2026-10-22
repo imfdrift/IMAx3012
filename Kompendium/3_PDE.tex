@@ -424,7 +424,7 @@ Ofte spesifiseres \( u(x, 0) \) og/eller \( u_t(x, 0) \) for å bestemme funksjo
 \end{defn}
 
 \begin{rem}{Cauchy-problem eller initialverdiproblem?}
-Vi bruker her de to navnene om hverandre, slik det er vanlig når $t$ faktisk er tid. Generelt er \emph{Cauchy-problemet} det videre begrepet: data (funksjonsverdi og nok normal-deriverte) gis på \emph{én} flate, som ikke nødvendigvis må være et tidssteg $t=t_0$ -- det kan i prinsippet være en hvilken som helst flate. \emph{Initialverdiproblem} er navnet man bruker når denne flaten faktisk er et tidssteg, slik at løsningen tolkes som noe som utvikler seg videre i tid. Eksempelet under, der vi (kunstig) bruker $y$ som en "tidsvariabel" for Laplace-ligningen, er et Cauchy-problem som ikke er noe fysisk initialverdiproblem.
+Vi bruker her de to navnene om hverandre, slik det er vanlig når $t$ faktisk er tid. Generelt er \emph{Cauchy-problemet} det videre begrepet: data (funksjonsverdi og nok normal-deriverte) gis på \emph{én} flate, som ikke nødvendigvis må være et tidssteg $t=t_0$ -- det kan i prinsippet være en hvilken som helst flate. \emph{Initialverdiproblem} er navnet man bruker når denne flaten faktisk er et tidssteg, slik at løsningen tolkes som noe som utvikler seg videre i tid. Eksempelet under, der vi (kunstig) bruker $y$ som en ``tidsvariabel'' for Laplace-ligningen, er et Cauchy-problem som ikke er noe fysisk initialverdiproblem.
 \end{rem}
 Selv om vi ikke skal bevise det her så kan det vises at disse betingelsene er nødvendige og tilstrekkelige for eksistensen av en entydig løsning. Og entydige løsninger er viktige. Dersom det fantes flere mulige løsninger så hjelper differensialligningen oss lite. Hele poenget med å løse en differensialligning er jo å forutsi hvordan systemet vil utvikle seg med tiden.
 
@@ -443,7 +443,7 @@ Oppsummert, $u$ løser Cauchy-problemet gitt ved \eqref{Cauchy-prob}.
 \begin{rem}{Hvorfor stiller man (nesten) aldri Cauchy-problemer for elliptiske ligninger?}
 Eksempelet over viser at man formelt \emph{kan} skrive ned og løse et Cauchy-problem for en elliptisk ligning som Laplace-ligningen, selv om $y$ ikke er noen fysisk tidsvariabel. Likevel gjør man ikke dette i praksis: det kan vises (Hadamards berømte moteksempel) at løsningen avhenger \emph{ustabilt} av dataene $u(x,0)$ og $u_y(x,0)$ -- en vilkårlig liten endring i dataene kan gi en vilkårlig stor endring i løsningen et lite stykke inn i $D$.
 
-Dette henger sammen med klassifiseringen fra \Cref{oppsum:klassifisering}: Cauchy-problemer passer naturlig til \emph{parabolske og hyperbolske} ligninger (varme- og bølgeligningen), som har en utpreget tidsretning å utvikle seg i. \emph{Elliptiske} ligninger (Laplace-, Poisson- og Helmholtz-ligningen) beskriver derimot likevektstilstander uten noen tidsretning, og trenger i stedet randverdiproblemet vi innfører under -- der man kun spesifiserer \emph{én} betingelse (ikke både $u$ og dens normal-deriverte) på \emph{hele} randen samtidig.
+Dette henger sammen med klassifiseringen fra \Cref{oppsum:klassifisering} -- med én viktig presisering. Cauchy-betingelser hører naturlig hjemme i \emph{tidsretningen} til \emph{parabolske og hyperbolske} ligninger (varme- og bølgeligningen): det er langs denne retningen løsningen har en utpreget retning å utvikle seg i. Men en parabolsk eller hyperbolsk ligning er fortsatt av \emph{andre orden i de romlige variablene}, akkurat som en elliptisk ligning -- og dersom ligningen er stilt på et \emph{begrenset} romlig område, trenger den romlige delen av operatoren uansett en ordentlig randbetingelse på hele randen, helt uavhengig av hva som skjer i tid. En \emph{ren} Cauchy-formulering, uten noen randbetingelse i det hele tatt, er derfor bare mulig når det romlige området er ubegrenset. \emph{Elliptiske} ligninger (Laplace-, Poisson- og Helmholtz-ligningen) har derimot ingen tidsretning i det hele tatt, og trenger \emph{utelukkende} randverdiproblemet vi innfører under -- der man kun spesifiserer \emph{én} betingelse (ikke både $u$ og dens normal-deriverte) på \emph{hele} randen samtidig.
 \end{rem}
 
 Den andre typen betingelse oppstår når ligningen i stedet skal løses i et gitt område \( D \) i rommet, med foreskrevne verdier for den avhengige variabelen \( u \) på \emph{hele} randen \( \partial D \) av \( D \) samtidig -- uten noen utpreget retning å evolvere løsningen i. I stedet for å gi flere betingelser på én flate (som i Cauchy-problemet), gir man her \emph{én} betingelse i hvert punkt av en rand som omslutter (eller avgrenser) hele området; løsningen i det indre bestemmes da globalt av all randdataen på én gang, ikke ved å evolvere fra en starttilstand. Denne typen problem kalles et \emph{randverdiproblem}, og er et av de mest fundamentale problemene innen anvendt matematikk og matematisk fysikk.
@@ -467,14 +467,14 @@ Vi ser på en PDE \eqref{eq:PDE1} definert på et område $D$ med rand $\partial
 \end{itemize}
 \end{oppsum}
 
-\begin{oppsum}{Cauchy-problem vs. randverdiproblem}
+\begin{oppsum}{Cauchy-problem vs. randverdiproblem}\label{oppsum:cauchyRVP}
 De to problemtypene er prinsipielt forskjellige, og henger sammen med klassifiseringen i \Cref{oppsum:klassifisering}:
 \begin{itemize}
-\item Et \textbf{Cauchy-problem} gir data (funksjonsverdi og nok normal-deriverte til å matche ordenen) på \emph{én} flate, og løsningen \emph{evolverer} bort fra den. Dette er den naturlige formuleringen for \textbf{parabolske og hyperbolske} ligninger (varme- og bølgeligningen), som har en utpreget tidsretning.
-\item Et \textbf{randverdiproblem} gir \emph{én} betingelse (Dirichlet, Neumann eller Robin) i hvert punkt av \emph{hele} randen $\partial D$ samtidig, og løsningen i det indre bestemmes globalt av all randdataen på én gang. Dette er den naturlige formuleringen for \textbf{elliptiske} ligninger (Laplace-, Poisson- og Helmholtz-ligningen), som beskriver likevektstilstander uten noen tidsretning.
+\item Et \textbf{Cauchy-problem} gir data (funksjonsverdi og nok normal-deriverte til å matche ordenen) på \emph{én} flate, og løsningen \emph{evolverer} bort fra den. Dette er den naturlige formuleringen \emph{i tidsretningen} for \textbf{parabolske og hyperbolske} ligninger (varme- og bølgeligningen). Det blir et \emph{rent} Cauchy-problem, uten noen ekstra randbetingelse, bare dersom det romlige området i tillegg er ubegrenset.
+\item Et \textbf{randverdiproblem} gir \emph{én} betingelse (Dirichlet, Neumann eller Robin) i hvert punkt av \emph{hele} randen $\partial D$ samtidig, og løsningen i det indre bestemmes globalt av all randdataen på én gang. Dette er den naturlige (og eneste) formuleringen for \textbf{elliptiske} ligninger (Laplace-, Poisson- og Helmholtz-ligningen), som beskriver likevektstilstander uten noen tidsretning -- men det er også det som kreves i de \emph{romlige} retningene til en parabolsk eller hyperbolsk ligning, så snart det romlige området er begrenset.
 \end{itemize}
-Om randen $\partial D$ er begrenset eller strekker seg til uendeligheten er en separat sak (se merknaden over), og påvirker ikke dette hovedskillet.
 \end{oppsum}
+I praksis er det romlige området nesten alltid begrenset -- tenk på varmeledning i en fysisk stav eller plate. Da må de to problemtypene kombineres: en Cauchy-type initialbetingelse i tidsretningen, \emph{og} en randverdi-type betingelse på hele den romlige randen. Dette kalles et \emph{initial-randverdiproblem}, og er den vanlige situasjonen for parabolske og hyperbolske ligninger i praksis -- ikke et unntakstilfelle. Vi møter det igjen når vi utleder varmeligningen i \Cref{sect:bevaringslover}.
 
 \section{Bevaringslover}\label{sect:bevaringslover}
 
@@ -543,7 +543,12 @@ Setter vi \eqref{eq:constitutive_energy} og \eqref{eq:constitutive_flux} inn i b
 der \( q = p - \nabla \cdot (\vect{v} e_0) \).
 \end{oppsum}
 
-\subsection*{Rand- og initialbetingelser for varmeligningen}
+\subsection*{Initial-randverdiproblem for varmeligningen}
+
+\begin{rem}{Hvorfor kombinerer vi initial- og randbetingelser her?}
+Som nevnt i \Cref{oppsum:cauchyRVP} trenger varmeligningen -- siden den er \emph{parabolsk} -- en Cauchy-type initialbetingelse i tidsretningen: data på tidsflaten $t=0$, som løsningen deretter utvikler seg videre fra. Men objektet $\Omega$ vi betrakter her (en stav, en plate, eller lignende) er \emph{begrenset}, og den romlige delen av operatoren, $\nabla \cdot (\kappa \nabla T)$, er fortsatt andreordens -- akkurat som i en elliptisk ligning. Derfor trenger vi \emph{i tillegg} en ordentlig randbetingelse på hele $\Gamma$ ved hvert tidspunkt. Resultatet er et \emph{initial-randverdiproblem}: Cauchy-data i tidsretningen, kombinert med en randverdi-type betingelse i de romlige retningene.
+\end{rem}
+
 For å modellere varmeledning fullt ut kombinerer vi differensialligningen med en initialbetingelse ved \( t = 0 \),
 \begin{equation}
 T(x,y,z, 0) = T_i(x,y,z), \quad (\text{index } i \text{ for \textit{indre}}),
@@ -569,7 +574,7 @@ To spesialtilfeller er verdt å merke seg:
 \end{itemize}
 
 \subsection*{Dimensjonsløs form}
-Vi innfører dimensjonsløse størrelser ved hjelp av referanseverdier \( L, \tau, T_f, \sigma_f, v_f \), osv., og definerer:
+Når vi skal studere differensiallikninger så er det ofte praktisk å introdusere dimensjonsløse størrelser. Da er det ikke så viktig om vi ser på solsystemet eller bevegelser på atomnivå: størrelsesordenen er gjemt inne i selve variablene. På den måten kan vi konsentrere oss om å analysere den matematiske strukturen (PDEen). Dette gjøres ved hjelp av referanseverdier \( L, \tau, T_f, \sigma_f, v_f \), osv., og definerer:
 \[
 \tilde{t} = \frac{t}{\tau}, \quad \tilde{x} = \frac{x}{L},\quad \tilde{y} = \frac{y}{L},\quad \tilde{z} = \frac{z}{L}, \quad u(\tilde{x},\tilde{y},\tilde{z}, \tilde{t}) = \frac{T(L \tilde{x},L \tilde{y},L \tilde{z}, \tau \tilde{t})}{T_f}.
 \]
@@ -637,8 +642,8 @@ Fremgangsmåten i dette kapittelet -- en bevaringslov (kombinert med divergenste
 \section{Numeriske metoder: Endelige differanser}\label{sect:endifferanser}
 
 Grunnlag for kapittelet er \cite{KaM20}.
-Vi skal nå se på hvordan man kan løse differensialligninger med numeriske metoder. Som første eksempel vil den endelige differansemetoden for å løse partialdifferensialligninger (PDEer) bli presentert.\footnote{Noen av dere har kanskje sett endelige differanser allerede i matematikk 2. Dermed er det delvis repetisjon.}
-Grovsett består en endelig differansemetode av følgende trinn:
+Vi skal nå se på hvordan man kan løse differensialligninger med numeriske metoder. Som første eksempel vil den endelige differansemetoden for å løse partielle differensialligninger (PDEer) bli presentert.\footnote{Noen av dere har kanskje sett endelige differanser allerede i matematikk 2. Dermed er det delvis repetisjon.}
+Grovt sett består en endelig differansemetode av følgende trinn:
 \begin{enumerate}
     \item Diskretiser definisjonsmengden til ligningen.
     \item På hvert rutenettpunkt erstattes deriverte med en approksimasjon, ved å bruke verdier i nabopunktene.
@@ -649,7 +654,7 @@ Vi skal først se hvordan man finner approksimasjoner til den deriverte av en fu
 \begin{align}\label{2P-RVP}
 u'' + p(x)u' + q(x)u = r(x), \quad a \leq x \leq b, \quad u(a) = u_a, \quad u(b) = u_b,
 \end{align}
-For tidsavhengige PDE skal vi se litt senere igjen på varmeligningen \eqref{eq:diffeq}. Teknikken som beskrives her er imidlertid anvendelig på flere andre PDEer, så vær oppmerksom på å forstå den underliggende ideen. Vi skal senere sammenlikne fordeler og ulemper med endelig volum metode som introduseres i neste kapittel.
+For tidsavhengige PDEer skal vi igjen benytte varmeligningen \eqref{eq:diffeq} som eksempel. Teknikken som beskrives her er imidlertid anvendelig på flere andre PDEer, så vær oppmerksom på å forstå den underliggende ideen. Vi skal senere sammenlikne fordeler og ulemper med endelig volum metode som introduseres i neste kapittel.
 
 \subsection{Approksimasjon av deriverte}
 Hovedverktøyet for endelige differansemetoder er approksimasjoner av deriverte.
@@ -659,7 +664,7 @@ f'(x) = \lim_{h \to 0} \frac{f(x + h) - f(x)}{h}.
 \]
 Gitt en tilstrekkelig liten verdi av \( h \), kan høyresiden brukes som en approksimasjon til \( f'(x) \).
 En samling av de mest brukte approksimasjonene til \( f'(x) \) er:
-\begin{tcolorbox}[colback=white,colframe=blue!75!black,title= Differanseformler for første deriverte]
+\begin{defn}{Differanseformler for første deriverte}
     \[
 f'(x) \approx
 \begin{cases}
@@ -668,18 +673,18 @@ f'(x) \approx
 \displaystyle \frac{f(x + h) - f(x - h)}{2h}, & \text{sentraldifferanse}.
 \end{cases}
 \]
-\end{tcolorbox}
+\end{defn}
 Den første er tatt direkte fra definisjonen, det samme gjelder den andre, og den tredje er bare gjennomsnittet av de to første.
 
 En vanlig approksimasjon til den andrederiverte er
-\begin{tcolorbox}[colback=white,colframe=blue!75!black,title= Differanseformel for andre deriverte]
+\begin{defn}{Differanseformel for andre deriverte}
 \[
 f''(x) \approx \frac{f(x + h) - 2f(x) + f(x - h)}{h^2}.
 \]
-\end{tcolorbox}
-Vi skal nå bruke disse approksimasjoner til de deriverte for å lage numeriske metoder for løsning av differensialligninger. Egentlig måtte diskuteres hvor stor feilen er vi får fra å bare approksimere de deriverte. Å ha god kontroll over feilen eller å vite når man kan faktisk bruke et forenklet modell er viktig for ingeniører, men i kurset skal vi ikke se nøye på det.\footnote{Ellers kan det forekomme at det dere bygger går i stykker. Sjekk \cite{TNB15} for et eksempel (som er ikke relatert til dårlige approksimasjoner til deriverte).}
+\end{defn}
+Vi skal nå bruke disse tilnærmede, nummeriske uttrykkene for de deriverte til å lage numeriske metoder for løsning av differensialligninger. Vi burde nok her også helst inkludert en diskusjon om feilestimat ved de forskjellige metodene. Å ha god kontroll over feilen eller å vite når man faktisk kan bruke en forenklet modell bør være viktig for ingeniører. Likevel skal vi i dette kurset hoppe bukk over dette aspektet\footnote{Det forekommer at  det ingeniørene bygger går i stykker. Sjekk \cite{TNB15} for et eksempel (som er ikke relatert til dårlige approksimasjoner til deriverte)!}
 
-\subsection{To-punkts randverdiproblem med Dirichlet-betingelser}
+\subsection{1D — Randverdiproblem med Dirichlet-betingelser}
 La oss se hvordan vi kan benytte det vi har lært over om endelige differanser til å nummerisk løse et to-punkts randverdiproblem som formulert i \eqref{2P-RVP}:
 \[
 u'' + p(x)u' + q(x)u = r(x), \quad a \leq x \leq b, \quad u(a) = u_a, \quad u(b) = u_b,
@@ -689,25 +694,33 @@ der \( p(x) \) og \( q(x) \) er gitte funksjoner og randverdiene \( u_a \) og \(
 En endelig differansemetode for dette problemet konstrueres som følger:
 
 \begin{enumerate}
-    \item Gitt intervallet \([a, b]\). Velg \( N \), la \( h = \frac{b - a}{N} \), og definer \( x_i = a + ih \), for \( i = 0, 1, \dots, N \).
+    \item Gitt intervallet \([a, b]\). Velg \( N \), la \( h = \frac{b - a}{N} \), og definer \( x_i = a + ih \), for \( i = 0, 1, \dots, N \). Merk at alle punkt $x_1,\, ...x_{N-1}$ nå er indre punkter. Randpunktene er \( x_0 \) og \( x_N \).
     
     \item For hvert indre rutenettpunkt \( x_i \), \( i = 1, \dots, N - 1 \), erstatt de deriverte i RVP med deres approksimasjoner. For dens venstre side får vi med sentrale differanser:
     \begin{align}\label{RVP-disc}
     \frac{u(x_i + h) - 2u(x_i) + u(x_i - h)}{h^2} + p(x_i) \frac{u(x_i + h) - u(x_i - h)}{2h} + q(x_i) u(x_i)
     \end{align}
     for hver $i=1,2,\ldots,N-1$.\\
-    \textbf{OBS:} \eqref{RVP-disc} er bare en approksimasjon av venstre side av RVP \eqref{2P-RVP}. Vi ignorerer feilleddet og antar at det er en greit nok approksimasjon\footnote{Dette bør bekymre deg. Hva om feilen vi gjør ikke er liten?
+    \textbf{OBS:} \eqref{RVP-disc} er bare en approksimasjon av venstre side av RVP \eqref{2P-RVP}. Vi ignorerer feilleddet og antar at det er en grei nok approksimasjon\footnote{Dette bør bekymre deg. Hva om feilen vi gjør ikke er liten?
 Man kan gi anslag for metodene vi bruker, og et mer dyptgående kurs i numeriske metoder ville dekke dette.
 Feilestimater for numeriske metoder ligger imidlertid utenfor pensum for dette kurset.}
     \item Erstatt \( u(x_i) \) med dens numeriske approksimasjon \( U_i \). Dette gir:
     \[
     \frac{U_{i+1} - 2U_i + U_{i-1}}{h^2} + p(x_i)\frac{U_{i+1} - U_{i-1}}{2h} + q(x_i) U_i = r(x_i), \quad i = 1, \dots, N - 1
     \]
-    Dette er en så kallt \emph{diskretiseringen} av RVP \eqref{2P-RVP}. Inkluderes randbetingelsene, får vi et lineært ligningssystem
+    Dette er den såkalte \emph{diskretiseringen} av RVP \eqref{2P-RVP}. Multipliserer vi med \( h^2 \) og samler leddene som multipliserer henholdsvis \( U_{i-1} \), \( U_i \) og \( U_{i+1} \), får vi
+    \begin{equation}\label{RVP-tridiag}
+    v_i U_{i-1} + d_i U_i + w_i U_{i+1} = h^2 r(x_i), \quad i = 1, \dots, N-1,
+    \end{equation}
+    der
+    \[
+    v_i = 1 - \frac{h}{2}p(x_i), \qquad d_i = -2 + h^2 q(x_i), \qquad w_i = 1 + \frac{h}{2}p(x_i).
+    \]
+    Hver ligning involverer altså kun de tre nabopunktene \( U_{i-1}, U_i, U_{i+1} \) -- det er nettopp dette som gir den tridiagonale strukturen under. Inkluderes randbetingelsene, får vi et lineært ligningssystem
     \[
     A\vect{U} = \vect{b},
     \]
-    der \( A \) er en \((N+1) \times (N+1)\)-matrise og \( \vect{U} = [U_0, \dots, U_N]^T \). Ved å multiplisere ligningene med \( h^2 \), får vi:
+    der \( A \) er en \((N+1) \times (N+1)\)-matrise og \( \vect{U} = [U_0, \dots, U_N]^T \):
     \[
     A = \begin{bmatrix}
     1 & 0 & & & & \\
@@ -716,7 +729,7 @@ Feilestimater for numeriske metoder ligger imidlertid utenfor pensum for dette k
     & & \ddots & \ddots & \ddots & \\
     & & & v_{N-1} & d_{N-1} & w_{N-1} \\
     & & & & 0 & 1 \\
-    \end{bmatrix} \quad \text{hvor } \begin{aligned} v_i &= 1 - \frac{h}{2}p(x_i),\\ d_i &= -2 + h^2q(x_i), \\ w_i &= 1 + \frac{h}{2}p(x_i) \end{aligned}
+    \end{bmatrix}
     \]
 
     Høyresiden er da $
@@ -818,7 +831,7 @@ Se JuPyter notat for implementering.
 
 Å løse det lineære systemet $A\vect U=\vect b$ direkte (f.eks. med \texttt{np.linalg.solve}) fungerer fint for de endimensjonale problemene vi har sett på så langt. Men etter hvert som problemene blir større -- særlig når vi senere skal løse tilsvarende problemer i to romdimensjoner -- blir det både dyrere og mer upraktisk å sette opp hele matrisen $A$ eksplisitt. Et alternativ er \emph{iterative metoder}, som starter med en gjetning på løsningen og gradvis forbedrer den, uten noen gang å sette opp eller faktorisere $A$ eksplisitt.
 
-Husk at diskretiseringen av RVP-et \eqref{2P-RVP} ga oss, for hvert indre punkt $x_i$, ligningen
+Husk at diskretiseringen av RVP-et \eqref{2P-RVP} ga oss ligning \eqref{RVP-tridiag}, for hvert indre punkt $x_i$:
 \[
 v_i U_{i-1} + d_i U_i + w_i U_{i+1} = h^2 r(x_i), \qquad i=1,\ldots,N-1,
 \]
@@ -828,21 +841,21 @@ U_i = \frac{1}{d_i}\Big(h^2r(x_i) - v_iU_{i-1} - w_iU_{i+1}\Big),
 \]
 og bruke dette som en oppdateringsformel: gitt en tilnærming til alle $U_j$, regner vi ut en forbedret $U_i$ fra naboverdiene. De to metodene skiller seg kun i hvilke naboverdier som brukes.
 
-\begin{tcolorbox}[colback=white,colframe=blue!75!black,title= Jacobi-iterasjon]
+\begin{defn}{Jacobi-iterasjon}
 Gitt en tilnærming $U_i^{(m)}$ for alle $i$, regn ut en ny tilnærming samtidig for alle indre punkter:
 \[
 U_i^{(m+1)} = \frac{1}{d_i}\Big(h^2r(x_i) - v_iU_{i-1}^{(m)} - w_iU_{i+1}^{(m)}\Big), \qquad i=1,\ldots,N-1.
 \]
 Alle verdiene på høyre side hentes fra forrige iterasjon $U^{(m)}$, selv om $U_{i-1}^{(m+1)}$ allerede er beregnet når vi kommer til $U_i$.
-\end{tcolorbox}
+\end{defn}
 
-\begin{tcolorbox}[colback=white,colframe=blue!75!black,title= Gauss-Seidel-iterasjon]
+\begin{defn}{Gauss-Seidel-iterasjon}
 Som Jacobi, men vi bruker oppdaterte verdier så snart de er tilgjengelige. Dersom vi oppdaterer $i=1,2,\ldots,N-1$ i rekkefølge:
 \[
 U_i^{(m+1)} = \frac{1}{d_i}\Big(h^2r(x_i) - v_iU_{i-1}^{(m+1)} - w_iU_{i+1}^{(m)}\Big), \qquad i=1,\ldots,N-1,
 \]
 der $U_{i-1}^{(m+1)}$ allerede er oppdatert siden $i-1 < i$.
-\end{tcolorbox}
+\end{defn}
 
 Begge metodene starter med en initiell gjetning $U^{(0)}$ (f.eks. $U_i^{(0)}=0$, eller en lineær interpolasjon mellom randverdiene) og itereres til endringen mellom to påfølgende iterasjoner er liten nok, f.eks. $\max_i|U_i^{(m+1)}-U_i^{(m)}|<\text{toleranse}$.
 
@@ -852,7 +865,7 @@ La oss sammenligne de to metodene på et enkelt eksempel: $u''=0$ på $[0,2]$, m
 
 Merk at begge metodene generaliserer direkte til flere romdimensjoner, slik vi skal se i \Cref{sect:2dlaplace} -- der blir de faktisk den foretrukne løsningsmetoden, siden det blir upraktisk å sette opp og løse det fulle ligningssystemet direkte for store 2D-problemer.
 
-\subsection{To-punkts randverdiproblem med Neumann-betingelser}
+\subsection{1D — Randverdiproblem med Neumann-betingelser}
 For å få en entydig løsning av et randverdiproblem (RVP) eller en PDE, må nok informasjon om løsningen være kjent, vanligvis gitt på randene. 
 I \Cref{ex1:RVP} brukte vi Dirichlet-betingelser. Vi skal nå se hvordan man håndterer Neumann-betingelser. Robin-betingelser kan behandles på lignende måte.
 
