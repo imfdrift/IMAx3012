@@ -897,10 +897,10 @@ Det eneste som har endret seg er den første ligningen. Og siden sentraldifferan
 \begin{eks}{Randverdiproblem med Neumann-betingelser}
 Vi viderefører \Cref{ex1:RVP}, men nå med en Neumann-betingelse ved venstre rand:
 \[
-u'' + 2u' - 3u = 9x, \quad u'(0) = u'_a = -4, \quad u(1) = u_b = -2e^{-3} + e - 5 = 0.48635073,
+u'' + 2u' - 3u = 9x, \quad u'(0) = u'_a = -4, \quad u(1) = u_b = e^{-3} + 2e - 5 = 0.48635073,
 \]
-med eksakt løsning
-$u(x) = e^{-3x} - 2e^x - 3x - 2.$ 
+med samme eksakte løsning som i \Cref{ex1:RVP},
+$u(x) = e^{-3x} + 2e^x - 3x - 2$, siden $u'(0) = -3 + 2 - 3 = -4$ for nettopp denne løsningen.
 \end{eks}
 
 \textbf{Numerisk løsning: }Den modifiserte differensligningen ved randen \( x_0 = 0 \) er:
