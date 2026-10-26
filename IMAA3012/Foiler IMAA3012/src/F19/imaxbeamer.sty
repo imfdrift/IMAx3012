@@ -1,0 +1,95 @@
+% imaxbeamer.sty -- felles stil for IMAx3012/IMAA3012 forelesningsfoiler (F19-F22)
+% Fargene er hentet fra Kompendium/style.sty, slik at foilene matcher kompendiets
+% defn/eks/rem/oppsum-bokser.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{imaxbeamer}
+
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{lmodern}
+\RequirePackage{amssymb,amsmath,amstext,amsfonts}
+\RequirePackage{xcolor}
+\RequirePackage[skins,listings]{tcolorbox}
+\RequirePackage{tikz}
+\usetikzlibrary{positioning,patterns,arrows.meta}
+\RequirePackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\RequirePackage{listings}
+\RequirePackage{booktabs}
+
+% ---------- Beamer-tema ----------
+\usetheme{default}
+\usecolortheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+
+\definecolor{defnFarge}{rgb}{0.3,0.4,0}
+\definecolor{thmFarge}{rgb}{0,0,0.7}
+\definecolor{oppsumFarge}{rgb}{0.2,0.8,0.4}
+\definecolor{listFarge}{rgb}{0.4,0,0.1}
+\definecolor{eksFarge}{rgb}{1,0.6,0}
+\definecolor{remFarge}{rgb}{0.2,0.2,0.7}
+
+\setbeamercolor{structure}{fg=thmFarge}
+\setbeamercolor{frametitle}{bg=thmFarge!12,fg=thmFarge!80!black}
+\setbeamercolor{title}{fg=thmFarge!80!black}
+\setbeamerfont{frametitle}{series=\bfseries}
+\setbeamertemplate{frametitle}{%
+  \vspace{2pt}
+  \insertframetitle
+  \ifx\insertframesubtitle\@empty\else{\par\small\normalfont\insertframesubtitle}\fi
+  \vspace{2pt}
+}
+\setbeamertemplate{itemize items}[circle]
+\setbeamercolor{itemize item}{fg=thmFarge}
+\setbeamercolor{itemize subitem}{fg=thmFarge!60!black}
+
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{listFarge}\bfseries,
+  commentstyle=\color{black!50}\itshape,
+  stringstyle=\color{defnFarge},
+  showstringspaces=false,
+  breaklines=true,
+  frame=none,
+  columns=fullflexible
+}
+
+% ---------- Fargede bokser som matcher kompendiets defn/eks/rem/oppsum ----------
+\newtcolorbox{defnb}[1]{%
+  colback=defnFarge!5, colframe=defnFarge!65!black,
+  title={Definisjon: #1}, fonttitle=\bfseries, coltitle=white,
+  boxrule=0.6pt, arc=1pt, left=6pt, right=6pt, top=3pt, bottom=3pt
+}
+\newtcolorbox{eksb}[1]{%
+  colback=eksFarge!6, colframe=eksFarge!70!black,
+  title={Eksempel: #1}, fonttitle=\bfseries, coltitle=white,
+  boxrule=0.6pt, arc=1pt, left=6pt, right=6pt, top=3pt, bottom=3pt
+}
+\newtcolorbox{remb}[1]{%
+  colback=remFarge!5, colframe=remFarge!65!black,
+  title={Merk: #1}, fonttitle=\bfseries, coltitle=white,
+  boxrule=0.6pt, arc=1pt, left=6pt, right=6pt, top=3pt, bottom=3pt
+}
+\newtcolorbox{oppsumb}[1]{%
+  colback=oppsumFarge!6, colframe=oppsumFarge!45!black,
+  title={Oppsummering: #1}, fonttitle=\bfseries, coltitle=white,
+  boxrule=0.6pt, arc=1pt, left=6pt, right=6pt, top=3pt, bottom=3pt
+}
+\newtcolorbox{lstb}[1][Python-kode]{%
+  colback=listFarge!4, colframe=listFarge!55!black,
+  title={#1}, fonttitle=\bfseries, coltitle=white,
+  boxrule=0.6pt, arc=1pt, left=4pt, right=4pt, top=2pt, bottom=2pt,
+  fontupper=\ttfamily\footnotesize
+}
+\newtcolorbox{nestefb}[1][Neste forelesning]{%
+  colback=thmFarge!5, colframe=thmFarge!55!black,
+  title={#1}, fonttitle=\bfseries, coltitle=white,
+  boxrule=0.6pt, arc=1pt, left=6pt, right=6pt, top=3pt, bottom=3pt
+}
+
+\newcommand{\vect}[1]{\ensuremath{\mathbf{#1}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+
+\endinput

@@ -1,0 +1,275 @@
+\documentclass[11pt,aspectratio=169]{beamer}
+\usepackage{imaxbeamer}
+
+\title[F19 -- PDE generelt]{Forelesning 19\\ Partielle differensialligninger: introduksjon og bevaringslover}
+\subtitle{Kompendium §3.1--§3.2}
+\author{IMAx3012 / IMAA3012 -- Matematikk 3B}
+\date{}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{I dag}
+Ingen kode denne uka -- vi bygger opp begrepsapparatet for partielle differensialligninger (PDE):
+\begin{enumerate}
+\item §3.1: Vanlige typer 2.ordens PDE (bølge-, varme-, Laplace-, Poisson-ligningen); klassifisering.
+\item §3.1: Separable løsninger og superposisjon (til orientering).
+\item §3.1: Initial- og randbetingelser -- Cauchy-problem vs. randverdiproblem.
+\item §3.2: Utledning av varmeligningen fra energibevaring.
+\end{enumerate}
+Neste gang (F20) begynner vi å løse disse ligningene numerisk.
+\end{frame}
+
+\section{Hva er en PDE?}
+
+\begin{frame}{Partielle differensialligninger}
+En PDE for $u(x,y,\ldots)$ er en relasjon mellom $u$ og dens partiellderiverte:
+\[
+F(x,y,u,u_x,u_y,u_{xx},u_{xy},u_{yy},\ldots) = 0.
+\]
+\textbf{Orden:} høyeste ordens deriverte som opptrer. Mest generelle 2.ordens PDE i $x,y$:
+\[
+F(x,y,u,u_x,u_y,u_{xx},u_{xy},u_{yy})=0.
+\]
+\begin{defnb}{Lineær, kvasi-lineær og homogen PDE}
+\begin{itemize}
+\item \emph{Lineær}: lineær i $u$ og alle dens deriverte, koeffisienter avhenger kun av $x,y,\ldots$
+\item \emph{Kvasi-lineær}: lineær i \emph{høyeste} ordens deriverte.
+\item \emph{Homogen}: når ligningen skrives $(\text{ledd i } u) = f(x,y,\ldots)$, er $f=0$.
+\end{itemize}
+\end{defnb}
+\end{frame}
+
+\begin{frame}{Generell løsning: $u_{xy}=0$}
+Integrer med hensyn på $x$: $u_y=h(y)$. Integrer med hensyn på $y$:
+\begin{equation}
+u(x,y) = f(x) + g(y),
+\end{equation}
+for \emph{vilkårlige} funksjoner $f,g$.
+\begin{remb}{PDE vs. ODE: vilkårlige funksjoner, ikke konstanter}
+Den generelle løsningen av en PDE inneholder typisk vilkårlige \emph{funksjoner} -- i sterk kontrast til en ODE, der den generelle løsningen inneholder vilkårlige \emph{konstanter}. Det finnes derfor uendelig mange løsninger av en PDE, og bare ved å spesifisere initial-/randbetingelser bestemmer vi en konkret løsning.
+\end{remb}
+Eksempel: $u(x,t)=f(x-ct)+g(x+ct)$ løser $u_{tt}-c^2u_{xx}=0$ for \emph{enhver} $f,g$ (sjekk selv ved derivasjon) -- dette er bølgeligningen.
+\end{frame}
+
+\section{Bølgeligningen}
+
+\begin{frame}{Bølgeligningen for en vibrerende streng}
+\begin{columns}
+\begin{column}{0.55\textwidth}
+Newtons 2. lov på et lite strengsegment $[x,x+\Delta x]$, med massetetthet $\mu$, spenning $T\approx T_0$ (småvinkel-tilnærming):
+\[
+\mu\Delta x\,u_{tt} \approx T_0\big[u_x(x+\Delta x,t)-u_x(x,t)\big].
+\]
+\end{column}
+\begin{column}{0.45\textwidth}
+\begin{tikzpicture}[scale=0.55]
+\draw[->] (-0.3,0)--(6.3,0) node[right]{\scriptsize $x$};
+\draw[->] (0,-0.3)--(0,2.3) node[above]{\scriptsize $u$};
+\draw[thick,thmFarge] plot[domain=0:6,samples=60] (\x,{1.3*sin(30*\x)});
+\end{tikzpicture}
+\end{column}
+\end{columns}
+Deler med $\Delta x$, lar $\Delta x\to0$:
+\begin{oppsumb}{Bølgeligningen}
+\[
+u_{tt} - c^2 u_{xx} = 0, \qquad c = \sqrt{T_0/\mu}.
+\]
+\end{oppsumb}
+Samme ligning følger av Maxwells likninger for $\vect E,\vect B$ i vakuum ($c=c_0$, lysfarten) -- se kompendiet for utledning.
+\end{frame}
+
+\begin{frame}{Flere eksempler på 2.ordens PDE}
+\begin{columns}[t]
+\begin{column}{0.48\textwidth}
+\begin{eksb}{Varme-/diffusjonsligningen}
+$u_t=\alpha u_{xx}$ ($\alpha$: diffusivitet).
+\end{eksb}
+\vspace{4pt}
+\begin{eksb}{Laplace-ligningen}
+$\Delta u=0$. Elektrostatisk potensial, stasjonær varmeledning, m.m.
+\end{eksb}
+\end{column}
+\begin{column}{0.48\textwidth}
+\begin{eksb}{Poisson-ligningen}
+$\Delta u = f(x,y,z)$ -- inhomogen Laplace, med kilde/sluk $f$.
+\end{eksb}
+\vspace{4pt}
+\begin{eksb}{Helmholtz-ligningen}
+$\Delta u+\lambda u=0$ -- tidsuavhengig bølgeligning.
+\end{eksb}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Klassifisering av 2.ordens PDE}
+Generell kvasi-lineær 2.ordens PDE i $u(x,y)$: $u_{xx}+a\,u_{xy}+b\,u_{yy}=c$.
+\begin{oppsumb}{Klassifisering}
+\begin{itemize}
+\item $a^2-4b<0$: \textbf{elliptisk} (Laplace, Poisson, Helmholtz)
+\item $a^2-4b=0$: \textbf{parabolsk} (varmeligningen: $u_{xx}-\tfrac1\alpha u_t=0$)
+\item $a^2-4b>0$: \textbf{hyperbolsk} (bølgeligningen)
+\end{itemize}
+\end{oppsumb}
+En metode som fungerer bra for én klasse fungerer ikke nødvendigvis for de andre -- vi skal se eksempler på dette gjennom resten av kapittelet.
+\end{frame}
+
+\section{Separable løsninger (til orientering)}
+
+\begin{frame}{Superposisjon og separable løsninger}
+\begin{oppsumb}{Superposisjonsprinsippet}
+Er $L$ lineær og $Lu_1=Lu_2=0$, så er $L(c_1u_1+c_2u_2)=0$ for alle konstanter $c_1,c_2$ -- også for (konvergente) uendelige summer.
+\end{oppsumb}
+Ansats $u(x,t)=X(x)T(t)$ i bølgeligningen gir stående bølger
+\[
+U_k(x,t)=\cos(kct)\cos(kx), \quad V_k(x,t)=\cos(kct)\sin(kx), \qquad k\in\mathbb Z,
+\]
+og superposisjon av disse gir Fourierrekker -- i prinsippet en løsning for enhver $u(x,0)=f(x)$.
+
+Samme ansats i varmeligningen $u_t=c^2u_{xx}$ gir $u_k(x,t)=e^{-k^2c^2t}\sin(kx)$: amplituden $\to0$ når $t\to\infty$ -- varmen jevner seg ut, slik vi venter.
+\end{frame}
+
+\section{Initial- og randbetingelser}
+
+\begin{frame}{Cauchy-betingelser}
+\begin{defnb}{Cauchy-betingelser}
+Data $u(x,0)$ og/eller $u_t(x,0)$ gitt på \emph{én} flate ($t=0$), nok til å matche ordenen i den retningen. Løsningen \emph{evolverer} bort fra denne starttilstanden. Kalles også \emph{initialverdiproblemet}.
+\end{defnb}
+\begin{eksb}{Cauchy-problem for Laplace-ligningen}
+På $D=\{y<0\}$: $\Delta u=0$, $u(x,0)=0$, $u_y(x,0)=\sin(x)$. Løses av $u(x,y)=\sinh(y)\sin(x)$ -- men merk: $y$ er her \emph{ikke} en fysisk tidsvariabel.
+\end{eksb}
+\end{frame}
+
+\begin{frame}{Hvorfor (nesten) aldri Cauchy-problem for elliptiske ligninger?}
+\begin{remb}{Ustabilitet (Hadamard)}
+Løsningen i eksempelet over avhenger \emph{ustabilt} av dataene: en vilkårlig liten endring i $u(x,0),u_y(x,0)$ kan gi en vilkårlig stor endring i løsningen.
+\end{remb}
+\begin{itemize}
+\item Cauchy-betingelser hører naturlig hjemme i \emph{tidsretningen} til parabolske/hyperbolske ligninger.
+\item Men: disse er fortsatt \emph{2.ordens i de romlige variablene} -- på et \emph{begrenset} romlig område trengs uansett en ordentlig randbetingelse på hele den romlige randen.
+\item En \emph{ren} Cauchy-formulering (ingen randbetingelse) er bare mulig når det romlige området er \emph{ubegrenset}.
+\item Elliptiske ligninger har ingen tidsretning -- de trenger \emph{utelukkende} randverdiproblemet (neste slide).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Randverdiproblemer}
+Foreskrevne verdier på \emph{hele} randen $\partial D$ samtidig -- ingen utpreget evolusjonsretning. Normal-deriverte: $\dfrac{\partial u}{\partial\hat{\vect n}}=\hat{\vect n}\cdot\nabla u$.
+\begin{oppsumb}{Randbetingelser for PDE}
+\begin{enumerate}
+\item \textbf{Dirichlet}: $u$ foreskrevet på $\partial D$.
+\item \textbf{Neumann}: $\partial u/\partial\hat{\vect n}$ foreskrevet på $\partial D$.
+\item \textbf{Robin}: $\partial u/\partial\hat{\vect n} + au$ foreskrevet på $\partial D$.
+\end{enumerate}
+\end{oppsumb}
+\end{frame}
+
+\begin{frame}{Cauchy-problem vs. randverdiproblem}
+\begin{oppsumb}{Cauchy-problem vs. randverdiproblem}
+\begin{itemize}
+\item \textbf{Cauchy}: data på én flate, løsningen \emph{evolverer}. Naturlig i tidsretningen for parabolske/hyperbolske ligninger. \emph{Rent} Cauchy-problem kun hvis det romlige området også er ubegrenset.
+\item \textbf{RVP}: én betingelse på \emph{hele} randen samtidig, løsningen bestemmes globalt. Eneste formulering for elliptiske ligninger -- men også det som kreves i de romlige retningene til en parabolsk/hyperbolsk ligning, så snart området er begrenset.
+\end{itemize}
+\end{oppsumb}
+\begin{remb}{I praksis: begge samtidig}
+Det romlige området er nesten alltid begrenset (en fysisk stav, plate, ...). Da kombineres en Cauchy-type initialbetingelse i tid \emph{og} en randverdi-type betingelse i rom: et \textbf{initial-randverdiproblem} -- den vanlige situasjonen, ikke et unntak. Vi møter dette igjen om et øyeblikk, for varmeligningen.
+\end{remb}
+\end{frame}
+
+\section{Bevaringslover: varmeligningen}
+
+\begin{frame}{Varmeligningen fra energibevaring}
+Objekt $\Omega\subset\R^3$ med rand $\Gamma$. Energiprinsippet på en vilkårlig delmengde $\Omega_0$: endring av total energi = varme inn gjennom randen + varme fra kilder.
+\[
+\frac{d}{dt}\iiint_{\Omega_0} e\,dV = -\iint_{\Gamma_0}\vect J\cdot d\vect S + \iiint_{\Omega_0} p\,dV.
+\]
+Divergensteoremet $+$ at $\Omega_0$ er vilkårlig gir den \emph{lokale} bevaringsloven:
+\begin{equation}
+\frac{\partial e}{\partial t} + \nabla\cdot\vect J = p \quad \text{i } \Omega,\ t>0.
+\end{equation}
+Helt generell -- sier ingenting om varmeledning spesifikt ennå. Trenger grunnleggende (konstitutive) relasjoner som knytter $e,\vect J$ til temperaturen $T$.
+\end{frame}
+
+\begin{frame}{To grunnleggende relasjoner}
+\begin{defnb}{Energitetthet og Fouriers lov}
+\begin{itemize}
+\item $e = e_0+\sigma(T-T_0)$, der $\sigma=\rho c$ er \emph{varmekapasitet per volum}.
+\item \textbf{Fouriers lov}: $\vect J_{\text d}=-\kappa\nabla T$ ($\kappa$: \emph{varmeledningsevne}) -- varme strømmer fra varmt mot kaldt.
+\end{itemize}
+\end{defnb}
+Med eventuell konveksjon $\vect J_{\text c}=\vect v e$: $\vect J=-\kappa\nabla T+\vect v e$. Satt inn i bevaringsloven:
+\begin{oppsumb}{Varmeligningen med konveksjon}
+\[
+\sigma\frac{\partial T}{\partial t} - \nabla\cdot(\kappa\nabla T) + \nabla\cdot(\sigma\vect v T) = q \quad \text{i }\Omega.
+\]
+\end{oppsumb}
+\end{frame}
+
+\begin{frame}{Initial-randverdiproblem for varmeligningen}
+\begin{remb}{Hvorfor kombinerer vi initial- og randbetingelser?}
+Varmeligningen er \emph{parabolsk} -- trenger Cauchy-data $T(x,y,z,0)=T_i$ i tidsretningen. Men $\Omega$ er begrenset, og den romlige delen $\nabla\cdot(\kappa\nabla T)$ er fortsatt 2.ordens -- krever i tillegg en ordentlig randbetingelse på hele $\Gamma$ ved hvert tidspunkt. Resultat: et \emph{initial-randverdiproblem}.
+\end{remb}
+Randbetingelse (Newtons avkjølingslov, ingen massestrøm gjennom randen):
+\begin{equation}
+\kappa\frac{\partial T}{\partial\hat{\vect n}} + h(T-T_a) = 0 \quad \text{på }\Gamma.
+\end{equation}
+\begin{itemize}
+\item $h=0$: isolert rand (Neumann). \quad\quad $h\to\infty$: $T=T_a$ (Dirichlet).
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Dimensjonsløs form (kort)}
+Innfør referanseverdier $L,\tau,T_f,\ldots$ og dimensjonsløse $\tilde x=x/L$, $\tilde t=t/\tau$, $u=T/T_f$. Med passende valg av $\tau$:
+\begin{oppsumb}{Varmeligningen på dimensjonsløs form}
+\[
+D\frac{\partial u}{\partial t} - \nabla\cdot(a\nabla u) + \vect b\cdot\nabla u + cu = f \quad \text{i }\Omega,
+\]
+med randbetingelse $a\,\partial u/\partial\hat{\vect n} + \mathrm{Bi}\,\frac{h}{h_f}(u-u_a)=0$.
+\end{oppsumb}
+To viktige dimensjonsløse tall dukker opp:
+\begin{itemize}
+\item \textbf{Pecletallet} $\mathrm{Pe}$: relativ styrke mellom konveksjon og konduksjon.
+\item \textbf{Biot-tallet} $\mathrm{Bi}$: relativ styrke mellom varmeovergang på randen og ledning i det indre.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Forenklede modeller og stasjonær tilstand}
+Konstante koeffisienter, $\vect b=0,c=0$: $\dfrac{\partial u}{\partial t}-a\Delta u=f$.
+\begin{itemize}
+\item Er $f$ og randbetingelsen tidsuavhengige, venter vi $u\to v(x,y,z)$ når $t\to\infty$.
+\item Da $\partial u/\partial t\to0$, så $v$ løser \textbf{Poisson-ligningen} $-a\Delta v=f$.
+\item Er i tillegg $f=0$: $v$ løser \textbf{Laplace-ligningen}.
+\end{itemize}
+\begin{remb}{Hvorfor dette er nyttig}
+Dette er grunnen til at Jacobi/Gauss-Seidel-iterasjon for varmeligningen (F21) kan brukes til å finne den stasjonære Laplace-/Poisson-løsningen: kjør varmeligningen til den "roer seg ned".
+\end{remb}
+\end{frame}
+
+\begin{frame}{Ikke-lineære ligninger og linearisering}
+Koeffisientene avhenger ofte av $u$ selv $\Rightarrow$ ikke-lineær ligning, f.eks. $F(u):=u_t-\nabla\cdot(a(u)\nabla u)-f(u)=0$.
+\begin{itemize}
+\item Newtons metode: gitt $u^k$, finn tillegg $v^k$ slik at $u^{k+1}=u^k+v^k$ er bedre.
+\item Linearisér $F(u^{k+1})\approx F(u^k)+F'(u^k)v^k=0$: gir en \emph{lineær} ligning i $v^k$, av samme type som før, men med koeffisienter $a(u^k(x,t))$ som nå avhenger av $x,t$ gjennom forrige tilnærming.
+\end{itemize}
+\begin{remb}{Andre bevaringslover}
+Samme oppskrift (bevaringslov + konstitutiv relasjon) gir også konsentrasjonsligninger: Fouriers lov erstattes med \emph{Ficks lov} $\vect j_{\text d}=-\delta\nabla c$, og man får en konveksjon-diffusjonsligning på samme form.
+\end{remb}
+\end{frame}
+
+\begin{frame}{Oppsummering}
+\begin{itemize}
+\item PDE-er klassifiseres etter orden, linearitet, homogenitet og type (elliptisk/parabolsk/hyperbolsk).
+\item Cauchy-betingelser (én flate, evolusjon) vs. randverdiproblem (hele randen samtidig) -- i praksis kombineres de til et initial-randverdiproblem når det romlige området er begrenset.
+\item Varmeligningen utledes fra energibevaring + Fouriers lov; randbetingelsen (Robin) spesialiserer til Dirichlet/Neumann i grensetilfeller.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Neste gang: F20 -- endelige differanser}
+\begin{nestefb}
+Nå som vi vet \emph{hvilke} ligninger og betingelser vi skal løse, begynner vi å løse dem \emph{numerisk}: approksimasjon av deriverte, og det første randverdiproblemet (1D, Dirichlet-betingelser) løst med endelige differanser.
+\end{nestefb}
+\end{frame}
+
+\end{document}
