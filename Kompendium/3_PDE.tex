@@ -684,7 +684,7 @@ f''(x) \approx \frac{f(x + h) - 2f(x) + f(x - h)}{h^2}.
 \end{defn}
 Vi skal nå bruke disse tilnærmede, nummeriske uttrykkene for de deriverte til å lage numeriske metoder for løsning av differensialligninger. Vi burde nok her også helst inkludert en diskusjon om feilestimat ved de forskjellige metodene. Å ha god kontroll over feilen eller å vite når man faktisk kan bruke en forenklet modell bør være viktig for ingeniører. Likevel skal vi i dette kurset hoppe bukk over dette aspektet\footnote{Det forekommer at  det ingeniørene bygger går i stykker. Sjekk \cite{TNB15} for et eksempel (som er ikke relatert til dårlige approksimasjoner til deriverte)!}
 
-\subsection{1D — Randverdiproblem med Dirichlet-betingelser}
+\subsection{1D — RVP med Dirichlet-betingelser}
 La oss se hvordan vi kan benytte det vi har lært over om endelige differanser til å nummerisk løse et to-punkts randverdiproblem som formulert i \eqref{2P-RVP}:
 \[
 u'' + p(x)u' + q(x)u = r(x), \quad a \leq x \leq b, \quad u(a) = u_a, \quad u(b) = u_b,
@@ -865,7 +865,7 @@ La oss sammenligne de to metodene på et enkelt eksempel: $u''=0$ på $[0,2]$, m
 
 Merk at begge metodene generaliserer direkte til flere romdimensjoner, slik vi skal se i \Cref{sect:2dlaplace} -- der blir de faktisk den foretrukne løsningsmetoden, siden det blir upraktisk å sette opp og løse det fulle ligningssystemet direkte for store 2D-problemer.
 
-\subsection{1D — Randverdiproblem med Neumann-betingelser}
+\subsection{1D — RVP med Neumann-betingelser: Fiktiv rand}
 For å få en entydig løsning av et randverdiproblem (RVP) eller en PDE, må nok informasjon om løsningen være kjent, vanligvis gitt på randene. 
 I \Cref{ex1:RVP} brukte vi Dirichlet-betingelser. Vi skal nå se hvordan man håndterer Neumann-betingelser. Robin-betingelser kan behandles på lignende måte.
 
@@ -943,9 +943,30 @@ Løsningen av systemet er:
 U_0 = 0.92103219, \quad U_1 = 0.25737896, \quad U_2 = 0.01029386, \quad U_3 = 0.08858688.
 \]
 
-\subsection{To-dimensjonale randverdiproblemer: Laplace- og Poisson-ligningen}\label{sect:2dlaplace}
+\subsubsection*{Lønner den fiktive randen seg?}
+Vi har påstått at metoden med fiktiv rand er like nøyaktig som Dirichlet-metoden, altså andreordens ($O(h^2)$), mens den naive fremoverdifferansen bare er førsteordens ($O(h)$). Dette kan vi sjekke numerisk på eksempelet over: Vi løser problemet for $N = 4, 8, 16, \dots, 512$ med begge metodene, og regner ut den maksimale feilen $\max_i|U_i-u(x_i)|$ mot den eksakte løsningen. I et log-log-plott blir feilen (tilnærmet) en rett linje, og stigningstallet er konvergensordenen.
+\begin{center}
+\includegraphics[width=9cm]{Fig/neumann_konvergensorden.png}
+\end{center}
+Den målte ordenen er $\approx 1.99$ for den fiktive randen og $\approx 1.03$ for den naive fremoverdifferansen.
 
-Vi skal nå se hvordan de samme ideene generaliserer til to romdimensjoner. Som eksempel ser vi på Poisson-ligningen (Laplace-ligningen er spesialtilfellet $f=0$)
+\begin{rem}{Ett endepunkt bestemmer nøyaktigheten}
+Selv om bare \emph{ett} av endepunktene behandles annerledes, ødelegger den førsteordens fremoverdifferansen nøyaktigheten i \emph{hele} løsningen: Feilen i randpunktet forplanter seg gjennom ligningssystemet til alle de indre punktene. Den fiktive randen gir derfor full $O(h^2)$-nøyaktighet uten at den tridiagonale strukturen i matrisen går tapt.
+\end{rem}
+
+\subsection{RVP i 2D: Laplace- og Poisson-ligningen}\label{sect:2dlaplace}
+
+Hittil i \Cref{sect:endifferanser} har vi brukt endelige differanser på \emph{ODE-er}: én uavhengig variabel, og randbetingelser i hver ende av et intervall. Nå tar vi metodene vi har lært så langt -- differanseapproksimasjoner av deriverte, oppsett av et ligningssystem, og Jacobi- og Gauss-Seidel-iterasjon -- og bruker dem for første gang på \emph{partielle} differensialligninger. Det skjer helt naturlig når vi går fra én til to romdimensjoner: den ukjente $u(x,y)$ avhenger nå av to variabler, og ligningen inneholder partiellderiverte i begge retninger.
+
+\begin{rem}{Veien videre: først flere dimensjoner, så tid}
+Vi utvider metodene i to trinn, og det er nyttig å holde dem fra hverandre:
+\begin{enumerate}
+\item \textbf{Fra 1D til 2D} (dette delkapittelet): vi går fra ODE til PDE, men problemet er fortsatt et \emph{randverdiproblem}. Strategien er derfor den samme som før -- diskretiser i hver retning og løs for alle de ukjente samtidig. Det eneste som endrer seg, er at ligningssystemet blir større.
+\item \textbf{Fra rom til rom og tid} (\Cref{sect:varmeNum} og videre, med varmeligningen og deretter bølgeligningen i \Cref{sect:leapfrog}): nå får vi i tillegg et \emph{initialverdiproblem} i $t$. Det krever en ny strategi -- vi marsjerer fremover steg for steg -- og bringer inn et helt nytt tema: \emph{stabilitet}.
+\end{enumerate}
+\end{rem}
+
+Som eksempel ser vi på Poisson-ligningen (Laplace-ligningen er spesialtilfellet $f=0$)
 \[
 \Delta u = u_{xx}+u_{yy} = f(x,y) \quad \text{i } D, \qquad u=g \quad \text{på } \partial D,
 \]
@@ -976,9 +997,31 @@ Randverdiene $g$ trenger ikke være konstante -- de kan variere langs hver vegg,
 
 Se JuPyter notat for implementering.
 
-\subsection{Et PDE-eksempel: numerisk løsning av varmeligningen}
+\subsection{RVP-IVP-eksempel i 2D: numerisk løsning av varmeligningen}\label{sect:varmeNum}
 
-Så langt har vi sett på hvordan vi kan benytte endelige differanser til å løse ODE-er. Vi skal nå se på en metode for hvordan strategien vår kan utvides til å også løse PDEer, slik som for eksempel varmeligningen \eqref{eq:diffeq}. La det altså være klart at strategien i det følgedne gjelder for mange tidsavhengige PDE-er, og at varmeligningen bare er et eksempel. Essensen i utvidelsen er å benytte såkalt \textit{semi-diskretisering.}
+Så langt i dette kapittelet har vi kun løst \emph{randverdiproblemer}: først ODE-er i 1D (\Cref{ex1:RVP}), deretter Laplace- og Poisson-ligningen i 2D (\Cref{sect:2dlaplace}). Legg merke til at overgangen fra 1D til 2D -- altså fra ODE til PDE -- \emph{ikke} endret selve strategien: vi diskretiserte i hver retning, fikk ett ligningssystem som kobler alle de ukjente sammen, og løste det samlet (direkte eller med Jacobi/Gauss-Seidel). Systemet ble bare større.
+
+Varmeligningen \eqref{eq:diffeq} bringer inn noe prinsipielt nytt: vi får et initialverdiproblem (IVP) i tid, i kobling med et RVP i rom. Dette er altså punkt 2 i bemerkningen i starten av \Cref{sect:2dlaplace}.
+
+\begin{oppsum}{Hva er egentlig nytt med varmeligningen?}
+\begin{itemize}
+\item \textbf{Randverdiproblem (RVP)} (alt vi har gjort så langt): betingelsene er gitt i \emph{begge} ender av intervallet (eller på \emph{hele} randen i 2D). Alle de ukjente $U_i$ er koblet til hverandre, og løsningen må bestemmes \emph{samlet}, ved å løse ett ligningssystem.
+\item \textbf{Initialverdiproblem (IVP)} (nytt): betingelsene er gitt bare i \emph{den ene} enden, ved $t=0$. Da kan -- og må -- løsningen bestemmes \emph{steg for steg}: vi \emph{marsjerer} fremover i tid, og hvert nye steg regnes ut fra det vi allerede kjenner. Den nye utfordringen her er \emph{stabilitet}: feil som oppstår underveis må ikke vokse fra steg til steg. For varmeligningen med eksplisitt Euler gir dette et krav på forholdet $\Delta t/\Delta x^2$.
+\end{itemize}
+Varmeligningen på en begrenset stav er et \emph{initial-randverdiproblem} (se \Cref{oppsum:cauchyRVP}): et \textbf{randverdiproblem i $x$} (betingelser i begge ender, $x=0$ og $x=1$) kombinert med et \textbf{initialverdiproblem i $t$} (betingelse kun ved $t=0$). Semi-diskretiseringen under skiller nettopp disse to delene fra hverandre: rommet diskretiseres akkurat som før, og det som blir igjen er et \emph{system av ODE-er i $t$ med gitte initialverdier} -- altså et initialverdiproblem, som vi løser ved å marsjere i tid.
+\end{oppsum}
+
+\begin{rem}{IVP eller RVP — hva er forskjellen? }
+Merk at det ikke er \emph{rom}(x) eller \emph{tid}(t) som er det essensielle her. Navnet på variabelen spiller med andre ord ingen rolle. Poenget er hvorvidt man har informasjon på \emph{hele randen} eller bare på ett stykke, og må \emph{marsjere} derifra. ODE-en i \Cref{ex1:RVP}, $u''+2u'-3u=9x$ med $u(0)$ og $u(1)$ gitt, er et RVP fordi betingelsene er gitt i \emph{hver sin ende}, altså på hele randen. Skrev vi $t$ i stedet for $x$, ville det fortsatt vært et randverdiproblem, og vi måtte fortsatt løst for alle punktene samtidig. Omvendt: gir vi i stedet $u(0)$ og $u'(0)$, er \emph{samme} ligning plutselig blitt et IVP, som kan løses steg for steg (f.eks.\ med Euler eller Runge-Kutta) -- selv om variabelen heter $x$.
+
+\medskip
+Det som avgjør, er altså \emph{hvor betingelsene er gitt}, ikke hva variabelen heter. At fysisk tid nesten alltid gir initialverdiproblemer, skyldes kausalitet: vi kjenner tilstanden \emph{nå}, men ikke i fremtiden.
+
+\medskip
+For PDE-er kommer det et ekstra moment i tillegg: \emph{ligningstypen} bestemmer i hvilke retninger det i det hele tatt er mulig å marsjere (jf.\ Hadamards moteksempel i \Cref{sect:introPDE}). Varmeligningen kan ikke løses \emph{baklengs} i tid -- dempingen av hver Fourier-mode, $e^{-k^2t}$, blir til vekst $e^{k^2t}$, og selv bittesmå feil i høye frekvenser eksploderer. Laplace-ligningen har ingen retning det går an å marsjere i, og må derfor alltid løses som et randverdiproblem.
+\end{rem}
+
+Strategien vi nå skal se på, \textit{semi-diskretisering}, gjelder for mange tidsavhengige PDE-er; varmeligningen er bare et eksempel.
 
 Gitt varmeligningen i $1D$, \eqref{eq:diffeq}:
 \begin{align*}
@@ -988,7 +1031,7 @@ u(x, 0) = f(x). && \text{initialverdier}.
 \end{align*}
 Ligningen løses fra \( t = 0 \) til \( t = t_{\text{slutt}} \).
 
-\subsubsection*{Semi-diskretisering}
+\subsubsection*{Metode: Semi-diskretisering}
 Vi ser nå på en teknikk som kombinerer diskretisering av randverdiproblemer, med teknikker for løsning av ordinære differensialligninger.
 
 Ideen er som følger:
@@ -1004,24 +1047,47 @@ Merk at for hvert gitterpunkt \( x_i \), er løsningen \( u(x_i, t) \) en funksj
 \[
 U_i'(t) = \frac{U_{i+1}(t) - 2U_i(t) + U_{i-1}(t)}{\Delta x^2}, \quad i = 1, 2, \ldots, M-1,
 \]
-der \( U_i'(t) = \frac{dU_i(t)}{dt} \). Sammen med randbetingelsene \( U_0(t) = g_0(t) \), \( U_M(t) = g_1(t) \), og initialbetingelsen \( U_i(0) = f(x_i) \), for \( i = 0, 1, \ldots, M \), utgjør dette et veldefinert system av ordinære differensialligninger (ODE-er).
+der \( U_i'(t) = \frac{dU_i(t)}{dt} \). Sammen med randbetingelsene \( U_0(t) = g_0(t) \), \( U_M(t) = g_1(t) \), og initialbetingelsen \( U_i(0) = f(x_i) \), for \( i = 0, 1, \ldots, M \), utgjør dette et veldefinert system av ordinære differensialligninger (ODE-er) -- med gitte initialverdier, altså et \emph{initialverdiproblem} i $t$.
 Dette systemet kalles vanligvis en \textit{semi-diskretisering} av PDE-en.
 \item[\textbf{Steg 4:}] Løs systemet av ODE-er med ønsket metode. For konkrethets skyld viser vi hvordan man gjør det med eksplisitt Euler:
 
-Den eksplisitte Eulermetoden med tidssteg \( \Delta t \) anvendt på disse ODE-ene gir:
+Husk at eksplisitt Euler for et system av ODE-er $\vect y'(t)=\vect F(t,\vect y)$ med tidssteg $\Delta t$ er
 \[
-U_i^{n+1} = U_i^n + r \left( U_{i+1}^n - 2U_i^n + U_{i-1}^n \right), \quad i = 1, 2, \ldots, M-1,
+\vect y^{n+1} = \vect y^n + \Delta t\,\vect F(t_n,\vect y^n), \qquad t_n = n\Delta t,
 \]
-der \( r = \frac{\Delta t}{\Delta x^2} \).
-Her er \( U_i^n \approx u(x_i, t_n) \), hvor \( t_n = n \Delta t \). For å skille mellom indekser for rom og tid, brukes tidsindeksen \( n \) som superskript.
+det vil si: vi erstatter den deriverte med en fremoverdifferanse, $\vect y'(t_n)\approx(\vect y^{n+1}-\vect y^n)/\Delta t$, og evaluerer høyresiden i det \emph{kjente} tidspunktet $t_n$.
+
+I vårt tilfelle er de ukjente funksjonene $U_i(t)$, og høyresiden er den diskrete andrederiverte fra steg 3. Vi innfører $U_i^n\approx U_i(t_n)\approx u(x_i,t_n)$; for å skille mellom indekser for rom og tid skriver vi tidsindeksen $n$ som superskript. Eksplisitt Euler gir da, for hvert indre punkt,
+\[
+\frac{U_i^{n+1}-U_i^n}{\Delta t} = \frac{U_{i+1}^n-2U_i^n+U_{i-1}^n}{\Delta x^2}, \qquad i=1,2,\ldots,M-1.
+\]
+Venstresiden er en fremoverdifferanse i tid, og høyresiden er sentraldifferansen i rom, evaluert på det kjente tidsnivået $n$. Vi multipliserer med $\Delta t$ og løser for $U_i^{n+1}$:
+\begin{equation}\label{eq:heat1d_explicit}
+U_i^{n+1} = U_i^n + r \left( U_{i+1}^n - 2U_i^n + U_{i-1}^n \right), \qquad i = 1, 2, \ldots, M-1,
+\end{equation}
+der $r = \Delta t/\Delta x^2$. Randpunktene settes i hvert tidssteg fra randbetingelsene, $U_0^n=g_0(t_n)$ og $U_M^n=g_1(t_n)$, og vi starter fra initialverdiene $U_i^0=f(x_i)$.
+
+Legg merke til at høyresiden i \eqref{eq:heat1d_explicit} bare inneholder verdier fra tidsnivå $n$, som allerede er kjent. Hver $U_i^{n+1}$ kan derfor regnes ut \emph{direkte}, punkt for punkt, uten å løse noe ligningssystem -- det er dette som gjør metoden \emph{eksplisitt}, og det er slik vi marsjerer fremover i tid. (I randverdiproblemene tidligere i kapittelet måtte vi derimot løse et ligningssystem for alle de ukjente samtidig.)
+
+Sentraldifferansen i rom er $O(\Delta x^2)$, mens eksplisitt Euler -- akkurat som for ODE-er -- bare er førsteordens i tid. Den totale feilen i skjemaet er derfor $O(\Delta t)+O(\Delta x^2)$: førsteordens i tid og andreordens i rom.
 \end{itemize}
 
-\begin{rem}{Stabilitet}
-Eksplisitt Euler er ikke ubetinget stabil: dersom tidssteget $\Delta t$ velges for stort i forhold til $\Delta x$, vokser numeriske feil eksponentielt og løsningen "eksploderer". For varmeligningen $u_t=u_{xx}$ kan man vise (von Neumann-analyse, utenfor pensum) at metoden er stabil nøyaktig når
+\begin{rem}{Stabilitet -- prisen for å marsjere i tid}\label{oppsum:stabilitet}
+Stabilitet dukker opp som et nytt tema \emph{fordi} vi nå har et initialverdiproblem. I et randverdiproblem løser vi for alle de ukjente samtidig, og det finnes ingen ``steg'' der feil kan hope seg opp. Når vi marsjerer i tid, er derimot resultatet fra hvert steg utgangspunktet for det neste: en liten feil (f.eks.\ en avrundingsfeil) som forsterkes med en faktor $G$ per steg, er etter $n$ steg forsterket med $G^n$. Er $|G|>1$, vokser feilen eksponentielt og løsningen ``eksploderer'' -- uansett hvor liten feilen var i utgangspunktet.
+
+\medskip
+\textbf{Et enkelt regnestykke.} Anta at feilen ved et tidspunkt er et ``sagtann''-mønster, $e_i^n=(-1)^i\varepsilon$ -- den mest oscillerende feilen gitteret kan ha. Siden skjemaet er lineært, oppfyller feilen samme oppdateringsformel som $U$, og fordi $e_{i\pm1}^n=-e_i^n$ gir eksplisitt Euler
 \[
-r = \frac{\Delta t}{\Delta x^2} \leq \frac12.
+e_i^{n+1} = e_i^n + r\big(e_{i+1}^n-2e_i^n+e_{i-1}^n\big) = (1-4r)\,e_i^n .
 \]
-Dette er et eksempel på en \emph{CFL-betingelse} (etter Courant, Friedrichs og Lewy): tidssteget må være tilstrekkelig lite sammenlignet med romsteget. I praksis betyr dette at en finere romdiskretisering (mindre $\Delta x$) krever et mye mindre tidssteg ($\Delta t\propto \Delta x^2$), siden $r$ må holdes under $\frac12$.
+Forsterkningsfaktoren er altså $G=1-4r$, og $|G|\le 1$ hvis og bare hvis
+\[
+r=\frac{\Delta t}{\Delta x^2}\le \frac12 .
+\]
+En fullstendig analyse av alle frekvenser (von Neumann-analyse, utenfor pensum) viser at sagtannen er det verste tilfellet, så dette er nettopp stabilitetsbetingelsen for metoden. I 2D gir samme argument med et ``sjakkbrett''-mønster $G=1-8r$, altså $r\le\frac14$ (se under).
+
+\medskip
+Betingelsen er et eksempel på en \emph{CFL-betingelse} (etter Courant, Friedrichs og Lewy): tidssteget må være tilstrekkelig lite sammenlignet med romsteget. Siden $\Delta t\propto\Delta x^2$, krever en halvering av $\Delta x$ en \emph{firedeling} av $\Delta t$ -- og dermed fire ganger så mange tidssteg for å nå samme $t_{\text{slutt}}$.
 \end{rem}
 
 La oss teste denne algoritmen på to eksempler.
@@ -1052,14 +1118,36 @@ I dette tilfellet er den eksakte løsningen ikke gitt.
 \end{eks}
 Numeriske eksperimenter for begge initialverdiene er allerede implementert i JuPyter notat som kan lastes ned på kursside.
 
-\subsubsection*{To romdimensjoner}
+\subsubsection*{Semi-diskretisering i to romdimensjoner}
 Semi-diskretiseringsteknikken generaliserer direkte til varmeligningen i to romdimensjoner, $u_t = \Delta u = u_{xx}+u_{yy}$, på et rektangulært område med gitte (eventuelt posisjonsavhengige) Dirichlet-randverdier. Vi diskretiserer i rom som i \Cref{sect:2dlaplace}, med $U_{i,j}^n\approx u(x_i,y_j,t_n)$, og bruker fempunktsformelen til å tilnærme $\Delta u$. Med eksplisitt Euler i tid, og $\Delta x=\Delta y=h$ for enkelhets skyld, blir oppdateringsformelen
 \begin{equation}\label{heat2d_explicit}
 U_{i,j}^{n+1} = U_{i,j}^n + r\Big(U_{i-1,j}^n+U_{i+1,j}^n+U_{i,j-1}^n+U_{i,j+1}^n - 4U_{i,j}^n\Big), \qquad r=\frac{\Delta t}{h^2},
 \end{equation}
-for alle indre rutenettpunkter, mens randpunktene holdes fast lik de gitte randverdiene i hvert tidssteg. Stabilitetsbetingelsen fra forrige bemerkning generaliserer også: for ligningen i to dimensjoner med $\Delta x=\Delta y=h$ er metoden stabil når $r\leq\frac14$ (og mer generelt $\frac{\Delta t}{\Delta x^2}+\frac{\Delta t}{\Delta y^2}\leq\frac12$ dersom $\Delta x\neq\Delta y$).
+for alle indre rutenettpunkter, mens randpunktene holdes fast lik de gitte randverdiene i hvert tidssteg.
 
-Akkurat som i 1D kan vi la løsningen \eqref{heat2d_explicit} tidsutvikle seg til den blir (tilnærmet) stasjonær, $U^{n+1}\approx U^n$, og dermed finne en tilnærming til løsningen av den tilsvarende Laplace- eller Poisson-ligningen -- se \Cref{sect:2dlaplace} for en direkte (og raskere) måte å finne denne stasjonære løsningen på.
+\begin{rem}{Stabilitet og feil i 2D: nå er kravet $r\le\frac14$!}
+\begin{itemize}
+\item \textbf{Stabilitet:} Med $\Delta x=\Delta y=h$ er skjemaet \eqref{heat2d_explicit} stabilt hvis og bare hvis
+\[
+r=\frac{\Delta t}{h^2}\le\frac14 ,
+\]
+altså \emph{halvparten} av grensen i 1D. Med samme $h$ må tidssteget derfor være halvparten så stort som i 1D.
+\item \textbf{Hvorfor $\frac14$?} Samme argument som i \Cref{oppsum:stabilitet}, men med et ``sjakkbrett''-mønster $e_{i,j}^n=(-1)^{i+j}\varepsilon$. Nå har hvert punkt \emph{fire} naboer med motsatt fortegn, så parentesen i \eqref{heat2d_explicit} blir $-4e-4e=-8e$, og forsterkningsfaktoren blir $G=1-8r$. Kravet $|1-8r|\le1$ gir $r\le\frac14$.
+\item \textbf{Ulike steglengder:} Dersom $\Delta x\neq\Delta y$, blir kravet $\dfrac{\Delta t}{\Delta x^2}+\dfrac{\Delta t}{\Delta y^2}\le\dfrac12$.
+\item \textbf{Feil:} Som i 1D er skjemaet førsteordens i tid og andreordens i rom: $O(\Delta t)+O(h^2)$.
+\end{itemize}
+\end{rem}
+
+\begin{rem}{Kobling til Laplace- og Poisson-ligningen}
+Lar vi en \emph{stabil} løsning av \eqref{heat2d_explicit} utvikle seg lenge nok, slutter den etter hvert å endre seg: $U^{n+1}\approx U^n$. Da er $u_t\approx0$, og den stasjonære løsningen oppfyller $\Delta u=0$ -- den er altså løsningen av Laplace-ligningen med de samme randverdiene. (Med et kildeledd, $u_t=\Delta u-f$, blir den stasjonære løsningen tilsvarende løsningen av Poisson-ligningen $\Delta u=f$.)
+
+\medskip
+Sammenhengen er faktisk enda tettere. Setter vi $r=\frac14$ i \eqref{heat2d_explicit}, kansellerer leddene med $U_{i,j}^n$, og vi står igjen med
+\[
+U_{i,j}^{n+1} = \frac14\Big(U_{i-1,j}^n+U_{i+1,j}^n+U_{i,j-1}^n+U_{i,j+1}^n\Big),
+\]
+som er \emph{nøyaktig} Jacobi-iterasjonen \eqref{poisson2d_update} for Laplace-ligningen ($f=0$). Jacobi-iterasjon \emph{er} altså eksplisitt Euler for varmeligningen, kjørt med det største stabile tidssteget $r=\frac14$: hver iterasjon er ett tidssteg mot likevekt. (I 1D gir $r=\frac12$ på samme måte Jacobi-iterasjonen for $u''=0$.) Gauss-Seidel, som bruker oppdaterte verdier så snart de er tilgjengelige, når typisk likevekten raskere.
+\end{rem}
 
 Se JuPyter notat for implementering.
 
