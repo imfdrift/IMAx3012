@@ -1153,18 +1153,21 @@ Se JuPyter notat for implementering.
 
 \subsection{Leapfrog-metoden for bølgeligningen}\label{sect:leapfrog}
 
-Bølgeligningen er, i motsetning til varmeligningen, av \emph{andre orden i tid}. Dette gjør at semi-diskretiseringsteknikken fra forrige underkapittel må tilpasses: vi kan ikke bruke eksplisitt Euler direkte, siden den bare er laget for førsteordens tidsderiverte. I stedet bruker vi en sentraldifferanse også i tid, noe som gir en metode som kalles \emph{leapfrog-metoden} (også kalt hoppe-bukkmetoden).
+Bølgeligningen er, i motsetning til varmeligningen, av \emph{andre orden i tid}. Vi kan derfor ikke bruke eksplisitt Euler direkte, slik vi gjorde for varmeligningen, siden den bare er laget for førsteordens tidsderiverte. I stedet bruker vi sentraldifferansen for andrederiverte i \emph{begge} retninger -- både i rom og i tid. Det gir en metode som kalles \emph{leapfrog-metoden} (også kalt hoppe-bukkmetoden).
 
 \subsubsection*{Utledning av skjemaet}
-Vi ser på den éndimensjonale bølgeligningen \eqref{wave:eq}, $u_{tt}=c^2u_{xx}$, på et intervall $[a,b]$, med initialbetingelser $u(x,0)=f(x)$, $u_t(x,0)=g(x)$. Som før diskretiserer vi i rom med $x_i=a+i\Delta x$ og lar $U_i(t)\approx u(x_i,t)$; sentraldifferansen for $u_{xx}$ gir semi-diskretiseringen
+Vi ser på den éndimensjonale bølgeligningen \eqref{wave:eq}, $u_{tt}=c^2u_{xx}$, på et intervall $[a,b]$, med initialbetingelser $u(x,0)=f(x)$, $u_t(x,0)=g(x)$. Vi legger et rutenett i både rom og tid, $x_i=a+i\Delta x$ og $t_n=n\Delta t$, og lar $U_i^n\approx u(x_i,t_n)$.
+
+I hvert indre gitterpunkt $(x_i,t_n)$ tilnærmer vi de to andrederiverte hver for seg, med \emph{samme} sentraldifferanseformel -- én gang i tidsretningen og én gang i romretningen:
+\begin{align*}
+u_{tt}(x_i,t_n) &\approx \frac{U_i^{n+1}-2U_i^n+U_i^{n-1}}{\Delta t^2} && \text{(sentraldifferanse i tid: $x_i$ holdes fast)},\\[0.5em]
+u_{xx}(x_i,t_n) &\approx \frac{U_{i+1}^n-2U_i^n+U_{i-1}^n}{\Delta x^2} && \text{(sentraldifferanse i rom: $t_n$ holdes fast)}.
+\end{align*}
+Så kombinerer vi dem via bølgeligningen $u_{tt}=c^2u_{xx}$:
 \[
-U_i''(t) = c^2\,\frac{U_{i+1}(t)-2U_i(t)+U_{i-1}(t)}{\Delta x^2}.
+\frac{U_i^{n+1}-2U_i^n+U_i^{n-1}}{\Delta t^2} = c^2\,\frac{U_{i+1}^n-2U_i^n+U_{i-1}^n}{\Delta x^2}.
 \]
-Nå diskretiserer vi også i tid, med tidssteg $\Delta t$ og $U_i^n\approx U_i(t_n)=u(x_i,t_n)$, ved å bruke sentraldifferansen for \emph{annenderiverte} (samme formel som vi brukte for $u_{xx}$, nå brukt på $t$):
-\[
-U_i''(t_n) \approx \frac{U_i^{n+1}-2U_i^n+U_i^{n-1}}{\Delta t^2}.
-\]
-Innsatt i semi-diskretiseringen og løst for $U_i^{n+1}$ gir dette
+Den eneste ukjente her er $U_i^{n+1}$; alle de andre verdiene hører til tidsnivåene $n$ og $n-1$, som allerede er regnet ut. Vi multipliserer med $\Delta t^2$, innfører $r=c\Delta t/\Delta x$ (slik at $c^2\Delta t^2/\Delta x^2=r^2$), og løser for $U_i^{n+1}$:
 
 \begin{oppsum}{Leapfrog-metoden (hoppe-bukkmetoden)}
 \begin{equation}\label{leapfrog1d}
@@ -1195,7 +1198,16 @@ Er initialhastigheten null ($g\equiv 0$), faller leddet $\Delta t\,g(x_i)$ bort.
 Med $U^0$ og $U^1$ på plass kan vi bruke \eqref{leapfrog1d} til å regne ut $U^2, U^3, \ldots$ fortløpende.
 
 \subsubsection*{Randbetingelser}
-\textbf{Dirichlet-betingelser.} Dersom $u(t,a)$ og $u(t,b)$ er gitte (eventuelt tidsavhengige) funksjoner, setter vi ganske enkelt $U_0^n$ og $U_M^n$ lik disse gitte verdiene i hvert tidssteg $n$, og bruker \eqref{leapfrog1d} kun for de indre punktene $i=1,\ldots,M-1$.
+I likhet med varmeligningen så er bølgeligningen på et begrenset intervall et \emph{initial-randverdiproblem}: initialbetingelsene $f$ og $g$ bestemmer hvordan vi kommer i gang \emph{i tid} (nivåene $U^0$ og $U^1$ over), mens randbetingelsene bestemmer hva som skjer i endepunktene \emph{i rom}, i hvert eneste tidssteg. De to delene er altså ikke alternativer, men brukes sammen.
+
+\textbf{Dirichlet-betingelser.} Dersom $u(a,t)$ og $u(b,t)$ er gitte (eventuelt tidsavhengige) funksjoner, setter vi ganske enkelt $U_0^n$ og $U_M^n$ lik disse gitte verdiene i hvert tidssteg $n$ -- også for $n=1$ -- og bruker både oppstartsformelen \eqref{leapfrog1d_start} og leapfrog-formelen \eqref{leapfrog1d} kun for de indre punktene $i=1,\ldots,M-1$. \Cref{fig:leapfrog_gitar} viser hvordan dette henger sammen for en plukket gitarstreng.
+
+\begin{figure}[htbp]
+\centering
+\input{Fig/leapfrog_gitarstreng.tex}
+\caption{Leapfrog-metoden for en gitarstreng med faste ender, diskretisert med 10 gitterpunkter $x_0,\ldots,x_9$ ($M=9$). (a) Strengen plukkes i $x_3$ og slippes fra ro, så $f$ er en ``trekant'' og $g\equiv0$. Endene er fast innspent: $u(0,t)=u(L,t)=0$. (b) Rom-tid-gitteret. Nederste rad ($t_0$) kommer direkte fra initialbetingelsen $f$. Neste rad ($t_1$) regnes ut med oppstartsformelen \eqref{leapfrog1d_start}, som bruker tre nabopunkter i $f$ (grønne piler, her for $U_2^1$). Alle senere rader regnes ut med leapfrog-formelen \eqref{leapfrog1d}, som bruker tre punkter på nivå $n$ og ett punkt på nivå $n-1$ (oransje piler, her for $U_6^3$). Randpunktene (røde firkanter) regnes ikke ut, men settes lik Dirichlet-verdiene i hvert tidssteg.}
+\label{fig:leapfrog_gitar}
+\end{figure}
 
 \textbf{Periodiske betingelser.} Dersom løsningen i stedet antas periodisk, med periode lik hele definisjonsområdet (slik at $x=a$ og $x=b$ er \emph{samme} punkt), bruker vi $M$ gitterpunkter $x_0,\ldots,x_{M-1}$ til å dekke én periode, og identifiserer indeksene \emph{modulo} $M$: naboen til $x_0$ mot venstre er $x_{M-1}$, og naboen til $x_{M-1}$ mot høyre er $x_0$. I formlene \eqref{leapfrog1d} og \eqref{leapfrog1d_start} betyr dette at vi tolker $U_{-1}^n$ som $U_{M-1}^n$ og $U_M^n$ som $U_0^n$ (og tilsvarende for $f$). Alle $M$ punktene oppdateres da med samme formel -- det finnes ingen faste randpunkter.
 

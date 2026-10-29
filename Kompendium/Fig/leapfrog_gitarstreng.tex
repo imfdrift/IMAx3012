@@ -1,0 +1,73 @@
+\begin{tikzpicture}[
+  x=1.15cm, y=1cm,
+  >={Stealth[length=2.2mm]},
+  init/.style={circle, draw=blue!70!black, fill=blue!25, inner sep=0pt, minimum size=2.8mm},
+  start/.style={circle, draw=green!45!black, fill=green!30, inner sep=0pt, minimum size=2.8mm},
+  leap/.style={circle, draw=orange!85!black, fill=orange!35, inner sep=0pt, minimum size=2.8mm},
+  rand/.style={rectangle, draw=red!70!black, fill=red!30, inner sep=0pt, minimum size=2.8mm},
+  stencilS/.style={->, thick, green!45!black, shorten >=1.8pt, shorten <=1.8pt},
+  stencilL/.style={->, thick, orange!85!black, shorten >=1.8pt, shorten <=1.8pt},
+]
+\def\h{1.5}      % plukkehøyde
+\def\xp{3}       % strengen plukkes i x_3
+\def\dt{1.15}    % avstand mellom tidsnivåer i (b)
+% =============== (a) Den fysiske strengen ved t = 0 ===============
+\begin{scope}[yshift=7.6cm]
+  \node[anchor=west, font=\bfseries] at (-1.2,3.05) {(a) Gitarstrengen plukkes og slippes ved $t=0$};
+  \fill[pattern=north east lines] (-0.3,-0.5) rectangle (0,0.5);  \draw[thick] (0,-0.5) -- (0,0.5);
+  \fill[pattern=north east lines] (9,-0.5) rectangle (9.3,0.5);   \draw[thick] (9,-0.5) -- (9,0.5);
+  \draw[dashed, gray] (0,0) -- (9,0);
+  \draw[very thick, blue!70!black] (0,0) -- (\xp,\h) -- (9,0);
+  \foreach \i in {1,...,8} {
+    \pgfmathsetmacro{\fy}{\i<=\xp ? \h*\i/\xp : \h*(9-\i)/(9-\xp)}
+    \draw[gray!60] (\i,0) -- (\i,\fy);
+    \node[init] at (\i,\fy) {};
+  }
+  \node[rand] at (0,0) {};  \node[rand] at (9,0) {};
+  \foreach \i in {0,...,9} \node[below=4pt, font=\footnotesize] at (\i,-0.5) {$x_{\i}$};
+  \node[left=3pt, font=\footnotesize, blue!70!black] at (\xp,\h+0.05) {$f(x_3)$};
+  \draw[<-, thick] (\xp+0.15,\h+0.15) -- (\xp+1.3,\h+0.55)
+     node[right, font=\footnotesize, align=left] {plukkes her, og slippes\\fra ro: $u_t(x,0)=g(x)=0$};
+  \node[font=\footnotesize, red!70!black, align=center, below=1pt] at (0,-1.05) {fast ende: $u(0,t)=0$};
+  \node[font=\footnotesize, red!70!black, align=center, below=1pt] at (9,-1.05) {fast ende: $u(L,t)=0$};
+\end{scope}
+
+% =============== (b) Rom-tid-gitteret ===============
+\node[anchor=west, font=\bfseries] at (-1.2,5.0) {(b) Diskretisering i rom og tid: hvor kommer verdiene fra?};
+\foreach \n in {0,...,3} \draw[gray!30] (0,\n*\dt) -- (9,\n*\dt);
+\foreach \i in {0,...,9} {
+  \draw[gray!30] (\i,0) -- (\i,3*\dt+0.3);
+  \node[gray!70, font=\footnotesize] at (\i,3*\dt+0.6) {$\vdots$};
+}
+\draw[->] (-0.55,-0.5) -- (9.55,-0.5) node[right] {$x$};
+\draw[->] (-0.55,-0.5) -- (-0.55,3*\dt+0.85) node[above] {$t$};
+\foreach \i in {0,...,9} \node[below, font=\footnotesize] at (\i,-0.5) {$x_{\i}$};
+\foreach \n in {0,...,3} \node[left, font=\footnotesize] at (-0.55,\n*\dt) {$t_{\n}$};
+\foreach \i in {1,...,8} {
+  \node[init]  (P\i-0) at (\i,0) {};
+  \node[start] (P\i-1) at (\i,\dt) {};
+  \node[leap]  (P\i-2) at (\i,2*\dt) {};
+  \node[leap]  (P\i-3) at (\i,3*\dt) {};
+}
+\foreach \n in {0,...,3} { \node[rand] (P0-\n) at (0,\n*\dt) {}; \node[rand] (P9-\n) at (9,\n*\dt) {}; }
+% oppstarts-stencil (3.51): U_2^1 fra f(x_1), f(x_2), f(x_3)
+\foreach \j in {1,2,3} \draw[stencilS] (P\j-0) -- (P2-1);
+\node[above left=0pt and -2pt, font=\scriptsize, green!45!black] at (P2-1) {$U_2^1$};
+% leapfrog-stencil (3.50): U_6^3 fra U_5^2, U_6^2, U_7^2 og U_6^1
+\foreach \j in {5,6,7} \draw[stencilL] (P\j-2) -- (P6-3);
+\draw[stencilL] (P6-1) to[bend right=40] (P6-3);
+\node[above right=0pt and -2pt, font=\scriptsize, orange!85!black] at (P6-3) {$U_6^3$};
+% rand-etiketter
+\node[font=\footnotesize, red!70!black, rotate=90] at (-1.5,1.5*\dt) {rand i rom: $U_0^n=0$};
+\node[font=\footnotesize, red!70!black, rotate=90] at (9.85,1.5*\dt) {rand i rom: $U_9^n=0$};
+% klamme for initialverdiene
+\draw[decorate, decoration={brace, amplitude=5pt, mirror}, thick] (0.75,-1.05) -- (8.25,-1.05)
+  node[midway, below=6pt, font=\footnotesize] {initialverdier i tid: $U^0$ fra $f$, og $U^1$ fra $f$ og $g$};
+% tegnforklaring
+\begin{scope}[font=\footnotesize, yshift=-2.35cm]
+  \node[init]  at (0,0) {};    \node[anchor=west] at (0.25,0)    {$U_i^0=f(x_i)$ (initialbetingelsen)};
+  \node[start] at (5,0) {};    \node[anchor=west] at (5.25,0)    {$U_i^1$ fra oppstarten \eqref{leapfrog1d_start}};
+  \node[leap]  at (0,-0.6) {}; \node[anchor=west] at (0.25,-0.6) {$U_i^{n+1}$ fra leapfrog \eqref{leapfrog1d}, $n\ge1$};
+  \node[rand]  at (5,-0.6) {}; \node[anchor=west] at (5.25,-0.6) {randpunkter: gitt av Dirichlet-betingelsen};
+\end{scope}
+\end{tikzpicture}
