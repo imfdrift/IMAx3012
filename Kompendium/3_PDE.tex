@@ -462,7 +462,7 @@ for reelle funksjoner $u (x,y,\ldots)$.
 Vi ser på en PDE \eqref{eq:PDE1} definert på et område $D$ med rand $\partial D$. 
     \begin{itemize}
   \item[1.]\textbf{Dirichlet-betingelser}, der løsningen \( u \) er foreskrevet i hvert punkt på randen \( \partial D \) av et område \( D \). Problemet med å finne løsningen i \( D \) med foreskrevne verdier av \( u \) på \( \partial D \) kalles et \emph{Dirichlet-randverdiproblem}.
-  \item[2.]\textbf{Neumann-betingelser}, der verdiene til den normal-deriverte \( \frac{\partial u}{\partial \hat{\vect{n}}} \) av løsningen på randen \( \partial D \) er spesifisert. I dette tilfellet kalles problemet et \emph{Neumann-randverdiproblem}.
+  \item[2.]\phantomsection\label{def:neumann}\textbf{Neumann-betingelser}, der verdiene til den normal-deriverte \( \frac{\partial u}{\partial \hat{\vect{n}}} \) av løsningen på randen \( \partial D \) er spesifisert. I dette tilfellet kalles problemet et \emph{Neumann-randverdiproblem}.
   \item[3.]\textbf{Robin-betingelser}, der \( \left( \frac{\partial u}{\partial \hat{\vect{n}}} + a u \right) \) er spesifisert på \( \partial D \). Det tilsvarende problemet kalles et \emph{Robin-randverdiproblem}.
 \end{itemize}
 \end{oppsum}
@@ -865,7 +865,7 @@ La oss sammenligne de to metodene på et enkelt eksempel: $u''=0$ på $[0,2]$, m
 
 Merk at begge metodene generaliserer direkte til flere romdimensjoner, slik vi skal se i \Cref{sect:2dlaplace} -- der blir de faktisk den foretrukne løsningsmetoden, siden det blir upraktisk å sette opp og løse det fulle ligningssystemet direkte for store 2D-problemer.
 
-\subsection{1D — RVP med Neumann-betingelser: Fiktiv rand}
+\subsection{1D — RVP med Neumann-betingelser: Fiktiv rand}\label{sect:fiktivrand}
 For å få en entydig løsning av et randverdiproblem (RVP) eller en PDE, må nok informasjon om løsningen være kjent, vanligvis gitt på randene. 
 I \Cref{ex1:RVP} brukte vi Dirichlet-betingelser. Vi skal nå se hvordan man håndterer Neumann-betingelser. Robin-betingelser kan behandles på lignende måte.
 
@@ -1451,13 +1451,13 @@ Vi betrakter stasjonær diffusjon av en egenskap $\phi$ i et én-dimensjonalt om
 \label{fig:cv-boundaries}
 \end{figure}
 \subsubsection*{Steg 1: Rutenettgenerering}
-Det første steget i endeligvolum-metoden er å dele opp mengden i diskrete kontrollvolumer. Det gjøres på følgende vis.
+Første steg er å dele \emph{området} inn i kontrollvolumer (celler):
 \begin{enumerate}
-\item Vi plasserer et antall punkter, eller noder, i rommet mellom $V$ og $H$. 
-\item Grensene (eller flatene) til kontrollvolumene plasseres midt mellom nabopunkter. Hver punkt er derfor omgitt av et kontrollvolum, også kalt en celle.
-\item  Det er vanlig praksis å fordele nodene slik at de fysiske randene faller sammen med kontrollvolumgrensene.
+\item Plasser et antall noder i rommet mellom $V$ og $H$.
+\item Legg cellegrensene (flatene) midt mellom nabonodene, slik at hver node er omgitt av sin egen celle.
+\item Fordel nodene slik at de fysiske randene $V$ og $H$ faller sammen med celleflater, ikke med noder.
 \end{enumerate}
-På dette tidspunktet er det hensiktsmessig å etablere et notasjonssystem som kan brukes videre. Den vanlige konvensjonen vises i Figur~\ref{fig:grid-notation}.
+Notasjonen vi skal bruke videre er vist i Figur~\ref{fig:grid-notation}.
 
 \begin{figure}[ht]
 \centering
@@ -1504,13 +1504,13 @@ På dette tidspunktet er det hensiktsmessig å etablere et notasjonssystem som k
 Et generelt nodalpunkt identifiseres med $P$ og naboene i én-dimensjonal geometri, nodene vest og øst, henholdsvis $W$ og $E$. Den vestlige siden av kontrollvolumet kalles «$w$» og den østlige siden «$e$». Avstandene mellom nodene $W$ og $P$, og mellom $P$ og $E$, betegnes henholdsvis $\delta x_{WP}$ og $\delta x_{PE}$. Tilsvarende betegnes avstanden mellom flaten $w$ og $P$ med $\delta x_{wP}$, og mellom $P$ og flaten $e$ med $\delta x_{Pe}$. Figur~\ref{fig:grid-notation} viser at kontrollvolumbredden er $\delta x = \delta x_{we}$.
 
 \subsubsection*{Steg 2: Diskretisering}
-Brorparten av arbeidet med endeligvolum-metode er integrasjon av den styrende ligningen over et kontrollvolum for å gi en diskretisert ligning ved nodalpunktet $P$. For kontrollvolumet definert gir dette:
+Hovedarbeidet i endelig volum-metoden er å integrere den styrende ligningen over cellen rundt $P$. Det gir
 \begin{align}\label{eV_discretisering}
-\iiint_{KV} \frac{\partial}{\partial x} \left(\Gamma \frac{\partial\phi}{\partial x} \right) dV + \iiint_{KV} S dV = \left(\Gamma A \frac{\partial\phi}{\partial x}\right)_e- \left( \Gamma A \frac{\partial\phi}{\partial x} \right)_w + \tilde{S} = 0
+\iiint_{KV} \frac{\partial}{\partial x} \left(\Gamma \frac{\partial\phi}{\partial x} \right) dV + \iiint_{KV} S dV = \left(\Gamma A \frac{\partial\phi}{\partial x}\right)_e- \left( \Gamma A \frac{\partial\phi}{\partial x} \right)_w + \tilde{S} = 0,
 \end{align}
-Her er $A$ tverrsnittsarealet til overflaten av kontrollvolum, og $\tilde{S}$ den gjennomsnittlige verdien av $S$ ganget med volum av $KV$. 
-For å få noe nyttig ut av \eqref{eV_discretisering} må vi løse et problem: ligningen inneholder diffusjonskoeffisienten $\Gamma$ og gradienten $\frac{\partial \phi}{\partial x}$ på \emph{flatene} $e$ og $w$, mens de ukjente $\phi$ (og ofte også $\Gamma$) bare er kjent i \emph{nodene} $P$, $W$, $E$, osv. Vi må derfor tilnærme flateverdiene ved hjelp av nodeverdiene.
-For å beregne gradienter (og dermed flukser) ved kontrollvolumflater brukes en tilnærmet fordeling mellom nodale punkter. Lineære tilnærminger er den enkleste og mest åpenbare metoden, kjent som sentral differensiering.
+der $A$ er tverrsnittsarealet og $\tilde{S}$ er gjennomsnittsverdien av $S$ i cellen, ganget med cellens volum.
+
+Her møter vi metodens kjerneproblem: \eqref{eV_discretisering} inneholder $\Gamma$ og $\partial\phi/\partial x$ på \emph{flatene} $e$ og $w$, men de ukjente $\phi$-verdiene er bare kjent i \emph{nodene} $P,W,E,\ldots$. Vi må altså tilnærme flateverdiene ut fra nodeverdiene -- og den enkleste, mest naturlige tilnærmingen er en rett linje mellom de to nærmeste nodene (\emph{sentral differensiering}).
 
 \begin{defn}{Notasjon for funksjonsverdier i et punkt}
 Vi skal bruke subscript som notasjon for  verdier av funksjoner ved et gitt punkt. For eksempel er $\Gamma_P$ verdien til $\Gamma$ i punktet $P$.
@@ -1542,7 +1542,11 @@ a_P := a_W + a_E - S_P \notag
 
 \subsubsection*{Steg 3: Løsning av ligninger}
 
-Diskretiserte ligninger av formen \eqref{disc_finvol1} må settes opp ved hvert nodalpunkt for å løse problemet. For kontrollvolumer som er ved grensene av mengden, modifiseres den generelle diskretiserte ligningen for å inkludere randbetingelser. Det resulterende systemet av lineære algebraiske ligninger løses deretter for å finne fordelingen av egenskapen $\phi$ ved nodene. Enhver egnet matrise-løsningsmetode kan brukes. Sammendrag av metoden som vi skal se på i de neste to kapitler finnes i \Cref{app:EV:sammendrag}.
+Ligning \eqref{disc_finvol1} settes opp ved \emph{hvert} nodalpunkt. For cellene som ligger ved grensen av området, må den modifiseres til å inkludere randbetingelsene -- det ser vi på i de neste eksemplene. Det resulterende lineære ligningssystemet løses deretter med en vanlig matrise-løsningsmetode, for å finne fordelingen av $\phi$ i alle nodene.
+
+\begin{rem}{Oppskriften -- hold denne oppslått}
+Alle variantene av metoden vi skal se på i de neste to kapitlene (1D, 2D, med kildeledd, med rand- og tidsavhengighet) bygger på \emph{nøyaktig} samme form, $a_P\phi_P=\sum a_{nb}\phi_{nb}+S^u$. Det eneste som endrer seg fra eksempel til eksempel er \emph{hvilke} naboer som finnes, og hva som legges til i kildeleddet $S^u+S_P\phi_P$. \Cref{app:EV:sammendrag} samler opp alle disse formlene (nabokoeffisienter i 1D/2D/3D, og randbidragene); det kan være nyttig å ha den oppslått mens du leser videre.
+\end{rem}
 
 \begin{oppsum}{Fysisk tolkning av endelig volum metode}
 Vi kan tolke \eqref{eV_discretisering} og dermed den endelige volum metode slik at den diffusive fluksen av $\phi$ som forlater den østlige flaten minus den som kommer inn fra den vestlige flaten er lik genereringen av $\phi$ – altså en bevaringslov over $KV$.
@@ -1629,18 +1633,13 @@ Vi skal i det følgende løse \eqref{eq:ex343} nummerisk ved endeligvolum-metode
 \end{figure}
 Gitteret består av fem noder.
 
-\paragraph{For nodene 2, 3 og 4} kan temperaturverdiene til øst og vest hentes fra nabonoder. Vi bruker nå at varmeledningsevne, arealgjennomsnitt av staven og avstand $\delta x$ er konstant. Integrasjon av \eqref{eq:ex343} over et av de indre kontrollvolum gir nå diskretiserte ligninger på følgende form:
-\begin{align*}
-\left(\frac{\kappa_e}{\delta x_{PE}}A_e + \frac{\kappa_w}{\delta x_{WP}}A_w \right)T_P &=\left(\frac{\kappa_w}{\delta x_{WP}}A_w\right) T_W + \left(\frac{\kappa_e}{\delta x_{PE}}A_e\right) T_E  \\
-\Leftrightarrow \underbrace{\left(\frac{\kappa}{\delta x}A + \frac{\kappa}{\delta x}A\right)}_{=:a_P}T_P &=\underbrace{\left(\frac{\kappa}{\delta x}A\right)}_{=:a_W} T_W + \underbrace{\left(\frac{\kappa}{\delta x}A\right)}_{=:a_E} T_E
-\end{align*}
-Vi får dermed som diskretisert ligning i hver av nodene $2,3,4$ at
+\paragraph{For nodene 2, 3 og 4} er begge naboer indre noder, så dette er akkurat situasjonen vi allerede dekket generelt i \eqref{disc_finvol1}: vi setter inn $\phi\to T$, $\Gamma\to\kappa$, og bruker at $\kappa$, $A$ og $\delta x$ er konstante:
 \begin{align}
-a_P T_P = a_W T_W + a_E T_E,\quad \text{hvor } a_W = a_E = \frac{\kappa A}{\delta x}, \quad a_P = a_W + a_E
+a_P T_P = a_W T_W + a_E T_E,\quad \text{hvor } a_W = a_E = \frac{\kappa A}{\delta x}, \quad a_P = a_W + a_E .
 \end{align}
-Siden det ikke finnes noen varmekilde i modellen, er $S^u = 0$ og $S_P = 0$ (se \eqref{disc_finvol1}).
+Det er ingen varmekilde i modellen, så $S^u = 0$ og $S_P = 0$.
 
-\paragraph{For randnodene 1 og 5 }må vi inkludere randbetingelsene. Integrasjon av \eqref{eq:ex343} over kontrollvolum\footnote{Integralet blir et trippelintegral ettersom vi integrerer over et volum (som navn til metoden sier). Ligningen her er forresten bare avhengig av koordinat $x$ og det er det hvorfor vi kaller det et 1D-problem (selv om integralene er trippelintegraler).} med node $1$ gir 
+\paragraph{For randnodene 1 og 5} er situasjonen ny: cellen har bare \emph{én} nabonode, og dette er det første stedet vi faktisk må håndtere en rand. Integrasjon av \eqref{eq:ex343} over kontrollvolumet\footnote{Integralet blir et trippelintegral siden vi (i prinsippet) integrerer over et volum, selv om ligningen her bare avhenger av $x$ -- det er \emph{det} som gjør problemet éndimensjonalt, ikke hvilken type integral vi skriver.} med node $1$ gir
 \begin{align}\label{eq:ex343_rand}
 \iiint_{KV} \frac{\partial}{\partial x}\left(\kappa\frac{\partial T}{\partial x}\right) \, dV = \kappa A\frac{T_E-T_P}{\delta x} -\kappa A\frac{T_P-T_V}{\delta x/2}=0
 \end{align}
@@ -1658,6 +1657,17 @@ Tilsvarende for node $5$, med kjent temperatur $T_H$:
 a_P T_P = a_W T_W + a_E T_E + S^u, \notag\\ 
 \text{hvor } a_W=\frac{\kappa A}{\delta x}, a_E = 0, a_P = a_W +a_E - S_P  \quad S^u = \frac{2\kappa A}{\delta x} T_H, \ S_P = -\frac{2\kappa A}{\delta x},
 \end{align}
+
+\begin{oppsum}{Randcelle med kjent verdi -- generell regel}
+Utledningen over er egentlig generell, og gjelder for \emph{enhver} randcelle av bredde $\delta x$ med kjent randverdi $\phi_B$ (bytt om $W$ og $E$ for høyre rand):
+\[
+a_{\text{randside}} = 0, \qquad S^u \to S^u + \frac{2\Gamma A}{\delta x}\,\phi_B, \qquad S_P \to S_P - \frac{2\Gamma A}{\delta x} .
+\]
+Vi \emph{kutter koblingen} til randsiden, og lar randverdien opptre som et kildeledd -- formen $a_P\phi_P=\sum a_{nb}\phi_{nb}+S^u$ er uendret, og faktoren $2/\delta x$ (dobbelt av det vanlige $1/\delta x$) kommer nettopp av at avstanden fra noden til randen bare er $\delta x/2$, altså halvparten av den vanlige nodeavstanden $\delta x$.
+
+Siden denne utledningen er identisk hver gang vi møter en rand med kjent verdi, bruker vi regelen direkte for \emph{denne} typen rand i resten av seksjonen, i stedet for å gjenta integrasjonen over kontrollvolumet på nytt. Møter vi derimot noe nytt -- et kildeledd, en synkterm, eller en rand med kjent \emph{fluks} i stedet for kjent verdi -- utleder vi det fra bunnen av, akkurat som vi gjorde her, slik du vil se i de neste eksemplene. \Cref{app:EV:sammendrag} samler alle reglene i én tabell, nyttig som oppslag \emph{etter} at du har sett utledningen.
+\end{oppsum}
+
 Med $\kappa A/\delta x = 1000\cdot 0.01/0.1 = 100$ får vi koeffisientene:
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|}
@@ -1705,34 +1715,16 @@ Vi skal igjen diskretisere og fremstille løsning som i tidligere eksempel. Nota
 \includegraphics[width=6cm]{Fig/varmeflate.png}
 \end{minipage}
 \end{eks}
-Som tidligere deler vi $x$-retning inn i fem kontrollvolumer $KV$, med $\delta x = 0.004\,\text{m}$. Vi antar en enhetsflate i $yz$-planet med areal $A$.
-Ved formell integrasjon av den ligningen over et kontrollvolum får vi:
-\begin{align}\label{ex:2_KV_int}
-\iiint_{KV} \frac{\partial}{\partial x} \left(\kappa \frac{\partial T}{\partial x}\right) dV + \iiint_{KV} q dV =0
-\end{align}
-Første ledd i \eqref{ex:2_KV_int} behandles som i \Cref{ex:CFD_simplest}. For det andre integralet, kilde i ligningen er evaluert ved gjennomsnittlige produksjon (dvs. $\overline{S} |KV|=q|KV|=qA\delta x$ hvor $|KV|$ betegnes volummål til kontroll volum $KV$) i hver kontrollvolum. Dermed får vi fra \eqref{ex:2_KV_int}
+Som i forrige eksempel deler vi staven i fem kontrollvolum, med $\delta x = 0.004\,\text{m}$ og enhetsflate $A$ i $yz$-planet. Koblingene $a_W, a_E$ mellom nodene og behandlingen av randnodene $1$ og $5$ er \emph{nøyaktig} som i \Cref{ex:CFD_simplest} -- det eneste nye er kildeleddet. Integrert over en celle bidrar den konstante kilden $q$ med
 \[
-0 = \left[ \kappa A \frac{dT}{dx} \right]_e - \left[ \kappa A \frac{dT}{dx} \right]_w + q |KV| = \kappa_e A\frac{T_E-T_P}{\delta x}-\kappa_w A\frac{T_P-T_W}{\delta x} + qA \delta x
+\overline{S}\,\Delta V = qA\,\delta x
 \]
-Vi kan sortere ligningen og skrive den som
-\[\frac{\kappa_e+\kappa_w}{\delta x}AT_P = \frac{\kappa_w}{\delta x}AT_W+ \frac{\kappa_e}{\delta x}AT_E + qA\delta x\]
-Husk at $\kappa_e=\kappa_w=\kappa$ og dermed er ligningen for indre noder ($2$, $3$ og $4$):
-\begin{align}\label{ex2:CFD_indre_eq}
-a_P T_P = a_W T_W + a_E T_E + S^u\\
-a_W=a_E=\frac{\kappa A}{\delta x}, \quad a_P = a_W + a_E-S_P, \quad S_P=0,\quad  S^u= qA\delta x\notag
-\end{align}
-\textbf{Randbetingelser} Vi bruker for noder $1$ og $5$ igjen en lineær tilnærming for temperaturen mellom randpunkt og nabonode. Ved node $1$, med kjent temperatur $T_V$, integrasjon av ligningen over kontrollvolumet rundt node $1$ gir oss sammen med lineær approksimasjon for temperatur mellom $V$ og $P$:
-\[\kappa A \left(\frac{T_E-T_P}{\delta x}- \frac{T_P-T_V}{\delta x/2}\right)+qA\delta x=0\]
-Dermed er diskretisert ligning ved randnode $1$ gitt som  
-\begin{align}
-a_P T_P = a_WT_W + a_E T_E + S^u\\
-a_W = 0, \quad a_E = \frac{\kappa A}{\delta x}, \quad a_P = a_E - S_P, \quad S_P = -\frac{2\kappa A}{\delta x}, \quad S^u = \frac{2\kappa A}{\delta x} T_V + q A \delta x, \notag
-\end{align}
-Ved node $5$, med kjent temperatur $T_H$, får vi lignende:
-\begin{align}
-a_P T_P = a_W T_W + a_ET_E + S^u\\
-a_W = \frac{\kappa A}{\delta x}, \quad a_E = 0, \quad a_P = a_W +a_E- S_P, \quad S_P = -\frac{2\kappa A}{\delta x},    \quad S^u = \frac{2\kappa A}{\delta x} T_H + q A \delta x, \notag
-\end{align}
+til $S^u$ i \emph{alle} fem nodene, og ingenting til $S_P$ (siden $q$ ikke avhenger av $T$). Koeffisientene blir dermed:
+\begin{itemize}
+\item \textbf{Indre noder} ($2,3,4$): $a_W=a_E=\dfrac{\kappa A}{\delta x}$, \quad $S_P=0$, \quad $S^u = qA\,\delta x$.
+\item \textbf{Node $1$} (kjent $T_V$): $a_W=0$, $a_E=\dfrac{\kappa A}{\delta x}$, $S_P=-\dfrac{2\kappa A}{\delta x}$, \quad $S^u = \dfrac{2\kappa A}{\delta x}T_V + qA\,\delta x$.
+\item \textbf{Node $5$} (kjent $T_H$): speilbildet av node $1$, med $T_H$ i stedet for $T_V$.
+\end{itemize}
 \textbf{Numerisk løsning}
 Setter vi inn verdiene $\kappa = 0.5$, $A = 1$, $q = 1000\,\text{kW/m}^3 = 10^6\,\text{W/m}^3$, $\delta x = 0.004\,\text{m}$, får vi:
 \begin{center}
@@ -1819,27 +1811,23 @@ hvor det første integralet behandles som i \Cref{ex:CFD_simplest}. I det andre 
 \[A\left(\frac{\partial T}{\partial x}\right)_e -A\left(\frac{\partial T}{\partial x}\right)_w - n^2(T_P-T_\infty)A\,\delta x=0,\]
 og etter divisjon med $A$:
 \[\left(\frac{\partial T}{\partial x}\right)_e -\left(\frac{\partial T}{\partial x}\right)_w - n^2(T_P-T_\infty)\delta x=0.\]
-Vi skriver det om ved bruk av  en lineær tilnærming og får indre noder ($2, 3$ og $4$):
+Vi skriver det om med en lineær tilnærming, og får for de indre nodene ($2,3$ og $4$):
 \begin{align*}
 a_P T_P = a_W T_W + a_E T_E + S^u\\
 a_W = a_E = \frac{1}{\delta x}, \quad a_P = a_W + a_E - S_P, \quad S_P = -n^2 \delta x, \quad S^u = n^2 \delta x T_\infty.
 \end{align*}
-\textbf{Randbetingelser}
-Vi går fram akkurat som i \Cref{ex:CFD_simplest}. Ved node $1$, med kjent temperatur $T_V$, får vi:
-\begin{align*}
-\frac{T_E-T_P}{\delta x}-\frac{T_P-T_V}{\delta x/2}-n^2(T_P-T_\infty)\delta x=0
-\end{align*}
-og dette betyr at verdier for koeffisienter er gitt som
+
+\begin{rem}{Hvorfor må $S_P\le 0$?}
+Her ser vi for første gang et kildeledd som faktisk \emph{avhenger} av $T_P$: varmetapet til luften øker med temperaturen, og den $T$-avhengige delen av det, $-n^2\delta x\,T_P$, går derfor inn i $S_P$ -- ikke i $S^u$, som bare skal inneholde det som er uavhengig av $T_P$. Dette er ikke en vilkårlig bokføringsregel: $S_P$ opptrer i $a_P = a_W+a_E-S_P$, så en \emph{negativ} $S_P$ gjør $a_P$ \emph{større}. Fysisk sett stabiliserer et varmetap som øker med temperaturen løsningen, akkurat som vi venter -- og matematisk gjør det ligningssystemet mer diagonaldominant. La vi i stedet hele sluket ligge i $S^u$, ville $a_P$ blitt mindre, og for et sterkt nok sluk kan $a_P$ bli så liten at Jacobi- og Gauss-Seidel-iterasjon (\Cref{sect:jacobigs}) ikke lenger konvergerer. Regelen er derfor: \emph{lineariser alltid kildeleddet slik at $S_P\le 0$} (se også \Cref{app:EV:sammendrag}).
+\end{rem}
+
+\textbf{Randbetingelser.} Ved node $1$ bidrar både den kjente basetemperaturen $T_V$ -- etter regelen for randceller over -- \emph{og} sluket; de to bidragene til $S^u$ og $S_P$ legges ganske enkelt sammen:
 \[
-a_W = 0, \quad a_E = \frac{1}{\delta x},\quad a_P = a_W+a_E-S_P, \quad S_P = -n^2 \delta x - \frac{2}{\delta x}, \quad S^u = n^2 \delta x T_\infty + \frac{2}{\delta x} T_V. 
+a_W = 0, \quad a_E = \frac{1}{\delta x},\quad S_P = -n^2 \delta x - \frac{2}{\delta x}, \quad S^u = n^2 \delta x T_\infty + \frac{2}{\delta x} T_V.
 \]
-Ved node $5$ er enden isolert, så fluksen gjennom flaten $e$ (som nå ligger i randen) er null. Det gir
-\begin{align*}
-0-\frac{T_P-T_W}{\delta x}-n^2(T_P-T_\infty)\delta x=0
-\end{align*}
-Dermed er koeffisienter gitt som
+Ved node $5$ er enden isolert, så fluksen gjennom flaten $e$ (som nå ligger i randen) er null -- et forvarsel om Neumann-betingelsen vi formaliserer i \Cref{sect:evm_neumann}. Det gir
 \[
-a_W=\frac{1}{\delta x}, \quad a_E = 0,\quad a_P=a_W+a_E-S_P, \quad S_P = -n^2 \delta x, \quad S^u = n^2 \delta x T_\infty.
+a_W=\frac{1}{\delta x}, \quad a_E = 0,\quad S_P = -n^2 \delta x, \quad S^u = n^2 \delta x T_\infty.
 \]
 \textbf{Numerisk løsning}
 Med $n^2 = 25\,\text{m}^{-2}$ og $\delta x = 0.2\,\text{m}$, får vi:
@@ -1889,8 +1877,60 @@ Avvik & $6.3\,\%$ & $2.5\,\%$ & $0.4\,\%$ & $0.3\,\%$ & $0.4\,\%$ \\
 \end{center}
 Overensstemmelsen er god, selv med et grovt gitter. Det største avviket, ca.\ $6\,\%$, er i node $1$ nær basen: der faller temperaturen raskt, og fem kontrollvolumer er for grovt til å fange det helt. Med et finere gitter blir feilen raskt mindre.
 
-\begin{rem}{Randbetingelse med kjent fluks}
-Den isolerte enden i ribbe-eksempelet er et spesialtilfelle av en randbetingelse med \emph{kjent fluks} (en Neumann-betingelse). Er fluksen inn gjennom randen kjent, lik $q_B$ (per flateenhet), erstatter vi rett og slett flukstermen på randflaten med den kjente verdien $q_B A$. Koblingen mot randsiden kuttes ($a_E=0$ ved høyre rand, $a_W=0$ ved venstre), og bidraget legges til i kildeleddet: $S^u \to S^u + q_B A$, mens $S_P$ ikke endres. For en isolert rand er $q_B=0$, og randen bidrar ikke med noe i det hele tatt.
+\subsection{Randbetingelse med kjent fluks (Neumann-betingelse)}\label{sect:evm_neumann}
+Den isolerte enden i ribbe-eksempelet over var allerede et varsel om denne betingelsen -- nå formaliserer vi den. Den isolerte randen er et spesialtilfelle av en randbetingelse med \emph{kjent fluks} (en \hyperref[def:neumann]{Neumann-betingelse}, se definisjonen på side~\pageref{def:neumann}). Er fluksen inn gjennom randen kjent, lik $q_B$ (per flateenhet), erstatter vi rett og slett flukstermen på randflaten med den kjente verdien $q_B A$.
+
+At dette er en Neumann-betingelse, ser vi slik: for varmeledning er fluksen \emph{inn} gjennom randen per flateenhet
+\[
+q_B = \kappa\,\frac{\partial T}{\partial \hat{\vect{n}}},
+\]
+der $\hat{\vect{n}}$ peker ut av området. Å kjenne den normal-deriverte $\partial T/\partial\hat{\vect{n}}$ på randen er altså det samme som å kjenne varmefluksen $q_B$ gjennom den. En isolert rand er $q_B = 0$.
+
+La oss vise dette mer formelt, steg for steg, på samme måte som vi gjorde for kjent randtemperatur i \Cref{ex:CFD_simplest}. Vi ser på node $1$ ved venstre rand, der varmefluksen $q_B$ inn gjennom randen er kjent, og tar med et kildeledd $\overline S\,\Delta V = S^u + S_P T_P$.
+
+\paragraph{Steg 1: Integrer over kontrollvolumet.} Som før gir integrasjon av \eqref{1D-heateq} over kontrollvolumet rundt node $1$
+\[
+\kappa A\left(\frac{\partial T}{\partial x}\right)_e - \kappa A\left(\frac{\partial T}{\partial x}\right)_w + S^u + S_P T_P = 0 .
+\]
+
+\paragraph{Steg 2: Tilnærm fluksene.} Fluksen over flaten $e$ tilnærmes som før lineært mellom nodene: $\kappa A\,(T_E - T_P)/\delta x$. Flaten $w$ ligger nå \emph{i randen}, og der er fluksen \emph{kjent}. Leddet $-\kappa A\,(\partial T/\partial x)_w$ er nettopp varmen som strømmer inn gjennom randflaten, altså $q_B A$. Ligningen blir
+\begin{align}\label{eq:EVM_neumann_rand}
+\kappa A\,\frac{T_E - T_P}{\delta x} + q_B A + S^u + S_P T_P = 0 .
+\end{align}
+Legg merke til at vi her \emph{ikke} trenger å tilnærme noen derivert over avstanden $\delta x/2$ mot randen, slik vi måtte for kjent randtemperatur. Derfor dukker det ikke opp noe 2-tall.
+
+\paragraph{Steg 3: Samle leddene.} Vi flytter leddene med $T_P$ til venstre side:
+\[
+\left(\frac{\kappa A}{\delta x} - S_P\right) T_P = 0\cdot T_W + \frac{\kappa A}{\delta x}\, T_E + S^u + q_B A .
+\]
+
+\paragraph{Steg 4: Sammenlign med den generelle formen.} Sammenligner vi med $a_P T_P = a_W T_W + a_E T_E + S^u$, ser vi at
+\[
+a_W = 0, \qquad a_E = \frac{\kappa A}{\delta x}, \qquad a_P = a_W + a_E - S_P, \qquad S^u \to S^u + q_B A, \qquad S_P \text{ uendret}.
+\]
+Koblingen mot randsiden kuttes, og den kjente fluksen legges til i kildeleddet $S^u$. Ved høyre rand blir det tilsvarende: $a_E = 0$ og $S^u \to S^u + q_B A$.
+
+\begin{oppsum}{Randbetingelser i endelig volum-metoden}
+For en randcelle kuttes alltid koblingen mot randsiden ($a_W=0$ ved venstre rand, $a_E=0$ ved høyre), og bidraget fra randen legges i $S^u$ og $S_P$:
+\begin{center}
+\begin{tabular}{lll}
+\hline
+Randbetingelse & Bidrag til $S^u$ & Bidrag til $S_P$ \\
+\hline
+Kjent temperatur $T_B$ (Dirichlet) & $+\dfrac{2\kappa A}{\delta x}\,T_B$ & $-\dfrac{2\kappa A}{\delta x}$ \\[3mm]
+Kjent fluks $q_B$ inn (Neumann) & $+\,q_B A$ & $0$ \\[2mm]
+Isolert rand ($q_B = 0$) & $0$ & $0$ \\
+\hline
+\end{tabular}
+\end{center}
+\end{oppsum}
+
+\begin{rem}{Sjekk: den isolerte enden av ribben}
+Ved node $5$ i ribbe-eksempelet over er høyre ende isolert, $q_B = 0$. Oppskriften gir da $a_E = 0$ og ingen ekstra bidrag til $S^u$ eller $S_P$ -- nøyaktig de koeffisientene vi fant for node $5$.
+\end{rem}
+
+\begin{rem}{Sammenligning med endelige differanser}
+Med endelige differanser måtte vi innføre en \emph{fiktiv rand} for å håndtere en Neumann-betingelse og samtidig beholde andre ordens nøyaktighet (\Cref{sect:fiktivrand}). I endelig volum-metoden er det ikke nødvendig: metoden er bygget på fluksene over flatene, og en kjent fluks kan settes inn direkte.
 \end{rem}
 
 
@@ -1969,13 +2009,17 @@ a_S = \frac{\Gamma_s A_s}{\delta y_{SP}}, \quad
 a_N = \frac{\Gamma_n A_n}{\delta y_{PN}}, \\
 a_P = a_W + a_E + a_S + a_N - S_P
 \end{align*}
-For å finne fordelingen av $\phi$ i en gitt to-dimensjonal situasjon, skrives diskretiserte ligninger av denne formen for hvert gitterpunkt i det delte domenet.
+For å finne fordelingen av $\phi$ i en gitt to-dimensjonal situasjon, skrives diskretiserte ligninger av denne formen for hvert gitterpunkt i det oppstykkede domenet.
 
 Ved randen, der temperaturer eller flukser er kjent, modifiseres ligningene for å inkludere randbetingelser på samme måte som vist i \Cref{ex:CFD_simplest}. Koeffisienten på randsiden settes til null (koblingen kuttes), og fluksen over randen legges til som en kilde i $S^u$ og $S_P$. For en celle langs vestveggen, med kjent randverdi $\phi_V$, blir dette for eksempel
 \[
 a_W = 0, \qquad S^u = \frac{2\Gamma A_w}{\delta x}\,\phi_V, \qquad S_P = -\frac{2\Gamma A_w}{\delta x},
 \]
-akkurat som i 1D. Er det i stedet fluksen $q_B$ \emph{inn} gjennom veggen som er kjent, kuttes koblingen på samme måte, og bidraget $q_B A_w$ legges i $S^u$, mens $S_P$ ikke endres (se bemerkningen om kjent fluks i \Cref{sect:evm1d}). En isolert vegg ($q_B=0$) bidrar altså ikke med noe. En hjørnecelle ligger inntil \emph{to} vegger og får ett slikt bidrag fra hver av dem. Observer at nye koeffisienter i $2D$-problemer er bare avhengig av nabopunktene, dvs. hvis vi leter etter koeffisient i punkt $P$ trenger vi også verdier i nabopunkter $W,E,N,S$. Dette gir et mønstret som er kjent som $5$-punkt stencil vist i \Cref{5pt_stencil}.
+akkurat som i 1D. Begge 2-tallene kommer fra den halve avstanden $\delta x/2$ mellom noden og veggen. Fluksen over vestveggen er
+\[
+\Gamma A_w\,\frac{\phi_P-\phi_V}{\delta x/2} = \frac{2\Gamma A_w}{\delta x}\,\big(\phi_P-\phi_V\big),
+\]
+og når vi ganger ut parentesen, havner leddet med den \emph{kjente} randverdien $\phi_V$ i $S^u$, mens leddet med den \emph{ukjente} $\phi_P$ havner i $S_P$ -- akkurat som vi gjorde for node $1$ i eksempelet med staven uten kildeledd i \Cref{sect:evm1d}, se \eqref{eq:ex343_rand} og \eqref{eq:ex343_rand1}. Er det i stedet fluksen $q_B$ \emph{inn} gjennom veggen som er kjent, kuttes koblingen på samme måte, og bidraget $q_B A_w$ legges i $S^u$, mens $S_P$ ikke endres (se \Cref{sect:evm_neumann}). En isolert vegg ($q_B=0$) bidrar altså ikke med noe. En hjørnecelle ligger inntil \emph{to} vegger og får ett slikt bidrag fra hver av dem. Observer at nye koeffisienter i $2D$-problemer er bare avhengig av nabopunktene, dvs. hvis vi leter etter koeffisient i punkt $P$ trenger vi også verdier i nabopunkter $W,E,N,S$. Dette gir et mønstret som er kjent som $5$-punkt stencil vist i \Cref{5pt_stencil}.
 \begin{figure}[ht!]\centering 
 \begin{tikzpicture}[scale=1.5]
 
@@ -2106,40 +2150,9 @@ Varmen strømmer inn gjennom vestveggen og ut gjennom nordveggen, og det er varm
 
 \section{Ligninger som inkluderer en tidsparameter}\label{sect:EVM_tid}
 
-Etter å ha betraktet statiske ligninger i de siste eksempler, skal vi nå forklare hvordan en ikke-statisk ligning kan behandles i diskretiseringen. Dette gjøres ved å betrakte tidsparameteren som en ekstra dimensjon i diskretiseringen, slik at vi får et skjema som utvikler løsningen i tid.
+Etter å ha sett på stasjonære diffusjonsproblemer i de siste avsnittene, skal vi nå se hvordan endelig volum-metoden håndterer en \emph{tidsavhengig} ligning. Ideen er nøyaktig den samme som i semi-diskretiseringen av varmeligningen med endelige differanser i \Cref{sect:varmeNum}: vi behandler tiden som en egen dimensjon og marsjerer løsningen fremover, ett tidssteg $\Delta t$ om gangen. Forskjellen er bare at vi, som i resten av dette kapittelet, tar utgangspunkt i bevaringsloven og integrerer -- nå også over tidsintervallet $[t_n,t_{n+1}]$, i tillegg til kontrollvolumet.
 
-Vi betrakter den tidsavhengige varmeledningsligningen i to dimensjoner:
-\begin{align}\label{eq:varme_tid}
-u_t = u_{xx} + u_{yy}, \quad (x,y) \in \Omega, \; t > 0.
-\end{align}
-For å diskretisere i tid bruker vi en fremover differanse:
-\[
-\frac{u^{n+1}_{i,j} - u^n_{i,j}}{\delta t} \approx u_t(x_i,y_j,t^n).
-\]
-Her er $i,j$ parametrer vi bruker for diskretisering i rom, mens $n$ brukes som diskretiseringsparameter i tidsretning.
-
-Deretter kan vi ordne ligningen \eqref{eq:varme_tid} på nytt slik at
-\[u_{i,j}^{n+1} = u_{i,j}^n + \delta t (u_{xx} + u_{yy})\]
-Vi må nå diskretisere $u_{xx}$ og $u_{yy}$ men vitsen med formelen er at det eneste ledd i formelen som er avhengig av $t_{n+1}$ (neste tidssteg) er på venstre side av formelen. Alle ledd på høyre side er faktisk bare avhengig av $t_n$.
-
-Vi kan nå kjøre en diskretiseringsskjema (enten endelige differanser eller endelig volum metode for ligningen på høyre). 
-
-\subsubsection*{Eksempel: Endelige differanser}
-Bruker vi endelige differanser, får vi følgende: 
-Romlige deriverte diskretiseres med sentraldifferanser:
-\[
-u_{xx} \approx \frac{u^n_{i+1,j} - 2u^n_{i,j} + u^n_{i-1,j}}{\delta x^2}, \qquad
-u_{yy} \approx \frac{u^n_{i,j+1} - 2u^n_{i,j} + u^n_{i,j-1}}{\delta y^2}.
-\]
-Setter vi dette sammen, får vi det eksplisitte skjemaet:
-\[
-u^{n+1}_{i,j} = u^n_{i,j} + \delta t \left(
-\frac{u^n_{i+1,j} - 2u^n_{i,j} + u^n_{i-1,j}}{\delta x^2} +
-\frac{u^n_{i,j+1} - 2u^n_{i,j} + u^n_{i,j-1}}{\delta y^2}\right)
-\]
-Dette er et \emph{fremover-Euler} skjema i tid og ligningen fører til utvidelse av \emph{fem-punkts stencil} \Cref{5pt_stencil} i rom. 
-
-\subsubsection*{Eksempel: Endelig volum-metode}
+\subsubsection*{Endelig volum-metode}
 Med endelig volum-metoden går vi, som alltid, ut fra bevaringsloven i integralform -- nå også integrert over et tidsintervall. Vi ser på tidsavhengig varmeledning i 1D,
 \begin{equation}\label{eq:EVM_tid1D}
 \rho c\,\frac{\partial T}{\partial t} = \frac{\partial}{\partial x}\left(\kappa\frac{\partial T}{\partial x}\right) + S,
