@@ -1234,30 +1234,20 @@ Se JuPyter notat for implementering.
 
 \section{Numeriske metoder: Endeligvolum-metode}\label{sect:endeligvolum}
 \label{sec:EndeligVolum}
-Vi skal nå lære den såkalte \emph{endeligvolum-metoden} for en klasse ligninger som presentert i \cite[Chapter 4]{VaM07}. Ved å introdusere en generell variabel $\phi$ kan alle væskestrømningsligninger, inkludert ligninger for skalarer som temperatur og forurensningskonsentrasjon, formuleres som en transportligning
-\begin{align}\label{eq:transportphi}
-\frac{\partial (\rho \phi)}{\partial t} + \text{div}(\rho \phi \mathbf{u}) = \text{div}(\Gamma \nabla \phi) + S_{\phi},
-\end{align}
-hvor $\Gamma$ er den såkalte diffusjonskoeffisienten. Slike ligninger resulterer gjerne som følge av en eller annen bevart størrelse, slik som energibevaring eller massebevaring. I ord er \eqref{eq:transportphi}: 
-\begin{center}
-\setlength{\extrarowheight}{4pt}
-\begin{tabular}{|>{\raggedright}p{2.4cm}>{\centering}p{0.5cm}>{\raggedright}p{2.8cm}>{\centering}p{0.5cm}>{\raggedright}p{2.4cm}>{\centering}p{0.5cm}>{\raggedright\arraybackslash}p{2.4cm}|}
-\hline
-Vekstrate til $\phi$ i væskeelement & \vspace{.2cm} $+$ &
-Netto strømningsrate til $\phi$ ut av væskeelementet & \vspace{.2cm} $=$ &
-Vekstrate til $\phi$ på grunn av diffusjon & \vspace{.2cm} $+$ &
-Vekstrate til $\phi$ på grunn av kilder \\
-\hline
-\end{tabular}
-\end{center}
-Transportligningene som styrer væskestrøm og varmeoverføring er av denne typen. Her utvikler vi den så kallte \textbf{endeligvolum- (/kontrollvolum-) metoden}.
+Vi skal nå lære den såkalte \emph{endeligvolum-metoden}, slik den er presentert i \cite[Chapter 2 og 4]{VaM07}. Før vi går løs på selve metoden, ser vi på hvorfor den er nyttig, og på ligningen den er laget for: \emph{transportligningen}.
 
-\subsection{Ren diffusjon som eksempel}
-For å forstå metoden skal vi i det følgende ta for oss den enkleste transportprosessen av alle: ren diffusjon i en stasjonær (tidsuavhengig) tilstand. Styreligningen for en slik tilstand får vi fra \eqref{eq:transportphi} ved å fjerne de to leddene på venstresiden. Dette gir
-\begin{equation}\label{eq:endelig_volum_eq}
-\text{div}(\Gamma \, \nabla \phi) + S_{\phi} = 0
-\end{equation}
-Vi velger nå en mengde i $\R^3$, som \textit{kontrollvolum} ($KV$) med overflate $A$ og enhetsnormalvektor $\hat{\vect{n}}$ pekende ut av $KV$. I \Cref{KV-visual} notasjonen er fremstilt. Vanligvis velger vi $KV$ som en boks (men det er ingen krav for det). Liknende til endelige differansemetoden bruker vi kontrollvolumer for å dele et området i små deler.
+\subsection*{Hvorfor endelig volum?}
+I \Cref{sect:endifferanser} tilnærmet vi de \emph{deriverte} i en differensialligning med differanser i enkeltpunkter. Det fungerer godt for pene problemer på rektangulære gitre, men har noen svakheter som blir viktige i praktiske beregninger av strømning og varmetransport. Endelig volum-metoden tar et annet utgangspunkt: Den diskretiserer \emph{bevaringsloven} direkte, i integralform, for små celler -- \emph{kontrollvolumer}. Det gir flere fordeler:
+\begin{itemize}
+\item \textbf{Bevaring er innebygd.} Fluksen som går ut av én celle, går nøyaktig inn i nabocellen. Masse, energi og bevegelsesmengde er derfor bevart også i den diskrete løsningen -- for hver celle og for hele området, uansett hvor grovt gitteret er. Endelige differanser gir ingen slik garanti: der kan for eksempel litt masse «lekke» ut i beregningen.
+\item \textbf{Vilkårlig geometri.} Cellene kan ha hvilken som helst form (trekanter, firkanter, polyedre), så metoden takler kompliserte geometrier som strømning rundt en flyvinge eller gjennom et rørsystem. Endelige differanser krever i praksis et strukturert, rektangulært gitter.
+\item \textbf{Hopp og diskontinuiteter.} Integralformen gir mening også når løsningen eller koeffisientene ikke er deriverbare -- for eksempel i grenseflaten mellom to materialer, eller i en sjokkbølge. Differensialformen gjør ikke det.
+\item \textbf{Fysisk tolkning.} Alle ledd er flukser over celleflater eller kilder inne i cellene. Det gjør det enkelt å forstå både metoden og randbetingelsene.
+\end{itemize}
+Derfor er endelig volum-metoden standardmetoden i programvare for strømningsberegninger (CFD), som OpenFOAM og Ansys Fluent. Prisen er litt mer bokføring. I enkle tilfeller gir de to metodene faktisk de samme ligningene; se \Cref{rem:EVM_FD}.
+
+\subsection*{Utledning av transportligningen}
+La $\phi$ være en størrelse \emph{per masseenhet} -- for eksempel $\phi=1$ (masse), $\phi=u$ (bevegelsesmengde i $x$-retning per masseenhet) eller $\phi=i$ (indre energi per masseenhet). Da er $\rho\phi$ mengden per volumenhet, der $\rho$ er tettheten. Vi ser på et \emph{fast} kontrollvolum $KV$ i rommet, med overflate $\partial KV$ og utadrettet enhetsnormal $\hat{\vect n}$ (\Cref{KV-visual}). En væske strømmer gjennom det med hastighet $\vect u$.
 \begin{figure}[ht!]
 \centering
 \tdplotsetmaincoords{70}{120} % viewing angle
@@ -1314,7 +1304,92 @@ Vi velger nå en mengde i $\R^3$, som \textit{kontrollvolum} ($KV$) med overflat
   node[right,red] {$\hat{\vect{n}}$};
 \end{tikzpicture}\caption{Kontrollvolum (KV) og enhetsnormalvektor $\hat{\vect{n}}$.}\label{KV-visual}\end{figure}
 
-Det sentrale trinnet i endeligvolum-metoden er \textit{integrasjon av kontrollvolum} ved hjelp av divergenssetningen, \Cref{thm:divergens}:
+Mengden av $\phi$ i kontrollvolumet kan bare endre seg på tre måter:
+\begin{enumerate}
+\item \textbf{Konveksjon:} $\phi$ føres med strømmen. Fluksen (mengde per tid og flateenhet) er $\rho\phi\,\vect u$, og netto \emph{utstrømning} gjennom overflaten er $\iint_{\partial KV}\hat{\vect n}\cdot(\rho\phi\,\vect u)\,dS$.
+\item \textbf{Diffusjon:} $\phi$ sprer seg fra områder med høy verdi mot områder med lav verdi. Fluksen er $-\Gamma\nabla\phi$, der $\Gamma$ er \emph{diffusjonskoeffisienten} (for varme er dette Fouriers lov, for konsentrasjoner Ficks lov). Netto \emph{innstrømning} er derfor $\iint_{\partial KV}\hat{\vect n}\cdot(\Gamma\nabla\phi)\,dS$.
+\item \textbf{Kilder:} $\phi$ produseres (eller forbrukes) inne i volumet med en rate $S_\phi$ per volumenhet, totalt $\iiint_{KV}S_\phi\,dV$.
+\end{enumerate}
+Bevaring av $\phi$ betyr at økningen i kontrollvolumet er summen av disse bidragene:
+\begin{equation}\label{eq:transport_integral}
+\underbrace{\frac{d}{dt}\iiint_{KV}\rho\phi\,dV}_{\substack{\text{økning av $\phi$}\\ \text{i } KV}}
++ \underbrace{\iint_{\partial KV}\hat{\vect n}\cdot(\rho\phi\,\vect u)\,dS}_{\substack{\text{netto utstrømning}\\ \text{ved konveksjon}}}
+= \underbrace{\iint_{\partial KV}\hat{\vect n}\cdot(\Gamma\nabla\phi)\,dS}_{\substack{\text{netto innstrømning}\\ \text{ved diffusjon}}}
++ \underbrace{\iiint_{KV}S_\phi\,dV}_{\substack{\text{produksjon}\\ \text{i } KV}} .
+\end{equation}
+Dette er bevaringsloven på \emph{integralform}. For å få en differensialligning bruker vi divergenssetningen, \Cref{thm:divergens}, på de to flateintegralene, og flytter tidsderivasjonen inn under integraltegnet (det går, fordi $KV$ ligger fast):
+\[
+\iiint_{KV}\left[\frac{\partial(\rho\phi)}{\partial t} + \text{div}(\rho\phi\,\vect u) - \text{div}(\Gamma\nabla\phi) - S_\phi\right]dV = 0 .
+\]
+Dette gjelder for \emph{ethvert} kontrollvolum, hvor lite det enn er. Da må integranden selv være null, og vi får \textbf{transportligningen}
+\begin{equation}\label{eq:transportphi}
+\frac{\partial (\rho \phi)}{\partial t} + \text{div}(\rho \phi \mathbf{u}) = \text{div}(\Gamma \nabla \phi) + S_{\phi}.
+\end{equation}
+Leddene har samme tolkning som i \eqref{eq:transport_integral}: endring i tid, pluss netto utstrømning ved konveksjon, er lik netto innstrømning ved diffusjon pluss kilder. Varmeligningen fra \Cref{sect:bevaringslover} ble utledet på akkurat samme måte.
+
+\begin{rem}{Materialderivert: Euler- og Lagrange-betraktning}
+Over fulgte vi et \emph{fast} kontrollvolum som væsken strømmer gjennom (Euler-betraktning). Alternativt kan vi følge én væskepartikkel med posisjon $(x(t),y(t),z(t))$ (Lagrange-betraktning). Endringen av $\phi$ langs partikkelbanen er da den \emph{materialderiverte}
+\[
+\frac{D\phi}{Dt} = \frac{\partial\phi}{\partial t} + \frac{dx}{dt}\frac{\partial\phi}{\partial x} + \frac{dy}{dt}\frac{\partial\phi}{\partial y} + \frac{dz}{dt}\frac{\partial\phi}{\partial z} = \frac{\partial\phi}{\partial t} + \vect u\cdot\nabla\phi .
+\]
+De to betraktningene henger sammen via massebevaring, $\frac{\partial\rho}{\partial t}+\text{div}(\rho\vect u)=0$ (tabellen under, med $\phi=1$):
+\[
+\frac{\partial(\rho\phi)}{\partial t} + \text{div}(\rho\phi\,\vect u)
+= \rho\left(\frac{\partial\phi}{\partial t} + \vect u\cdot\nabla\phi\right) + \phi\underbrace{\left(\frac{\partial\rho}{\partial t} + \text{div}(\rho\vect u)\right)}_{=0}
+= \rho\,\frac{D\phi}{Dt}.
+\]
+Venstresiden i transportligningen er altså endringen av $\phi$ per volumenhet for en væskepartikkel. Endelig volum-metoden bruker den \emph{konservative} formen til venstre, fordi det er den som svarer direkte til bevaringsloven \eqref{eq:transport_integral}.
+\end{rem}
+
+\subsection*{Én ligning -- mange fysiske lover}
+Styrken ved transportligningen er at de viktigste bevaringslovene for strømning og varmetransport alle har denne formen. Vi får dem ved å velge $\phi$, $\Gamma$ og $S_\phi$:
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|c|c|c|l|}
+\hline
+$\phi$ & $\Gamma$ & $S_\phi$ & Ligning \\
+\hline
+$1$ & $0$ & $0$ & Massebevaring (kontinuitet) \\
+$u$ \ ($v$, $w$) & $\mu$ & $-\frac{\partial p}{\partial x} + S_{Mx}$ & Navier--Stokes ($x$-impuls) \\
+$i$ & $k/c_v$ & $-p\,\text{div}\,\vect u + \Phi + S_i$ & Energiligningen \\
+$T$ ($\vect u=\vect 0$) & $\kappa/c$ & $S/c$ & Varmeligningen, \Cref{sect:bevaringslover} \\
+$Y$ (massefraksjon) & $\rho D$ & reaksjoner & Spredning av et stoff \\
+\hline
+\end{tabular}
+\end{center}
+Skrevet ut gir de tre første radene ligningene for en kompressibel, newtonsk væske\footnote{I Navier--Stokes-ligningene er bare den delen av de viskøse spenningene som har formen $\text{div}(\mu\,\text{grad}\,u)$ skrevet ut; resten er lagt inn i kildeleddet $S_{Mx}$, se \cite[Chapter 2]{VaM07}.}, med $\vect u=(u,v,w)$:
+\begin{align*}
+\text{Massebevaring:}\qquad & \frac{\partial\rho}{\partial t} + \text{div}(\rho\vect u) = 0,\\
+\text{Bevegelsesmengde ($x$):}\qquad & \frac{\partial(\rho u)}{\partial t} + \text{div}(\rho u\,\vect u) = -\frac{\partial p}{\partial x} + \text{div}(\mu\,\text{grad}\,u) + S_{Mx},\\
+\text{Energi:}\qquad & \frac{\partial(\rho i)}{\partial t} + \text{div}(\rho i\,\vect u) = -p\,\text{div}\,\vect u + \text{div}(k\,\text{grad}\,T) + \Phi + S_i .
+\end{align*}
+Ligningene for bevegelsesmengde i $y$- og $z$-retning er tilsvarende, med $v$ og $w$ i stedet for $u$.
+\begin{itemize}
+\item \textbf{Massebevaring} ($\phi=1$): masse verken skapes eller forsvinner, så det er ingen kilde og ingen diffusjon.
+\item \textbf{Bevegelsesmengde} ($\phi=u,v,w$): Newtons 2.\ lov for en væskepartikkel. Kildeleddet er \emph{kreftene}: trykkgradienten og ytre krefter $S_M$ (f.eks.\ tyngden). Diffusjonen av bevegelsesmengde er viskositeten $\mu$. Dette er Navier--Stokes-ligningene.
+\item \textbf{Energi} ($\phi=i$): termodynamikkens 1.\ lov. Kildeleddet er \emph{arbeid og varme}: trykkarbeidet $-p\,\text{div}\,\vect u$, viskøs oppvarming $\Phi$ og varmekilder $S_i$. Med $i=c_vT$ blir $\text{div}(k\,\text{grad}\,T) = \text{div}\big(\tfrac{k}{c_v}\text{grad}\,i\big)$, så $\Gamma=k/c_v$.
+\end{itemize}
+Systemet lukkes med \emph{tilstandsligninger} $p=p(\rho,T)$ og $i=i(\rho,T)$, for eksempel $p=\rho RT$ og $i=c_vT$ for en ideell gass. Uten strømning ($\vect u=\vect 0$) og med konstante $\rho$ og $c$ blir energiligningen varmeligningen $\rho c\,\frac{\partial T}{\partial t} = \text{div}(\kappa\nabla T) + S$ fra \Cref{sect:bevaringslover}.
+
+\subsection*{Integralformen -- utgangspunktet for endelig volum-metoden}
+Endelig volum-metoden går den motsatte veien av utledningen over. Vi deler området inn i små kontrollvolumer (celler), integrerer transportligningen \eqref{eq:transportphi} over hver av dem, og bruker divergenssetningen til å gjøre volumintegralene av divergensleddene om til flateintegraler:
+\begin{oppsum}{Transportligningen integrert over et kontrollvolum}
+\[
+\frac{\partial}{\partial t}\iiint_{KV}\rho\phi\,dV + \iint_{\partial KV}\hat{\vect n}\cdot(\rho\phi\,\vect u)\,dS
+= \iint_{\partial KV}\hat{\vect n}\cdot(\Gamma\nabla\phi)\,dS + \iiint_{KV}S_\phi\,dV .
+\]
+\end{oppsum}
+Vi er altså tilbake ved bevaringsloven \eqref{eq:transport_integral} -- nå for hver celle. Den numeriske metoden består i å tilnærme flateintegralene (fluksene over celleflatene) og volumintegralene (kildene) ved hjelp av verdiene i cellene. Er problemet stasjonært, faller tidsleddet bort. For tidsavhengige problemer integrerer vi også over et tidssteg (\Cref{sect:EVM_tid}).
+
+I resten av kapittelet bygger vi metoden opp trinn for trinn: først ren diffusjon (i 1D og 2D), og til slutt med tidsavhengighet. Konveksjonsleddet (og dermed Navier--Stokes) er utenfor pensum, men behandles med akkurat de samme ideene, se \cite{VaM07}.
+
+\subsection{Ren diffusjon som eksempel}
+For å forstå metoden starter vi med den enkleste transportprosessen av alle: ren diffusjon i en stasjonær (tidsuavhengig) tilstand. Da er det ingen tidsavhengighet og ingen strømning ($\vect u=\vect 0$), så de to leddene på venstresiden i \eqref{eq:transportphi} faller bort. Dette gir
+\begin{equation}\label{eq:endelig_volum_eq}
+\text{div}(\Gamma \, \nabla \phi) + S_{\phi} = 0
+\end{equation}
+Integralformen \eqref{eq:transport_integral} blir da (dette er det sentrale trinnet i endeligvolum-metoden -- \emph{integrasjon over kontrollvolumet} ved hjelp av divergenssetningen, \Cref{thm:divergens}):
 \begin{equation}\label{eq:finvol}
 \iiint_{\text{KV}} \text{div}(\Gamma \, \nabla \phi) \, dV + \iiint_{\text{KV}} S_{\phi} \, dV
 = \iint_{A} \hat{\vect{n}}\cdot (\Gamma \, \nabla \phi) \, dS + \iiint_{\text{KV}} S_{\phi} \, dV = 0
@@ -1426,7 +1501,7 @@ På dette tidspunktet er det hensiktsmessig å etablere et notasjonssystem som k
 \label{fig:grid-notation}
 \end{figure}
 
-Et generelt nodalpunkt identifiseres med $P$ og naboene i én-dimensjonal geometri, nodene vest og øst, henholdsvis $W$ og $E$. Den vestlige siden av kontrollvolumet kalles «$w$» og den østlige siden «$e$». Avstandene mellom nodene $W$ og $P$, og mellom $P$ og $E$, betegnes henholodsvis $\delta x_{WP}$ og $\delta x_{PE}$. Tilsvarende betegnes avstanden mellom $W$ og flate $w$ med $\delta x_{wP}$ og mellom $P$ og flate $e$ med $\delta x_{Pe}$. Figur~\ref{fig:grid-notation} viser at kontrollvolumbredden er $\delta x = \delta x_{we}$.
+Et generelt nodalpunkt identifiseres med $P$ og naboene i én-dimensjonal geometri, nodene vest og øst, henholdsvis $W$ og $E$. Den vestlige siden av kontrollvolumet kalles «$w$» og den østlige siden «$e$». Avstandene mellom nodene $W$ og $P$, og mellom $P$ og $E$, betegnes henholdsvis $\delta x_{WP}$ og $\delta x_{PE}$. Tilsvarende betegnes avstanden mellom flaten $w$ og $P$ med $\delta x_{wP}$, og mellom $P$ og flaten $e$ med $\delta x_{Pe}$. Figur~\ref{fig:grid-notation} viser at kontrollvolumbredden er $\delta x = \delta x_{we}$.
 
 \subsubsection*{Steg 2: Diskretisering}
 Brorparten av arbeidet med endeligvolum-metode er integrasjon av den styrende ligningen over et kontrollvolum for å gi en diskretisert ligning ved nodalpunktet $P$. For kontrollvolumet definert gir dette:
@@ -1434,11 +1509,7 @@ Brorparten av arbeidet med endeligvolum-metode er integrasjon av den styrende li
 \iiint_{KV} \frac{\partial}{\partial x} \left(\Gamma \frac{\partial\phi}{\partial x} \right) dV + \iiint_{KV} S dV = \left(\Gamma A \frac{\partial\phi}{\partial x}\right)_e- \left( \Gamma A \frac{\partial\phi}{\partial x} \right)_w + \tilde{S} = 0
 \end{align}
 Her er $A$ tverrsnittsarealet til overflaten av kontrollvolum, og $\tilde{S}$ den gjennomsnittlige verdien av $S$ ganget med volum av $KV$. 
-For å utlede noe nyttig fra \eqref{eV_discretisering} trenger vi
-\begin{itemize}
-\item diffusjonskoeffisienten $\Gamma$ og gradienten $\nabla \phi = \frac{\partial \phi}{\partial x}$ ved øst ($e$) og vest ($w$).
-\item verdier $\phi$ og $\Gamma$ bare ved nodale punkter (e.g. $P$,$W$,$W$, osv.).
-\end{itemize}
+For å få noe nyttig ut av \eqref{eV_discretisering} må vi løse et problem: ligningen inneholder diffusjonskoeffisienten $\Gamma$ og gradienten $\frac{\partial \phi}{\partial x}$ på \emph{flatene} $e$ og $w$, mens de ukjente $\phi$ (og ofte også $\Gamma$) bare er kjent i \emph{nodene} $P$, $W$, $E$, osv. Vi må derfor tilnærme flateverdiene ved hjelp av nodeverdiene.
 For å beregne gradienter (og dermed flukser) ved kontrollvolumflater brukes en tilnærmet fordeling mellom nodale punkter. Lineære tilnærminger er den enkleste og mest åpenbare metoden, kjent som sentral differensiering.
 
 \begin{defn}{Notasjon for funksjonsverdier i et punkt}
@@ -1461,11 +1532,11 @@ Kildetermet tilnærmes som et lineært uttrykk (vi bruker superscript for å hen
 \]
 \end{oppsum}
 Ved å sette inn disse uttrykkene i \eqref{eV_discretisering} får vi:
-\[\Gamma_eA_e\frac{\phi_E-\phi_P}{\delta x_{PE}}- \Gamma_wA_w\frac{\phi_P-\phi_W}{\delta x_{WP}}+(S^u+S_P\phi_P)\]
+\[\Gamma_eA_e\frac{\phi_E-\phi_P}{\delta x_{PE}}- \Gamma_wA_w\frac{\phi_P-\phi_W}{\delta x_{WP}}+(S^u+S_P\phi_P)=0.\]
 Vi kan nå sortere alle ledd med $\phi_P$ på venstre side og alle med $\phi_W,\phi_E$ og uten $\phi$ på høyre. Dette gir ligningen på formen
 \begin{align} \label{disc_finvol1}
 a_P \phi_P &= a_W \phi_W + a_E \phi_E + S^u  \\
-&\text{ hvor } a_W := \frac{\Gamma_w A}{\delta x_{WP}}, \qquad a_E := \frac{\Gamma_e A}{\delta x_{PE}}, \qquad
+&\text{ hvor } a_W := \frac{\Gamma_w A_w}{\delta x_{WP}}, \qquad a_E := \frac{\Gamma_e A_e}{\delta x_{PE}}, \qquad
 a_P := a_W + a_E - S_P \notag
 \end{align}
 
@@ -1477,6 +1548,21 @@ Diskretiserte ligninger av formen \eqref{disc_finvol1} må settes opp ved hvert 
 Vi kan tolke \eqref{eV_discretisering} og dermed den endelige volum metode slik at den diffusive fluksen av $\phi$ som forlater den østlige flaten minus den som kommer inn fra den vestlige flaten er lik genereringen av $\phi$ – altså en bevaringslov over $KV$.
 Dermed bygger endeligvolum-metode på en bevaringslov. Det skiller metoden fra endelig differanser som vi så tidligere, og som ikke automatisk oppfyller noen bevaringslov mellom forskjellige volum.
 \end{oppsum}
+
+\begin{rem}{Endelig volum og endelige differanser -- hva er forskjellen?}\label{rem:EVM_FD}
+I det enkleste tilfellet -- konstant $\Gamma$ og $A$, og et uniformt gitter med $\delta x_{WP}=\delta x_{PE}=\delta x$ -- er $a_W=a_E=\Gamma A/\delta x$, og \eqref{disc_finvol1} for en indre node blir
+\[
+\Gamma A\,\frac{\phi_E-2\phi_P+\phi_W}{\delta x} + \overline{S}\,A\,\delta x = 0
+\quad\Longleftrightarrow\quad
+\Gamma\,\frac{\phi_E-2\phi_P+\phi_W}{\delta x^2} + \overline{S} = 0,
+\]
+altså \emph{nøyaktig} sentraldifferanseformelen for $\Gamma\phi''+S=0$ fra \Cref{sect:endifferanser}. I de indre nodene gir de to metodene da samme ligninger. Forskjellene ligger i
+\begin{itemize}
+\item \textbf{utgangspunktet:} endelig volum diskretiserer \emph{integralformen} (bevaringsloven), ikke differensialligningen. Fluksen som går ut av én celle, går nøyaktig inn i nabocellen, så $\phi$ er bevart også i den diskrete løsningen;
+\item \textbf{randene:} nodene ligger midt i cellene, og randen faller sammen med en celleflate. Avstanden fra den ytterste noden til randen er derfor bare $\delta x/2$, og randbetingelser bakes inn som kildeledd (se \Cref{ex:CFD_simplest});
+\item \textbf{fleksibiliteten:} variabel $\Gamma$, ikke-uniforme gitre og (i 2D og 3D) celler med vilkårlig form håndteres naturlig, fordi alt uttrykkes som flukser over celleflater.
+\end{itemize}
+\end{rem}
 \section{Endelig volummetode for 1D diffusjonsproblemer}\label{sect:evm1d}
 I denne seksjonen anvendes den endelige volummetoden for å løse enkle diffusjonsproblemer som involverer varmeledning. Ligningen for én-dimensjonal stasjonær varmeledning er:
 \begin{align}\label{1D-heateq}
@@ -1484,7 +1570,7 @@ I denne seksjonen anvendes den endelige volummetoden for å løse enkle diffusjo
 \end{align}
 hvor $\kappa$ er varmeledningsevnen og $T$ er temperaturen.
 \begin{rem}{}
-Varmeledningsevne $\kappa$ i \eqref{1D-heateq} ta plassen av koeffisient $\Gamma$ i \eqref{eV_discretisering}.
+Varmeledningsevnen $\kappa$ i \eqref{1D-heateq} tar plassen av koeffisient $\Gamma$ i \eqref{eV_discretisering}.
 
 Kildetermet $S$ kan for eksempel representere varme generert av elektrisk strøm gjennom staven.
 \end{rem}
@@ -1496,7 +1582,7 @@ Betrakt problemet med varmekonduksjon uten kilde i en isolert stav med endene ho
 \begin{center}
 \includegraphics[width=10cm]{Fig/1Dvarme.png}
 \end{center}
-Tverrsnittsarealet $A$ antas å være konstant (dvs. staven er like tykk over hele lengden).
+Staven har lengde $L=0.5\,\text{m}$, varmeledningsevne $\kappa = 1000\,\text{W/(m\,K)}$ og konstant tverrsnittsareal $A = 10\cdot 10^{-3}\,\text{m}^2$ (dvs. staven er like tykk over hele lengden).
 Det én-dimensjonale problemet er styrt av en forenklet versjon av \eqref{1D-heateq}:
 \begin{equation}\label{eq:ex343}
 \frac{\partial}{\partial x} \left( \kappa \frac{\partial T}{\partial x} \right) = 0
@@ -1545,24 +1631,24 @@ Gitteret består av fem noder.
 
 \paragraph{For nodene 2, 3 og 4} kan temperaturverdiene til øst og vest hentes fra nabonoder. Vi bruker nå at varmeledningsevne, arealgjennomsnitt av staven og avstand $\delta x$ er konstant. Integrasjon av \eqref{eq:ex343} over et av de indre kontrollvolum gir nå diskretiserte ligninger på følgende form:
 \begin{align*}
-\left(\frac{\kappa_e}{\delta x_{PE}}A_e + \frac{\kappa_w}{\delta x_{WP}}A_W \right)T_P &=\left(\frac{\kappa_w}{\delta x_{WP}}A_w\right) T_W + \left(\frac{\kappa_e}{\delta x_{PE}}A_e\right) T_E  \\
+\left(\frac{\kappa_e}{\delta x_{PE}}A_e + \frac{\kappa_w}{\delta x_{WP}}A_w \right)T_P &=\left(\frac{\kappa_w}{\delta x_{WP}}A_w\right) T_W + \left(\frac{\kappa_e}{\delta x_{PE}}A_e\right) T_E  \\
 \Leftrightarrow \underbrace{\left(\frac{\kappa}{\delta x}A + \frac{\kappa}{\delta x}A\right)}_{=:a_P}T_P &=\underbrace{\left(\frac{\kappa}{\delta x}A\right)}_{=:a_W} T_W + \underbrace{\left(\frac{\kappa}{\delta x}A\right)}_{=:a_E} T_E
 \end{align*}
 Vi får dermed som diskretisert ligning i hver av nodene $2,3,4$ at
 \begin{align}
-a_P T_P = a_W T_W + a_E T_E,\quad \text{hvor } a_W = a_E = \frac{\kappa A}{\Delta x}, \quad a_P = a_W + a_E
+a_P T_P = a_W T_W + a_E T_E,\quad \text{hvor } a_W = a_E = \frac{\kappa A}{\delta x}, \quad a_P = a_W + a_E
 \end{align}
 Siden det ikke finnes noen varmekilde i modellen, er $S^u = 0$ og $S_P = 0$ (se \eqref{disc_finvol1}).
 
 \paragraph{For randnodene 1 og 5 }må vi inkludere randbetingelsene. Integrasjon av \eqref{eq:ex343} over kontrollvolum\footnote{Integralet blir et trippelintegral ettersom vi integrerer over et volum (som navn til metoden sier). Ligningen her er forresten bare avhengig av koordinat $x$ og det er det hvorfor vi kaller det et 1D-problem (selv om integralene er trippelintegraler).} med node $1$ gir 
 \begin{align}\label{eq:ex343_rand}
-0= \iiint_{KV} \frac{\partial}{\partial x}\left(\kappa\frac{\partial T}{\partial x}\right) \, dV = \kappa A\frac{T_E-T_P}{\delta x} -\kappa A\frac{T_P-T_V}{\partial x/2}=0
+\iiint_{KV} \frac{\partial}{\partial x}\left(\kappa\frac{\partial T}{\partial x}\right) \, dV = \kappa A\frac{T_E-T_P}{\delta x} -\kappa A\frac{T_P-T_V}{\delta x/2}=0
 \end{align}
-Husk at fluks gjennom grensflaten med areal $A$ approksimeres ved en lineær relasjon mellom temperaturen ved rand $V$ og node $P$. Vi skriver nå \eqref{eq:ex343_rand} som\footnote{Husk at node $W$ eksisterer ikke siden det ligger til venstre av $V$. Vi har allerede sett bruk av fiktive punkter i randbetingelser i siste kapittel, se \Cref{ex1:RVP}}:
+Her er fluksen gjennom venstre rand (flaten $w$, som nå ligger i $V$) tilnærmet med en lineær tilnærming mellom den kjente randtemperaturen $T_V$ og noden $P$. Legg merke til at avstanden fra $V$ til $P$ bare er $\delta x/2$ -- en halv celle. Vi skriver nå \eqref{eq:ex343_rand} som\footnote{Det finnes ingen node $W$ til venstre for $V$; randbetingelsen tar dens plass. Koeffisienten foran $T_W$ er derfor $0$.}:
 \begin{align}\label{eq:rand_vest}
-\frac{3\kappa}{\delta x} A T_P = 0\cdot T_W + \frac{\kappa}{\delta x} T_E + \frac{2\kappa}{\delta x} A T_V
+\frac{3\kappa}{\delta x} A T_P = 0\cdot T_W + \frac{\kappa}{\delta x} A T_E + \frac{2\kappa}{\delta x} A T_V
 \end{align}
-Nå sammenlikner vi \eqref{eq:rand_vest} med \eqref{disc_finvol1} fiksert temperatur $T_V$ inkluderes som  en kilde i$(S^u+S_PT_P)$ i ligning, hvor $S^u=(2\kappa A/\delta x)T_V$ og $S_P = -2\kappa A/\delta x$ (mens koeffisienten for den fiktive punkt $W$ settes lik $0$).
+Sammenligner vi \eqref{eq:rand_vest} med den generelle formen \eqref{disc_finvol1}, ser vi at randbetingelsen kan bakes inn i den generelle ligningen: vi \emph{kutter koblingen} mot vest ($a_W=0$), og lar den kjente randtemperaturen $T_V$ opptre som et kildeledd $S^u+S_PT_P$, med $S^u=(2\kappa A/\delta x)T_V$ og $S_P = -2\kappa A/\delta x$.
 Dermed får vi for node $1$ som gir venstre rand
 \begin{align}\label{eq:ex343_rand1}
 a_P T_P = a_W T_W +a_E  T_E + S^u.\notag \\ \text{hvor } a_W=0, a_E = \frac{\kappa A}{\delta x}, a_P = a_E - S_P  \quad S^u = \frac{2\kappa A}{\delta x} T_V, \ S_P = -\frac{2\kappa A}{\delta x}. 
@@ -1572,7 +1658,7 @@ Tilsvarende for node $5$, med kjent temperatur $T_H$:
 a_P T_P = a_W T_W + a_E T_E + S^u, \notag\\ 
 \text{hvor } a_W=\frac{\kappa A}{\delta x}, a_E = 0, a_P = a_W +a_E - S_P  \quad S^u = \frac{2\kappa A}{\delta x} T_H, \ S_P = -\frac{2\kappa A}{\delta x},
 \end{align}
-Ved å sette inn numeriske verdier $\kappa A/\delta x = 100$ man kan bestemme koeffisienter:
+Med $\kappa A/\delta x = 1000\cdot 0.01/0.1 = 100$ får vi koeffisientene:
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
@@ -1586,7 +1672,7 @@ $5$ & $100$ & $0$ & $200T_H$ & $-200$ & $300$ \\
 \hline
 \end{tabular}
 \end{center}
-Dette resulterer i følgende ligningssystem for temperaturene i noder (se Python notat for matrise versjon av ligningssystemet):
+Dette resulterer i følgende ligningssystem for temperaturene i noder (se Jupyter-notatet til F23 for matriseversjonen av ligningssystemet):
 \[
 \begin{aligned}
 300 T_1 &= 100 T_2 + 200 T_V \\
@@ -1600,7 +1686,7 @@ Løsningen for $T_V = 100\,^\circ$C og $T_H = 500\,^\circ$C er:
 \[
 T_1 = 140, \quad T_2 = 220, \quad T_3 = 300, \quad T_4 = 380, \quad T_5 = 460
 \]
-Den eksakte løsningen er en lineær temperaturfordeling: $T(x) = 800x + 100$. 
+Den eksakte løsningen er en lineær temperaturfordeling: $T(x) = 800x + 100$. I nodene $x=0.05, 0.15, \ldots, 0.45\,\text{m}$ gir den nøyaktig $140, 220, 300, 380$ og $460$, så den numeriske løsningen er \emph{eksakt} her. Det er ikke tilfeldig: vi har tilnærmet fluksene med lineære tilnærminger mellom nodene, og de er eksakte når $T$ selv er lineær. 
 
 
 Vi ser nå på et problem som inkluderer interne varmekilder, i tillegg til randbetingelser.
@@ -1633,9 +1719,9 @@ Vi kan sortere ligningen og skrive den som
 Husk at $\kappa_e=\kappa_w=\kappa$ og dermed er ligningen for indre noder ($2$, $3$ og $4$):
 \begin{align}\label{ex2:CFD_indre_eq}
 a_P T_P = a_W T_W + a_E T_E + S^u\\
-a_W=a_E=\frac{\kappa A}{\delta x}, \quad a_P = a_w + a_E-S_P, \quad S_P=0,\quad  S^u= qA\delta x\notag
+a_W=a_E=\frac{\kappa A}{\delta x}, \quad a_P = a_W + a_E-S_P, \quad S_P=0,\quad  S^u= qA\delta x\notag
 \end{align}
-\textbf{Randbetingelser} Vi bruker for noder $1$ og $5$ igjen en liner approksimasjon for temperaturen mellom randpunkt og nabonode. Ved node $1$, med kjent temperatur $T_V$, integrasjon av ligningen over kontrollvolumet rundt node $1$ gir oss sammen med lineær approksimasjon for temperatur mellom $V$ og $P$:
+\textbf{Randbetingelser} Vi bruker for noder $1$ og $5$ igjen en lineær tilnærming for temperaturen mellom randpunkt og nabonode. Ved node $1$, med kjent temperatur $T_V$, integrasjon av ligningen over kontrollvolumet rundt node $1$ gir oss sammen med lineær approksimasjon for temperatur mellom $V$ og $P$:
 \[\kappa A \left(\frac{T_E-T_P}{\delta x}- \frac{T_P-T_V}{\delta x/2}\right)+qA\delta x=0\]
 Dermed er diskretisert ligning ved randnode $1$ gitt som  
 \begin{align}
@@ -1658,7 +1744,7 @@ $1$ & $0$ & $125$ & $4000+250T_V$ & $-250$ & $375$ \\
 $2$ & $125$ & $125$ &   $4000$ &  $0$ & $250$ \\
 $3$ & $125$ & $125$ &   $4000$ &  $0$ & $250$ \\
 $4$ & $125$ & $125$ &   $4000$ &  $0$ & $250$ \\
-$6$ & $125$ & $0$ &  $4000 + 250T_H$ & $-250$ & $375$ \\
+$5$ & $125$ & $0$ &  $4000 + 250T_H$ & $-250$ & $375$ \\
 \hline
 \end{tabular}
 \end{center}
@@ -1674,7 +1760,7 @@ Ligningssystemet i matriseform blir:
 \begin{bmatrix} T_1 \\ T_2 \\ T_3 \\ T_4 \\ T_5 \end{bmatrix} = \begin{bmatrix} 
 29000\\ 4000 \\ 4000 \\ 4000 \\ 54000\end{bmatrix}
 \]
-Løsningen (målt i kW! ikke i W) er:
+Løsningen (i $^\circ$C) er:
 \[
 T_1 = 150, \quad T_2 = 218, \quad T_3 = 254, \quad T_4 = 258, \quad T_5 = 230
 \]
@@ -1683,9 +1769,21 @@ T_1 = 150, \quad T_2 = 218, \quad T_3 = 254, \quad T_4 = 258, \quad T_5 = 230
 
 Den analytiske løsningen finnes ved å integrere den styrende ligningen to ganger og bruke randbetingelsene:
 \[
-T(x) = \left(\frac{T_H - T_V}{L}  + T_V + \frac{q}{2\kappa}(L-x)\right) x + T_V
+T(x) = \left(\frac{T_H - T_V}{L} + \frac{q}{2\kappa}(L-x)\right) x + T_V .
 \]
-Sammenligning viser at den numeriske løsningen stemmer godt overens med den analytiske, selv med et grovt gitter.
+I nodene $x = 0.002, 0.006, \ldots, 0.018\,\text{m}$ gir dette:
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Node & $1$ & $2$ & $3$ & $4$ & $5$ \\
+\hline
+Numerisk ($^\circ$C) & $150$ & $218$ & $254$ & $258$ & $230$ \\
+Eksakt ($^\circ$C) & $146$ & $214$ & $250$ & $254$ & $226$ \\
+Avvik & $2.7\,\%$ & $1.9\,\%$ & $1.6\,\%$ & $1.6\,\%$ & $1.8\,\%$ \\
+\hline
+\end{tabular}
+\end{center}
+Den numeriske løsningen stemmer altså godt med den analytiske, selv med bare fem kontrollvolumer. Legg merke til at avviket er nøyaktig $4\,^\circ$C i alle nodene; det kommer av den grove, lineære tilnærmingen av fluksen over de halve randcellene, og det avtar når gitteret gjøres finere.
 
 
 I neste eksemplet ser vi på kjøling av en sirkulær ribbe ved hjelp av konvektiv varmeoverføring langs dens lengde. Konveksjon gir opphav til et temperaturavhengig varmetap, eller synkledd, i den styrende ligningen.
@@ -1704,7 +1802,7 @@ hvor $n^2 = \frac{hO}{\kappa A} = 25m^{-2}$ (husk at $\kappa,A$ er konstant!) og
 
 Siden $\kappa,A$ er konstant kan vi omskrive ligningen som styrer prosess som
 \begin{align}\label{styr_eq_ribbe}
-\frac{\partial^2T}{\partial^2 x} - n^2 (T-T_\infty)=0
+\frac{\partial^2T}{\partial x^2} - n^2 (T-T_\infty)=0
 \end{align}
 \end{eks}
 \begin{figure}[ht]
@@ -1712,34 +1810,36 @@ Siden $\kappa,A$ er konstant kan vi omskrive ligningen som styrer prosess som
 \includegraphics[width=8cm]{Fig/ribbe.png}
 \caption{Kjøling av en sylindrisk ribbe.}\label{fig:ribbe}
 \end{figure}
-\textbf{Diskretisering for \Cref{styr_eq_ribbe}}
-Ligningen \eqref{styr_eq_ribbe} har nå en ledd $-n^2(T-T_\infty)$ som slukker varme, konvektiv varmetap, som er en funksjon av temperaturen $T$. Som i tidligere eksempler lager vi en gitter. Del ribben inn i fem kontrollvolumer $KV$ med uniformt størrelse, $\delta x = 0.2\,\text{m}$.
+\textbf{Diskretisering av \eqref{styr_eq_ribbe}.}
+Ligningen \eqref{styr_eq_ribbe} har nå en ledd $-n^2(T-T_\infty)$ som slukker varme, konvektiv varmetap, som er en funksjon av temperaturen $T$. Som i tidligere eksempler lager vi et gitter. Del ribben inn i fem kontrollvolumer $KV$ med uniformt størrelse, $\delta x = 0.2\,\text{m}$.
 
 Ved integrasjon av \eqref{styr_eq_ribbe} over et kontrollvolum får vi 
 \[\iiint_{KV} \frac{\partial^2 T}{\partial x^2}\, dV - \iiint_{KV}n^2(T-T_\infty) \, dV=0\]
-hvor det første integralet behandles som i \Cref{ex:CFD_simplest}. Andre integraket evalueres ved antagelse at integralet er lokalt konstant på hvert kontrollvolumen.
-\[A\left(\frac{\partial T}{\partial x}\right)_e -A\left(\frac{\partial T}{\partial x}\right)_w - n^2(T_P-T_\infty)\delta x=0.\]
+hvor det første integralet behandles som i \Cref{ex:CFD_simplest}. I det andre integralet antar vi at $T$ er konstant lik $T_P$ i hele kontrollvolumet. Det gir
+\[A\left(\frac{\partial T}{\partial x}\right)_e -A\left(\frac{\partial T}{\partial x}\right)_w - n^2(T_P-T_\infty)A\,\delta x=0,\]
+og etter divisjon med $A$:
+\[\left(\frac{\partial T}{\partial x}\right)_e -\left(\frac{\partial T}{\partial x}\right)_w - n^2(T_P-T_\infty)\delta x=0.\]
 Vi skriver det om ved bruk av  en lineær tilnærming og får indre noder ($2, 3$ og $4$):
 \begin{align*}
 a_P T_P = a_W T_W + a_E T_E + S^u\\
 a_W = a_E = \frac{1}{\delta x}, \quad a_P = a_W + a_E - S_P, \quad S_P = -n^2 \delta x, \quad S^u = n^2 \delta x T_\infty.
 \end{align*}
 \textbf{Randbetingelser}
-Vi foregår akkurat som i \Cref{ex:CFD_simplest}. Ved node $1$, med kjent temperatur $T_V$, får vi:
+Vi går fram akkurat som i \Cref{ex:CFD_simplest}. Ved node $1$, med kjent temperatur $T_V$, får vi:
 \begin{align*}
 \frac{T_E-T_P}{\delta x}-\frac{T_P-T_V}{\delta x/2}-n^2(T_P-T_\infty)\delta x=0
 \end{align*}
 og dette betyr at verdier for koeffisienter er gitt som
 \[
-a_W = 0, \quad a_E = \frac{1}{\delta x},\quad a_P = a_W+a_E-S_P, \quad S_P = -2n^2 \delta x - \frac{2}{\delta x}, \quad S^u = n^2 \delta x T_\infty + \frac{2}{\delta x} T_V, 
+a_W = 0, \quad a_E = \frac{1}{\delta x},\quad a_P = a_W+a_E-S_P, \quad S_P = -n^2 \delta x - \frac{2}{\delta x}, \quad S^u = n^2 \delta x T_\infty + \frac{2}{\delta x} T_V. 
 \]
-Ved node $5$, med isolert ende (null fluks), får vi: som ligning
+Ved node $5$ er enden isolert, så fluksen gjennom flaten $e$ (som nå ligger i randen) er null. Det gir
 \begin{align*}
-0-\frac{T_P-T_V}{\delta x/2}-n^2(T_P-T_\infty)\delta x=0
+0-\frac{T_P-T_W}{\delta x}-n^2(T_P-T_\infty)\delta x=0
 \end{align*}
 Dermed er koeffisienter gitt som
 \[
-a_W=\frac{1}{\delta x}, \quad a_E = 0,\quad a_P=a_W+a_E-S_P, \quad S_P = -n^2 \delta x, , \quad S^u = n^2 \delta x T_\infty.
+a_W=\frac{1}{\delta x}, \quad a_E = 0,\quad a_P=a_W+a_E-S_P, \quad S_P = -n^2 \delta x, \quad S^u = n^2 \delta x T_\infty.
 \]
 \textbf{Numerisk løsning}
 Med $n^2 = 25\,\text{m}^{-2}$ og $\delta x = 0.2\,\text{m}$, får vi:
@@ -1752,7 +1852,7 @@ $1$ & $0$ & $5$ & $100+10T_V$ & $-15$ & $20$ \\
 $2$ & $5$ & $5$ &   $100$ &  $-5$ & $15$ \\
 $3$ & $5$ & $5$ &   $100$ &  $-5$ & $15$ \\
 $4$ & $5$ & $5$ &   $100$ &  $-5$ & $15$ \\
-$6$ & $5$ & $0$ &  $100$ & $-5$ & $10$ \\
+$5$ & $5$ & $0$ &  $100$ & $-5$ & $10$ \\
 \hline
 \end{tabular}
 \end{center}
@@ -1770,12 +1870,28 @@ Ligningssystemet i matriseform blir:
 \]
 Løsningen er:
 $
-T_1 = 64.22, T_2 = 36.91, T_3 = 26.50, T_4 = 22.60, T_5 = 21.30
+T_1 = 64.23, T_2 = 36.91, T_3 = 26.50, T_4 = 22.60, T_5 = 21.30
 $
 
 \subsubsection*{Sammenligning med analytisk løsning}
 
-Den analytiske løsningen viser god overensstemmelse med den numeriske, selv med et grovt gitter. Feilen er under 6\%.
+Den analytiske løsningen \eqref{eq:loes_ribbe} evaluert i nodene $x=0.1, 0.3, \ldots, 0.9\,\text{m}$ gir:
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Node & $1$ & $2$ & $3$ & $4$ & $5$ \\
+\hline
+Numerisk ($^\circ$C) & $64.23$ & $36.91$ & $26.50$ & $22.60$ & $21.30$ \\
+Eksakt ($^\circ$C) & $68.53$ & $37.87$ & $26.61$ & $22.54$ & $21.22$ \\
+Avvik & $6.3\,\%$ & $2.5\,\%$ & $0.4\,\%$ & $0.3\,\%$ & $0.4\,\%$ \\
+\hline
+\end{tabular}
+\end{center}
+Overensstemmelsen er god, selv med et grovt gitter. Det største avviket, ca.\ $6\,\%$, er i node $1$ nær basen: der faller temperaturen raskt, og fem kontrollvolumer er for grovt til å fange det helt. Med et finere gitter blir feilen raskt mindre.
+
+\begin{rem}{Randbetingelse med kjent fluks}
+Den isolerte enden i ribbe-eksempelet er et spesialtilfelle av en randbetingelse med \emph{kjent fluks} (en Neumann-betingelse). Er fluksen inn gjennom randen kjent, lik $q_B$ (per flateenhet), erstatter vi rett og slett flukstermen på randflaten med den kjente verdien $q_B A$. Koblingen mot randsiden kuttes ($a_E=0$ ved høyre rand, $a_W=0$ ved venstre), og bidraget legges til i kildeleddet: $S^u \to S^u + q_B A$, mens $S_P$ ikke endres. For en isolert rand er $q_B=0$, og randen bidrar ikke med noe i det hele tatt.
+\end{rem}
 
 
 \section{Endelig volummetode for 2D diffusjonsproblemer}\label{EVM2D}
@@ -1834,12 +1950,12 @@ Ved formell integrasjon av \eqref{EV:2Dligning} over et kontrollvolum får vi:
 \begin{align}
 \iiint_{KV} \frac{\partial}{\partial x} \left( \Gamma \frac{\partial \phi}{\partial x} \right) dV + \iiint_{KV} \frac{\partial}{\partial y} \left( \Gamma \frac{\partial \phi}{\partial y} \right) dV + \iiint_{KV} S dV = 0
 \end{align}
-Siden gitteren er uniform i hver romdimensjon får vi $A_w = A_e = \delta y$ konstant. Lignende for nord og sør er $A_n = A_s = \delta x$. Dermed forenkles ligningen som
+I 2D tenker vi oss at kontrollvolumet har dybde $1$ i $z$-retningen. Da er arealet av vest- og østflaten $A_w = A_e = \delta y$, arealet av nord- og sørflaten $A_n = A_s = \delta x$, og volumet $|KV| = \delta x\,\delta y$. Med divergenssetningen blir ligningen
 \[
-\Gamma_e  A_e\left(\frac{\partial \phi}{\partial x}\right)_e - \Gamma_w A_w \left(\frac{\partial \phi}{\partial x}\right)_w  + \Gamma_n A_n\left(\frac{\partial \phi}{\partial x}\right)_n - \Gamma_s  A_s\left(\frac{\partial \phi}{\partial x}\right)_s  + \overline{S} |KV| = 0
+\Gamma_e  A_e\left(\frac{\partial \phi}{\partial x}\right)_e - \Gamma_w A_w \left(\frac{\partial \phi}{\partial x}\right)_w  + \Gamma_n A_n\left(\frac{\partial \phi}{\partial y}\right)_n - \Gamma_s  A_s\left(\frac{\partial \phi}{\partial y}\right)_s  + \overline{S} |KV| = 0
 \]
 Som tidligere representerer det en bevaringslov som balanserer generering av $\phi $ i en kontrollvolum og fluksene over randene av volumet. Igjen får vi som tilnærming
-\[\text{Fluks over }w: \Gamma_w A \left(\frac{\partial \phi}{\partial x}\right)_w =\Gamma_w A\frac{\phi_P-\phi_W}{\delta x_{WP}}\]
+\[\text{Fluks over }w: \quad \Gamma_w A_w \left(\frac{\partial \phi}{\partial x}\right)_w \approx \Gamma_w A_w\frac{\phi_P-\phi_W}{\delta x_{WP}}\]
 og så videre for de andre randflater. Setter vi det inn i ligningen over får vi
 \begin{align}
 \Gamma_e A_e \frac{\phi_E - \phi_P}{\delta x_{PE}} - \Gamma_w A_w \frac{\phi_P - \phi_W}{\delta x_{WP}} + \Gamma_n A_n \frac{\phi_N - \phi_P}{\delta y_{PN}} - \Gamma_s A_s \frac{\phi_P - \phi_S}{\delta y_{SP}} + \overline{S} |KV| = 0
@@ -1855,7 +1971,11 @@ a_P = a_W + a_E + a_S + a_N - S_P
 \end{align*}
 For å finne fordelingen av $\phi$ i en gitt to-dimensjonal situasjon, skrives diskretiserte ligninger av denne formen for hvert gitterpunkt i det delte domenet.
 
-Ved randen, der temperaturer eller flukser er kjent, modifiseres ligningene for å inkludere randbetingelser på samme måte som vist i \Cref{ex:CFD_simplest}. Koeffisienten på randsiden settes til null (koblingen kuttes), og fluksen over randen legges til som en kilde i $S^u$ og $S_P$. Observer at nye koeffisienter i $2D$-problemer er bare avhengig av nabopunktene, dvs. hvis vi leter etter koeffisient i punkt $P$ trenger vi også verdier i nabopunkter $W,E,N,S$. Dette gir et mønstret som er kjent som $5$-punkt stencil vist i \Cref{5pt_stencil}.
+Ved randen, der temperaturer eller flukser er kjent, modifiseres ligningene for å inkludere randbetingelser på samme måte som vist i \Cref{ex:CFD_simplest}. Koeffisienten på randsiden settes til null (koblingen kuttes), og fluksen over randen legges til som en kilde i $S^u$ og $S_P$. For en celle langs vestveggen, med kjent randverdi $\phi_V$, blir dette for eksempel
+\[
+a_W = 0, \qquad S^u = \frac{2\Gamma A_w}{\delta x}\,\phi_V, \qquad S_P = -\frac{2\Gamma A_w}{\delta x},
+\]
+akkurat som i 1D. Er det i stedet fluksen $q_B$ \emph{inn} gjennom veggen som er kjent, kuttes koblingen på samme måte, og bidraget $q_B A_w$ legges i $S^u$, mens $S_P$ ikke endres (se bemerkningen om kjent fluks i \Cref{sect:evm1d}). En isolert vegg ($q_B=0$) bidrar altså ikke med noe. En hjørnecelle ligger inntil \emph{to} vegger og får ett slikt bidrag fra hver av dem. Observer at nye koeffisienter i $2D$-problemer er bare avhengig av nabopunktene, dvs. hvis vi leter etter koeffisient i punkt $P$ trenger vi også verdier i nabopunkter $W,E,N,S$. Dette gir et mønstret som er kjent som $5$-punkt stencil vist i \Cref{5pt_stencil}.
 \begin{figure}[ht!]\centering 
 \begin{tikzpicture}[scale=1.5]
 
@@ -1894,7 +2014,97 @@ Ved randen, der temperaturer eller flukser er kjent, modifiseres ligningene for 
 
 Det resulterende ligningssystemet løses for å finne den to-dimensjonale fordelingen av $\phi$. 
 
-\section{Ligninger som inkluderer en tidsparameter}
+\begin{rem}{Sammenheng med fempunktsformelen}
+Med konstant $\Gamma$ og et uniformt gitter med $\delta x=\delta y=h$ er $a_W=a_E=a_S=a_N=\Gamma$ (siden $A_w/\delta x = h/h = 1$), og $a_P = 4\Gamma - S_P$. For en indre celle uten kilde blir ligningen
+\[
+\phi_P = \frac14\big(\phi_W+\phi_E+\phi_S+\phi_N\big),
+\]
+som er nøyaktig fempunktsformelen \eqref{poisson2d_disc} og Jacobi-formelen \eqref{poisson2d_update} fra \Cref{sect:2dlaplace}. Alt vi lærte der om å løse slike systemer -- Jacobi- og Gauss-Seidel-iterasjon -- kan derfor brukes direkte. Forskjellen fra endelige differanser ligger, som i 1D, i behandlingen av randene og i at metoden uten videre takler variabel $\Gamma$ og ikke-uniforme gitre.
+\end{rem}
+
+\begin{rem}{Ligningssystemet i 2D}
+For å skrive ligningene på matriseform må cellene nummereres. Vi nummererer dem rad for rad: celle $(i,j)$, med $i=1,\ldots,m$ i $x$-retning og $j=1,\ldots,n$ i $y$-retning, får nummeret $p=(j-1)m+i$. Da har naboene numrene
+\[
+W = p-1, \qquad E = p+1, \qquad S = p-m, \qquad N = p+m .
+\]
+Matrisen $L$, med $a_P$ på diagonalen og $-a_W,-a_E,-a_S,-a_N$ på de tilhørende plassene, får dermed fem diagonaler: hoveddiagonalen, de to rett ved siden av, og to i avstand $m$ fra den. Dette er nøyaktig samme struktur som i \Cref{sect:2dlaplace}. Høyresiden $F$ inneholder $S^u$ for hver celle, og systemet $L\boldsymbol{\phi}=F$ kan løses direkte eller med Jacobi- eller Gauss-Seidel-iterasjon.
+\end{rem}
+
+\begin{eks}{Varmeledning i en plate}\label{ex:EVM2D_plate}
+En plate med tykkelse $t = 1\,\text{cm}$, bredde $0.3\,\text{m}$ og høyde $0.4\,\text{m}$ har varmeledningsevne $\kappa = 1000\,\text{W/(m\,K)}$. Vestveggen tilføres en konstant varmefluks $q_V = 500\,\text{kW/m}^2$, sør- og østveggen er isolert, og nordveggen holdes ved $T_N = 100\,^\circ$C. Finn den stasjonære temperaturfordelingen i platen. (Eksempelet er hentet fra \cite{VaM07}.)
+\end{eks}
+Temperaturen varierer ikke gjennom tykkelsen, så problemet er to-dimensjonalt og styres av \eqref{EV:2Dligning} med $\Gamma=\kappa$ og $S=0$. Vi deler platen i $3\times 4$ kontrollvolum med $\delta x=\delta y = 0.1\,\text{m}$, og nummererer dem rad for rad som i bemerkningen over, se \Cref{fig:EVM2D_plate}.
+\begin{figure}[ht]\centering
+\begin{tikzpicture}[scale=1.1]
+\fill[orange!10] (0,0) rectangle (3,4);
+\foreach \x in {1,2} \draw[gray, dashed] (\x,0) -- (\x,4);
+\foreach \y in {1,2,3} \draw[gray, dashed] (0,\y) -- (3,\y);
+\draw[very thick] (0,0) rectangle (3,4);
+\foreach \j in {1,...,4} \foreach \i in {1,...,3} {
+  \pgfmathtruncatemacro{\p}{(\j-1)*3+\i}
+  \fill (\i-0.5,\j-0.5) circle (1.5pt);
+  \node[font=\small, anchor=south west] at (\i-0.5,\j-0.5) {\p};
+}
+\foreach \y in {0.5,1.5,2.5,3.5} \draw[->, thick, red!70!black] (-0.8,\y) -- (-0.05,\y);
+\node[left, red!70!black, align=right] at (-0.85,2) {$q_V$\\$=500$\\kW/m$^2$};
+\fill[pattern=north east lines] (0,-0.25) rectangle (3,0);
+\node[below] at (1.5,-0.25) {isolert};
+\fill[pattern=north east lines] (3,0) rectangle (3.25,4);
+\node[right, align=left] at (3.3,2) {isolert};
+\node[above] at (1.5,4) {$T_N = 100\,^\circ$C};
+\draw[<->] (0,4.6) -- (1,4.6) node[midway, above] {$\delta x$};
+\draw[<->] (4.6,0) -- (4.6,4) node[midway, right] {$0.4$ m};
+\end{tikzpicture}
+\caption{Platen i eksempelet over, delt i $3\times4$ kontrollvolum og nummerert rad for rad.}\label{fig:EVM2D_plate}
+\end{figure}
+
+Flatearealene er $A_w=A_e=\delta y\,t$ og $A_s=A_n=\delta x\,t$, så for alle indre flater er
+\[
+\frac{\kappa A}{\delta x} = \frac{1000\cdot 0.1\cdot 0.01}{0.1} = 10 .
+\]
+Koblingene over flatene inne i platen er derfor alle lik $10$. For cellene langs veggene gjør vi som i 1D:
+\begin{itemize}
+\item \textbf{Vestveggen} (kjent fluks): $a_W=0$ og $S^u \to S^u + q_V A_w = S^u + 500\cdot 10^3\cdot 0.1\cdot 0.01 = S^u + 500$.
+\item \textbf{Sør- og østveggen} (isolert): $a_S=0$ henholdsvis $a_E=0$, og ingen bidrag til $S^u$ eller $S_P$.
+\item \textbf{Nordveggen} (kjent temperatur): $a_N=0$, $S_P \to S_P - 20$ og $S^u \to S^u + 20\cdot T_N = S^u + 2000$, siden $2\kappa A_n/\delta y = 20$.
+\end{itemize}
+Hjørnecellene får bidrag fra begge veggene. Det gir koeffisientene
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|c|c|c|}
+\hline
+Celle & $a_W$ & $a_E$ & $a_S$ & $a_N$ & $S^u$ & $S_P$ & $a_P$ \\
+\hline
+$1$ (hjørne sørvest) & $0$ & $10$ & $0$ & $10$ & $500$ & $0$ & $20$ \\
+$2$ (sørvegg) & $10$ & $10$ & $0$ & $10$ & $0$ & $0$ & $30$ \\
+$3$ (hjørne sørøst) & $10$ & $0$ & $0$ & $10$ & $0$ & $0$ & $20$ \\
+$4,\ 7$ (vestvegg) & $0$ & $10$ & $10$ & $10$ & $500$ & $0$ & $30$ \\
+$5,\ 8$ (indre) & $10$ & $10$ & $10$ & $10$ & $0$ & $0$ & $40$ \\
+$6,\ 9$ (østvegg) & $10$ & $0$ & $10$ & $10$ & $0$ & $0$ & $30$ \\
+$10$ (hjørne nordvest) & $0$ & $10$ & $10$ & $0$ & $2500$ & $-20$ & $40$ \\
+$11$ (nordvegg) & $10$ & $10$ & $10$ & $0$ & $2000$ & $-20$ & $50$ \\
+$12$ (hjørne nordøst) & $10$ & $0$ & $10$ & $0$ & $2000$ & $-20$ & $40$ \\
+\hline
+\end{tabular}
+\end{center}
+med $a_P = a_W+a_E+a_S+a_N-S_P$. Dette gir tolv ligninger med tolv ukjente. Løsningen (avrundet, plassert slik cellene ligger i platen) er
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+$146.3$ & $129.7$ & $124.0$ \\
+\hline
+$205.6$ & $178.2$ & $166.2$ \\
+\hline
+$242.3$ & $211.2$ & $196.5$ \\
+\hline
+$260.0$ & $227.8$ & $212.2$ \\
+\hline
+\end{tabular}
+\end{center}
+Varmen strømmer inn gjennom vestveggen og ut gjennom nordveggen, og det er varmest i det sørvestlige hjørnet, lengst unna den kalde nordveggen.
+
+\emph{Sjekk av energibalansen:} Gjennom vestveggen strømmer det inn $4\cdot 500 = 2000\,$W. Ut gjennom nordveggen strømmer det $\sum 20\,(T_P - 100) = 20\,(46.3+29.7+24.0) = 2000\,$W. Energibalansen stemmer altså eksakt, selv på dette grove gitteret -- bevaringsegenskapen fra 1D gjelder også i 2D. Med et finere gitter blir temperaturfordelingen mer nøyaktig (på et $60\times 80$-gitter er den høyeste temperaturen ca.\ $281\,^\circ$C), men energibalansen er eksakt på ethvert gitter.
+
+\section{Ligninger som inkluderer en tidsparameter}\label{sect:EVM_tid}
 
 Etter å ha betraktet statiske ligninger i de siste eksempler, skal vi nå forklare hvordan en ikke-statisk ligning kan behandles i diskretiseringen. Dette gjøres ved å betrakte tidsparameteren som en ekstra dimensjon i diskretiseringen, slik at vi får et skjema som utvikler løsningen i tid.
 
@@ -1915,13 +2125,13 @@ Vi må nå diskretisere $u_{xx}$ og $u_{yy}$ men vitsen med formelen er at det e
 Vi kan nå kjøre en diskretiseringsskjema (enten endelige differanser eller endelig volum metode for ligningen på høyre). 
 
 \subsubsection*{Eksempel: Endelige differanser}
-For eksemepel hvis vi bruker endelige differanser får vi det følgende: 
+Bruker vi endelige differanser, får vi følgende: 
 Romlige deriverte diskretiseres med sentraldifferanser:
 \[
 u_{xx} \approx \frac{u^n_{i+1,j} - 2u^n_{i,j} + u^n_{i-1,j}}{\delta x^2}, \qquad
 u_{yy} \approx \frac{u^n_{i,j+1} - 2u^n_{i,j} + u^n_{i,j-1}}{\delta y^2}.
 \]
-Setter vi dette sammen, får vi den eksplisitte skjemaet:
+Setter vi dette sammen, får vi det eksplisitte skjemaet:
 \[
 u^{n+1}_{i,j} = u^n_{i,j} + \delta t \left(
 \frac{u^n_{i+1,j} - 2u^n_{i,j} + u^n_{i-1,j}}{\delta x^2} +
@@ -1929,13 +2139,105 @@ u^{n+1}_{i,j} = u^n_{i,j} + \delta t \left(
 \]
 Dette er et \emph{fremover-Euler} skjema i tid og ligningen fører til utvidelse av \emph{fem-punkts stencil} \Cref{5pt_stencil} i rom. 
 
-\subsubsection{Eksempel: Endelig volum metode}
+\subsubsection*{Eksempel: Endelig volum-metode}
+Med endelig volum-metoden går vi, som alltid, ut fra bevaringsloven i integralform -- nå også integrert over et tidsintervall. Vi ser på tidsavhengig varmeledning i 1D,
+\begin{equation}\label{eq:EVM_tid1D}
+\rho c\,\frac{\partial T}{\partial t} = \frac{\partial}{\partial x}\left(\kappa\frac{\partial T}{\partial x}\right) + S,
+\end{equation}
+der $\rho$ er tettheten og $c$ den spesifikke varmekapasiteten. Vi integrerer over kontrollvolumet rundt $P$ \emph{og} over tidsintervallet $[t_n, t_{n+1}]$, med $\Delta t = t_{n+1}-t_n$:
+\[
+\int_{t_n}^{t_{n+1}}\!\!\iiint_{KV} \rho c\,\frac{\partial T}{\partial t}\,dV\,dt
+= \int_{t_n}^{t_{n+1}}\!\!\iiint_{KV} \frac{\partial}{\partial x}\left(\kappa\frac{\partial T}{\partial x}\right)dV\,dt + \int_{t_n}^{t_{n+1}}\!\!\iiint_{KV} S\,dV\,dt .
+\]
+\begin{itemize}
+\item \textbf{Venstresiden:} Bytter vi integrasjonsrekkefølgen og lar $T_P$ representere temperaturen i hele cellen, blir den $\rho c\,A\,\delta x\,\big(T_P^{n+1}-T_P^n\big)$.
+\item \textbf{Diffusjonsleddet:} Romintegralet er akkurat som før, $\kappa_eA\frac{T_E-T_P}{\delta x}-\kappa_wA\frac{T_P-T_W}{\delta x}$. Men nå må vi også integrere over tid, og må bestemme \emph{når} i intervallet temperaturene skal evalueres. Det enkleste valget er å bruke de kjente verdiene ved $t_n$, og tidsintegralet blir da bare $\Delta t$ ganger uttrykket. Dette gir et \emph{eksplisitt} skjema.
+\item \textbf{Kildeleddet} behandles på samme måte: $\Delta t\,(S^u+S_PT_P^n)$.
+\end{itemize}
+Deler vi alt på $\Delta t$ og samler leddene, får vi
+\begin{equation}\label{eq:EVM_eksplisitt}
+a_P^0\,T_P^{n+1} = a_W T_W^n + a_E T_E^n + \big(a_P^0 - a_W - a_E + S_P\big)T_P^n + S^u,
+\qquad a_P^0 = \frac{\rho c\,A\,\delta x}{\Delta t},
+\end{equation}
+med $a_W$, $a_E$, $S^u$ og $S_P$ som i det stasjonære tilfellet. Høyresiden inneholder bare kjente verdier fra tidsnivå $n$, så hver $T_P^{n+1}$ kan regnes ut direkte -- vi marsjerer i tid, akkurat som i \Cref{sect:varmeNum}. For en indre celle med konstant $\kappa$ og uten kilde er $a_W=a_E=\kappa A/\delta x$, og når vi deler på $a_P^0$, blir \eqref{eq:EVM_eksplisitt}
+\[
+T_P^{n+1} = T_P^n + r\big(T_E^n - 2T_P^n + T_W^n\big), \qquad r = \frac{\alpha\,\Delta t}{\delta x^2}, \quad \alpha = \frac{\kappa}{\rho c},
+\]
+som er nøyaktig det eksplisitte endelig differanse-skjemaet \eqref{eq:heat1d_explicit}.
 
-Vi har allerede sett på diskretisering av 
-$$u_{xx}+u_{yy}=0$$
-ved hjelp av EVM siden det samsvarer \eqref{EV:2Dligning} for $\Gamma \equiv 1$ og $S\equiv 0$ fra \Cref{EVM2D}. Dermed kunne vi bruke koeffisientene som er utviklet det for å utlede en EVM-basert diskretisering av 2D-ligning. Setter vi alt sammen får vi igjen en utvidelse av 5 punkt stencil for en tilleggs-tidsparameter,
+\begin{rem}{Stabilitet: koeffisienten foran $T_P^n$ må være positiv}
+Deler vi \eqref{eq:EVM_eksplisitt} på $a_P^0$, får vi
+\[
+T_P^{n+1} = \frac{a_W}{a_P^0}\,T_W^n + \frac{a_E}{a_P^0}\,T_E^n + \frac{a_P^0 - a_W - a_E + S_P}{a_P^0}\,T_P^n + \frac{S^u}{a_P^0}.
+\]
+Uten kilde summerer vektene foran $T_W^n$, $T_E^n$ og $T_P^n$ seg til $1$: den nye temperaturen er et vektet gjennomsnitt av de gamle -- \emph{så lenge alle vektene er positive}. Da kan det ikke oppstå nye maksima eller minima, akkurat som i virkeligheten. Blir koeffisienten foran $T_P^n$ negativ, vil en \emph{høy} temperatur i cellen ved $t_n$ gi en \emph{lavere} temperatur ved $t_{n+1}$ jo høyere den var. Det er fysisk meningsløst og gir svingninger (jf.\ sagtann-argumentet i \Cref{oppsum:stabilitet}). Kravet blir:
+\begin{itemize}
+\item \textbf{Indre celle:} $a_P^0 \ge a_W + a_E = 2\kappa A/\delta x$, altså
+\[
+\Delta t \le \frac{\rho c\,\delta x^2}{2\kappa} \quad\Longleftrightarrow\quad r = \frac{\alpha\Delta t}{\delta x^2}\le \frac12,
+\]
+det samme kravet som vi fant for endelige differanser. Brytes dette kravet, vokser sagtann-svingningene fra tidssteg til tidssteg, og løsningen eksploderer.
+\item \textbf{Randcelle med kjent randtemperatur:} Her er $a_W=0$, men $S_P = -2\kappa A/\delta x$, så kravet blir $a_P^0 \ge a_E - S_P = 3\kappa A/\delta x$, altså
+\[
+\Delta t \le \frac{\rho c\,\delta x^2}{3\kappa}.
+\]
+Randcellene gir et \emph{strengere} krav enn de indre cellene, fordi avstanden til randen bare er $\delta x/2$. Brytes \emph{bare} dette kravet, får vi svingninger i cellene nær randen. De dempes ut etter hvert -- det er i praksis de indre cellene som avgjør om løsningen eksploderer -- men i mellomtiden er løsningen fysisk urealistisk. Vil vi være sikre på en fysisk fornuftig løsning, velger vi derfor $\Delta t$ ut fra randcellene.
+\item \textbf{Generelt:} Kravet er $a_P^0 \ge a_W + a_E - S_P$ i \emph{hver} celle. Høyresiden er nettopp diagonalelementet i matrisen fra det stasjonære problemet, så $\Delta t \le \rho c\,\Delta V/(a_W+a_E-S_P)$ for alle celler.
+\item \textbf{I 2D} med $\delta x=\delta y=h$ gir de fire naboene $a_P^0 \ge 4\kappa\,\delta x\,\delta y/h^2$, altså $\Delta t \le \rho c\,h^2/(4\kappa)$ for indre celler -- tilsvarende $r\le\frac14$ fra \Cref{sect:varmeNum}. Randceller med kjent temperatur gir igjen et strengere krav.
+\end{itemize}
+\end{rem}
 
-I \Cref{timdep_stencil} viser vi fremgangsmåte og hvordan neste tidssteg er avhengig av fem punkter i rom for tid $t_n$ (det gjelder både EDM og EVM fremgangsmåte).
+\begin{eks}{Avkjøling av en plate}\label{ex:EVM_tid_plate}
+En stor, tynn plate med tykkelse $L = 2\,\text{cm}$ har varmeledningsevne $\kappa = 10\,\text{W/(m\,K)}$ og $\rho c = 10\cdot 10^6\,\text{J/(m}^3\text{K)}$. Platen har først temperaturen $T_0=200\,^\circ$C overalt. Ved $t=0$ senkes temperaturen på østsiden ($x=L$) plutselig til $0\,^\circ$C, mens vestsiden ($x=0$) er isolert. Finn temperaturfordelingen i platen ved $t=40$, $80$ og $120\,$s. (Eksempelet er hentet fra \cite{VaM07}.)
+\end{eks}
+Problemet er styrt av \eqref{eq:EVM_tid1D} uten kilde. Den analytiske løsningen er
+\[
+T(x,t) = \frac{4T_0}{\pi}\sum_{n=1}^{\infty}\frac{(-1)^{n+1}}{2n-1}\,e^{-\alpha\lambda_n^2 t}\cos(\lambda_n x), \qquad \lambda_n = \frac{(2n-1)\pi}{2L}, \quad \alpha = \frac{\kappa}{\rho c} = 10^{-6}\,\text{m}^2/\text{s}.
+\]
+Vi deler platen i fem kontrollvolum med $\delta x = 0.004\,\text{m}$ og regner per flateenhet ($A=1\,\text{m}^2$). Da er $\kappa A/\delta x = 2500$ og $a_P^0 = \rho c A\delta x/\Delta t = 40000/\Delta t$. Koeffisientene blir:
+\begin{itemize}
+\item \textbf{Celle 1} (isolert vestvegg): $a_W=0$, $a_E=2500$, $S^u=S_P=0$. Koeffisienten foran $T_1^n$ er $a_P^0 - 2500$.
+\item \textbf{Celle 2--4} (indre): $a_W=a_E=2500$. Koeffisienten foran $T_P^n$ er $a_P^0 - 5000$.
+\item \textbf{Celle 5} (kjent temperatur $0\,^\circ$C på østveggen): $a_W=2500$, $a_E=0$, $S_P=-5000$, $S^u = 5000\cdot 0 = 0$. Koeffisienten foran $T_5^n$ er $a_P^0 - 7500$.
+\end{itemize}
+Stabilitetskravene blir $\Delta t\le 16\,$s (celle 1), $\Delta t\le 8\,$s (celle 2--4) og $\Delta t\le 5.33\,$s (celle 5). Vi velger $\Delta t = 2\,$s, slik at $a_P^0 = 20000$, og ligningene blir
+\[
+\begin{aligned}
+20000\,T_1^{n+1} &= 2500\,T_2^n + 17500\,T_1^n,\\
+20000\,T_P^{n+1} &= 2500\,T_W^n + 2500\,T_E^n + 15000\,T_P^n, \qquad P = 2,3,4,\\
+20000\,T_5^{n+1} &= 2500\,T_4^n + 12500\,T_5^n,
+\end{aligned}
+\]
+med $T_P^0 = 200$ for alle $P$. Etter 20, 40 og 60 tidssteg får vi (nodene ligger i $x = 2, 6, 10, 14, 18\,$mm):
+\begin{center}
+\begin{tabular}{|c|l|c|c|c|c|c|}
+\hline
+$t$ & & Node $1$ & Node $2$ & Node $3$ & Node $4$ & Node $5$ \\
+\hline
+\multirow{2}{*}{$40\,$s} & Numerisk & $188.6$ & $176.4$ & $148.3$ & $100.8$ & $35.9$ \\
+ & Eksakt & $188.4$ & $175.8$ & $147.1$ & $99.5$ & $35.4$ \\
+\hline
+\multirow{2}{*}{$80\,$s} & Numerisk & $153.3$ & $139.1$ & $111.3$ & $72.1$ & $25.0$ \\
+ & Eksakt & $152.7$ & $138.4$ & $110.6$ & $71.6$ & $24.8$ \\
+\hline
+\multirow{2}{*}{$120\,$s} & Numerisk & $120.5$ & $108.8$ & $86.5$ & $55.6$ & $19.2$ \\
+ & Eksakt & $119.9$ & $108.2$ & $86.0$ & $55.3$ & $19.1$ \\
+\hline
+\end{tabular}
+\end{center}
+Selv med bare fem kontrollvolum følger den numeriske løsningen den eksakte godt.
+
+Hva skjer hvis vi bryter stabilitetskravene? Med $\Delta t = 7\,$s er kravet for de indre cellene oppfylt, men ikke kravet for celle 5. Temperaturen i celle 5 hopper da opp og ned de første tidsstegene ($25$, $80$, $29$, $51\,^\circ$C, \ldots) -- i en plate som bare avkjøles! Svingningene dempes ut etter hvert, men løsningen er fysisk urealistisk i starten. Med $\Delta t = 9\,$s er også kravet for de indre cellene brutt, og svingningene vokser til løsningen eksploderer.
+
+\begin{rem}{Til orientering: implisitte skjema}
+Evaluerer vi diffusjonsleddet ved det \emph{nye} tidsnivået $t_{n+1}$ i stedet for ved $t_n$, får vi
+\[
+\big(a_P^0 + a_W + a_E - S_P\big)\,T_P^{n+1} = a_W\,T_W^{n+1} + a_E\,T_E^{n+1} + a_P^0\,T_P^n + S^u .
+\]
+Nå er alle koeffisientene positive uansett hvor stort $\Delta t$ er, og skjemaet er \emph{ubetinget stabilt}. Prisen er at $T_P^{n+1}$ ikke lenger kan regnes ut direkte: i hvert tidssteg må vi løse et ligningssystem, med samme matrise som i det stasjonære problemet pluss $a_P^0$ på diagonalen. Dette kalles et \emph{implisitt} skjema.
+\end{rem}
+
+Uansett om vi bruker endelige differanser eller endelig volum, gir et eksplisitt skjema i 2D en oppdatering der neste tidsnivå i et punkt avhenger av fem punkter på nåværende tidsnivå, slik \Cref{timdep_stencil} viser.
 
 
 
@@ -1980,3 +2282,16 @@ I \Cref{timdep_stencil} viser vi fremgangsmåte og hvordan neste tidssteg er avh
 }
 \end{tikzpicture}\caption{Fem punkt stencil og diskretisering av en tidsavhengig ligning.}\label{timdep_stencil}
 \end{figure}
+
+\begin{oppsum}{Numeriske metoder for PDE-er}
+\begin{itemize}
+\item \textbf{Randverdiproblemer} (Laplace, Poisson, stasjonær varmeledning): Diskretiseringen gir \emph{ett} ligningssystem $L\mathbf{u}=F$, som løses direkte eller med Jacobi/Gauss-Seidel. Randbetingelsene havner i $F$ (og på diagonalen).
+\item \textbf{Initialverdiproblemer} (varmeligningen, bølgeligningen): Vi \emph{marsjerer} i tid. Eksplisitte skjema er enkle, men krever et lite nok tidssteg for å være stabile: $r\le\frac12$ (varme, 1D), $r\le\frac14$ (varme, 2D), $c\Delta t/\Delta x\le 1$ (bølge, 1D).
+\item \textbf{Endelige differanser} tilnærmer \emph{de deriverte} i punkter. \textbf{Endelig volum-metoden} tilnærmer \emph{fluksene} over flatene til kontrollvolum, ut fra bevaringsloven på integralform. På et uniformt gitter gir de samme ligninger i det indre, men endelig volum-metoden er konservativ, håndterer randbetingelser med kjent fluks naturlig, og tåler ikke-uniforme gitre og variabel $\Gamma$.
+\item \textbf{Oppskrift for endelig volum-metoden:} Del området i kontrollvolum, integrer ligningen over hvert av dem, tilnærm fluksene lineært, og skriv
+\[
+a_P\phi_P = \sum_{\text{naboer}} a_{nb}\,\phi_{nb} + S^u, \qquad a_P = \sum_{\text{naboer}} a_{nb} - S_P,
+\]
+med randbidragene i $S^u$ og $S_P$, og $S_P\le 0$.
+\end{itemize}
+\end{oppsum}
