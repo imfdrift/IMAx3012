@@ -639,6 +639,56 @@ som løses sammen med en initialbetingelse og lineariserte randbetingelser.  Den
 Fremgangsmåten i dette kapittelet -- en bevaringslov (kombinert med divergensteoremet \Cref{thm:divergens}) sammen med en grunnleggende (konstitutiv) relasjon -- er ikke spesiell for varmeledning. Samme metode brukes til å utlede bevaringslover for andre transporterte størrelser, for eksempel massekonsentrasjonen $c=c(x,y,z,t)$ til et stoff som transporteres ved konveksjon og diffusjon. Da erstattes Fouriers lov $\vect J_\text{d}=-\kappa\nabla T$ med \emph{Ficks lov} $\vect j_\text{d}=-\delta\nabla c$, der $\delta$ er en diffusjonskoeffisient, og man ender opp med en \emph{konveksjon-diffusjonsligning} på samme form som \eqref{eq:varm_dimless}. Også randbetingelsen \eqref{varme:rand} generaliserer direkte: dersom transporten gjennom randen antas proporsjonal med forskjellen mellom konsentrasjonen på innsiden og utsiden (akkurat som Newtons avkjølingslov for varme), får man en tilsvarende Robin-betingelse for $c$.
 \end{rem}
 
+Før vi går videre til de numeriske metodene, er det lett å miste oversikten i begrepene RVP, IVP, Dirichlet og Neumann. \Cref{fig:kart_pdetyper} oppsummerer hvordan disse henger sammen, og er ment som et kart å bla tilbake til underveis i resten av kapittelet. Et tilsvarende kart over selve løsningsmetodene -- endelige differanser, endelig volum, Jacobi, eksplisitt/implisitt Euler -- venter i kapittelets oppsummering (\Cref{sect:oppsummering}).
+
+\begin{landscape}
+\begin{figure}[p]
+\centering
+\begin{tikzpicture}[
+  every node/.style={align=center,font=\footnotesize},
+  box/.style={draw,rounded corners,very thick,fill=blue!4,inner sep=5pt},
+  cls/.style={draw,rounded corners,thick,fill=orange!6,inner sep=4pt,text width=3.1cm},
+  cond/.style={draw,rounded corners,thick,fill=green!6,inner sep=4pt,text width=2.6cm},
+  ->,>=Stealth,thick
+]
+
+\node[box,text width=8cm,font=\bfseries\normalsize] (top) {2.-ordens lineær PDE\\ \normalfont\footnotesize $au_{xx}+bu_{xy}+cu_{yy}+\ldots=0$ \quad(\Cref{sect:introPDE})};
+
+\node[cls,below left=of top,xshift=-1cm] (ell) {\textbf{Elliptisk} ($a^2{-}4b<0$)\\ Laplace, Poisson, Helmholtz};
+\node[cls,below=of top] (par) {\textbf{Parabolsk} ($a^2{-}4b=0$)\\ Varmeligningen};
+\node[cls,below right=of top,xshift=1cm] (hyp) {\textbf{Hyperbolsk} ($a^2{-}4b>0$)\\ Bølgeligningen};
+
+\draw (top) -- (ell);
+\draw (top) -- (par);
+\draw (top) -- (hyp);
+
+\node[cond,below=16mm of ell] (rvp) {Ingen retning å marsjere i (Hadamard) \(\Rightarrow\) \textbf{må} løses som \textbf{RVP}};
+\node[cond,below=16mm of par,xshift=1.2cm] (ivpmulig) {Har en tidsretning \(\Rightarrow\) \textbf{Cauchy/IVP} mulig i tid};
+
+\draw (ell) -- (rvp);
+\draw (par) -- (ivpmulig);
+\draw (hyp) -- (ivpmulig);
+
+\node[box,below=14mm of ivpmulig,xshift=-1.3cm,text width=7cm] (mixed) {\textbf{Begrenset område:} Initial-\textbf{rand}verdiproblem\\ \footnotesize IVP i tid \emph{og} RVP i rom, samtidig (\Cref{sect:bevaringslover})};
+
+\draw (ivpmulig) -- (mixed);
+\draw (rvp) .. controls +(0,-10mm) and +(2,8mm) .. (mixed);
+
+\node[cond,below=16mm of mixed,xshift=-3.6cm,text width=2.4cm] (dir) {Dirichlet\\ \footnotesize verdi $u$ kjent};
+\node[cond,below=16mm of mixed,text width=2.4cm] (neu) {Neumann\\ \footnotesize $\partial u/\partial n$ kjent};
+\node[cond,below=16mm of mixed,xshift=3.6cm,text width=2.4cm] (rob) {Robin\\ \footnotesize blanding};
+
+\draw (mixed) -- (dir);
+\draw (mixed) -- (neu);
+\draw (mixed) -- (rob);
+
+\node[below=10mm of neu,text width=9cm,font=\scriptsize\itshape] (note) {Avgjørende: \emph{hvor} betingelsene er gitt -- ikke hva variabelen heter. Ligningstypen avgjør hvilke retninger man kan marsjere i.};
+
+\end{tikzpicture}
+\caption{Kart over PDE-klassifisering og problemtyper.}\label{fig:kart_pdetyper}
+\end{figure}
+\end{landscape}
+
 \section{Numeriske metoder: Endelige differanser}\label{sect:endifferanser}
 
 Grunnlag for kapittelet er \cite{KaM20}.
@@ -879,7 +929,33 @@ u'_a = \frac{u(x_1) - u(x_0)}{h} \quad \Rightarrow \quad \frac{U_1 - U_0}{h} = u
 \]
 Dette er kun en førsteordens approksimasjon og har derfor lavere nøyaktighet. Vi kunne brukt en andreordens approksimasjon ved å bruke verdiene i \(x_0\), \(x_1\) og \(x_2\), men dette ødelegger den tridiagonale strukturen i matrisen. I stedet bruker vi ideen om en \textit{fiktiv rand}.
 
-Anta at løsningen kan strekkes utenfor randen \(x = a\), til et fiktivt punkt \(x_{-1} = a - h\), hvor vi antar at det finnes en approksimasjon \(U_{-1}\) til \(u(x_{-1})\). Da har vi:
+Anta at løsningen kan strekkes utenfor randen \(x = a\), til et fiktivt punkt \(x_{-1} = a - h\), hvor vi antar at det finnes en approksimasjon \(U_{-1}\) til \(u(x_{-1})\), se \Cref{fig:fiktiv_rand}.
+
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}[scale=1.1]
+\draw[thick] (0,0) -- (6,0);
+\draw[dashed,gray,thick] (-1.3,0) -- (0,0);
+\filldraw[gray] (-1.3,0) circle (2pt);
+\foreach \x in {0,1,2,6} {\draw[thick] (\x,0.12) -- (\x,-0.12);}
+\filldraw[black] (0,0) circle (2.3pt);
+\filldraw[black] (1,0) circle (2.3pt);
+\filldraw[black] (2,0) circle (2.3pt);
+\node[gray,below] at (-1.3,-0.25) {$x_{-1}$};
+\node[gray,above] at (-1.3,0.25) {$U_{-1}$ (fiktiv)};
+\node[below] at (0,-0.25) {$x_0=a$};
+\node[above] at (0,0.25) {$U_0$};
+\node[below] at (1,-0.25) {$x_1$};
+\node[above] at (1,0.25) {$U_1$};
+\node[below] at (2,-0.25) {$x_2$};
+\node[font=\large] at (3.7,0) {$\cdots$};
+\node[below] at (6,-0.25) {$x_N=b$};
+\draw[<->] (-1.3,-0.7) -- (0,-0.7);
+\node[below] at (-0.65,-0.7) {\scriptsize $h$};
+\end{tikzpicture}
+\caption{Den fiktive randen $x_{-1}=a-h$, med tilhørende verdi $U_{-1}$, utenfor det egentlige området $[a,b]$. Den brukes bare til å sette opp sentraldifferansen ved $x_0$, og elimineres igjen før ligningssystemet løses.}\label{fig:fiktiv_rand}
+\end{figure}
+
+Da har vi:
 \[
 \frac{U_1 - 2U_0 + U_{-1}}{h^2} + p(x_0)\frac{U_1 - U_{-1}}{2h} + q(x_0)U_0 = r(x_0)
 \]
@@ -976,7 +1052,27 @@ på et rektangulært område $D=[a,b]\times[c,d]$, med gitte Dirichlet-randverdi
 \[
 \frac{U_{i-1,j}-2U_{i,j}+U_{i+1,j}}{\Delta x^2} + \frac{U_{i,j-1}-2U_{i,j}+U_{i,j+1}}{\Delta y^2} = f(x_i,y_j).
 \]
-Dette kalles gjerne \emph{fempunktsformelen} (eng. five-point stencil), siden den kobler verdien i et punkt til verdiene i de fire nærmeste naboene.
+Dette kalles gjerne \emph{fempunktsformelen} (eng. five-point stencil), siden den kobler verdien i et punkt til verdiene i de fire nærmeste naboene, som i \Cref{fig:fempunkt_stensil}.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.3]
+\foreach \i in {-2,-1,0,1,2}{\foreach \j in {-2,-1,0,1,2}{\fill[gray!35] (\i,\j) circle (1pt);}}
+\coordinate (C) at (0,0);
+\coordinate (N) at (0,1);
+\coordinate (S) at (0,-1);
+\coordinate (E) at (1,0);
+\coordinate (W) at (-1,0);
+\draw[thick] (W) -- (E);
+\draw[thick] (S) -- (N);
+\fill[black] (C) circle (2.2pt) node[below right]{$U_{i,j}$};
+\fill[black] (N) circle (2.2pt) node[above]{$U_{i,j+1}$};
+\fill[black] (S) circle (2.2pt) node[below]{$U_{i,j-1}$};
+\fill[black] (E) circle (2.2pt) node[right]{$U_{i+1,j}$};
+\fill[black] (W) circle (2.2pt) node[left]{$U_{i-1,j}$};
+\end{tikzpicture}
+\caption{Fempunktsformelens stensil: verdien i $U_{i,j}$ kobles til sine fire nærmeste naboer.}\label{fig:fempunkt_stensil}
+\end{figure}
 
 I spesialtilfellet $\Delta x=\Delta y=h$ forenkles dette til
 \begin{equation}\label{poisson2d_disc}
@@ -1123,7 +1219,41 @@ Semi-diskretiseringsteknikken generaliserer direkte til varmeligningen i to romd
 \begin{equation}\label{heat2d_explicit}
 U_{i,j}^{n+1} = U_{i,j}^n + r\Big(U_{i-1,j}^n+U_{i+1,j}^n+U_{i,j-1}^n+U_{i,j+1}^n - 4U_{i,j}^n\Big), \qquad r=\frac{\Delta t}{h^2},
 \end{equation}
-for alle indre rutenettpunkter, mens randpunktene holdes fast lik de gitte randverdiene i hvert tidssteg.
+for alle indre rutenettpunkter, mens randpunktene holdes fast lik de gitte randverdiene i hvert tidssteg, som illustrert i \Cref{fd2d_stencil}.
+
+\begin{figure}[htbp] \centering
+\begin{tikzpicture}[scale=2, x={(1cm,0cm)}, y={(0.5cm,0.5cm)}, z={(0cm,1cm)}]
+
+\coordinate (C) at (0,0,0);
+\coordinate (N) at (0,1,0);
+\coordinate (S) at (0,-1,0);
+\coordinate (E) at (1,0,0);
+\coordinate (W) at (-1,0,0);
+\coordinate (T) at (0,0,1.2);
+
+\draw[->] (-1.8,0,0) -- (1.8,0,0) node[right] {$x$};
+\draw[->] (0,-1.8,0) -- (0,1.8,0) node[above] {$y$};
+\draw[->] (0,0,0) -- (0,0,1.8) node[above] {$t$};
+
+\foreach \i in {-2,-1,0,1,2} {
+    \foreach \j in {-2,-1,0,1,2} {
+        \fill[gray!40] (\i,\j,0) circle (0.8pt);
+    }
+}
+
+\foreach \p/\lbl in {C/$U^n_{i,j}$, N/$U^n_{i,j+1}$, S/$U^n_{i,j-1}$, E/$U^n_{i+1,j}$, W/$U^n_{i-1,j}$} {
+    \fill[black] (\p) circle (2pt);
+    \node[below right] at (\p) {\lbl};
+}
+
+\fill[red] (T) circle (2pt);
+\node[right] at (T) {$U^{n+1}_{i,j}$};
+
+\foreach \p in {C,N,S,E,W} {
+    \draw[blue, dashed, thick] (\p) -- (T);
+}
+\end{tikzpicture}\caption{Fem punkt stensil for eksplisitt Euler i 2D: $U^{n+1}_{i,j}$ avhenger av $U^n_{i,j}$ og dens fire naboer på nåværende tidsnivå $n$.}\label{fd2d_stencil}
+\end{figure}
 
 \begin{rem}{Stabilitet og feil i 2D: nå er kravet $r\le\frac14$!}
 \begin{itemize}
@@ -1886,7 +2016,26 @@ q_B = \kappa\,\frac{\partial T}{\partial \hat{\vect{n}}},
 \]
 der $\hat{\vect{n}}$ peker ut av området. Å kjenne den normal-deriverte $\partial T/\partial\hat{\vect{n}}$ på randen er altså det samme som å kjenne varmefluksen $q_B$ gjennom den. En isolert rand er $q_B = 0$.
 
-La oss vise dette mer formelt, steg for steg, på samme måte som vi gjorde for kjent randtemperatur i \Cref{ex:CFD_simplest}. Vi ser på node $1$ ved venstre rand, der varmefluksen $q_B$ inn gjennom randen er kjent, og tar med et kildeledd $\overline S\,\Delta V = S^u + S_P T_P$.
+La oss vise dette mer formelt, steg for steg, på samme måte som vi gjorde for kjent randtemperatur i \Cref{ex:CFD_simplest}. Vi ser på node $1$ ved venstre rand (\Cref{fig:evm_neumann_rand}), der varmefluksen $q_B$ inn gjennom randen er kjent, og tar med et kildeledd $\overline S\,\Delta V = S^u + S_P T_P$.
+
+\begin{figure}[ht]\centering
+\begin{tikzpicture}[scale=1.1]
+\draw[thick] (0,0.35) -- (0,-0.35);
+\draw[fill=gray!15] (0,0.3) rectangle (2.0,-0.3);
+\draw[thick] (2.0,0.3) -- (2.0,-0.3);
+\draw[thick] (2.0,0.3) -- (4.0,0.3);
+\draw[thick] (2.0,-0.3) -- (4.0,-0.3);
+\filldraw[black] (1.0,0) circle (2pt);
+\filldraw[black] (3.0,0) circle (2pt);
+\node[above] at (1.0,0.4) {$P$ (node $1$)};
+\node[above] at (3.0,0.4) {$E$ (node $2$)};
+\node[below=2pt] at (0,-0.35) {rand (flate $w$)};
+\node[below=2pt] at (2.0,-0.35) {flate $e$};
+\draw[->,thick,red] (-1.2,0) -- (-0.05,0);
+\node[above,red] at (-0.6,0.05) {$q_B$};
+\end{tikzpicture}
+\caption{Randcelle (node $1$) med kjent fluks $q_B$ inn gjennom randflaten $w$. Flaten $e$ mot node $2$ tilnærmes lineært, som vanlig.}\label{fig:evm_neumann_rand}
+\end{figure}
 
 \paragraph{Steg 1: Integrer over kontrollvolumet.} Som før gir integrasjon av \eqref{1D-heateq} over kontrollvolumet rundt node $1$
 \[
@@ -2178,27 +2327,66 @@ T_P^{n+1} = T_P^n + r\big(T_E^n - 2T_P^n + T_W^n\big), \qquad r = \frac{\alpha\,
 \]
 som er nøyaktig det eksplisitte endelig differanse-skjemaet \eqref{eq:heat1d_explicit}.
 
-\begin{rem}{Stabilitet: koeffisienten foran $T_P^n$ må være positiv}
-Deler vi \eqref{eq:EVM_eksplisitt} på $a_P^0$, får vi
+\textbf{Et vektet gjennomsnitt -- et fysisk krav.} Ingenting i algebraen over hindrer oss i å velge et vilkårlig $\Delta t$: ligningen gir et tall uansett, stort eller lite. Kravet vi nå utleder kommer derfor ikke fra matematikken alene, men fra at vi \emph{krever} at skjemaet skal oppføre seg som ekte varmeledning.
+
+I det enkle tilfellet over, $T_P^{n+1}=(1-2r)T_P^n+r\,T_E^n+r\,T_W^n$, summerer vektene seg alltid til $1$ -- så dette \emph{er} et vektet gjennomsnitt av $T_P^n$ og naboene, \emph{forutsatt} at alle tre vektene er positive ($r\le\tfrac12$). Et gjennomsnitt kan aldri havne utenfor tallene det bygger på, så ingen nye maksima eller minima kan oppstå -- akkurat som i virkelig varmeledning. Blir $r>\tfrac12$, er $(1-2r)$ negativ, gjennomsnittet brytes, og en celle som er varmere enn naboene kan skyte forbi likevekten og ut på andre siden:
+\begin{center}
+\begin{tikzpicture}[font=\small,>=Stealth]
+\begin{scope}
+  \node[anchor=east,font=\small\bfseries] at (-3.0,0) {Stabilt ($r=0.3$)};
+  \fill[green!12] (0,-0.12) rectangle (2,0.12);
+  \draw[very thick] (-2.6,0) -- (2.6,0);
+  \filldraw (0,0) circle (1.6pt); \filldraw (2,0) circle (1.6pt);
+  \node[above,font=\scriptsize] at (0,0.15) {$T_W^n{=}T_E^n{=}0$};
+  \node[above,font=\scriptsize] at (2,0.15) {$T_P^n{=}100$};
+  \draw[->,green!55!black,thick] (2,-0.15) .. controls (1.4,-0.6) and (1.2,-0.6) .. (0.8,-0.15);
+  \filldraw[green!55!black] (0.8,0) circle (1.6pt);
+  \node[below,font=\scriptsize,green!40!black] at (0.8,-0.6) {$T_P^{n+1}{=}40$};
+\end{scope}
+\begin{scope}[shift={(0,-2.4)}]
+  \node[anchor=east,font=\small\bfseries] at (-3.0,0) {Ustabilt ($r=1$)};
+  \fill[green!12] (0,-0.12) rectangle (2,0.12);
+  \draw[very thick] (-2.6,0) -- (2.6,0);
+  \filldraw (0,0) circle (1.6pt); \filldraw (2,0) circle (1.6pt);
+  \node[above,font=\scriptsize] at (0,0.15) {$T_W^n{=}T_E^n{=}0$};
+  \node[above,font=\scriptsize] at (2,0.15) {$T_P^n{=}100$};
+  \draw[->,red,thick] (2,-0.15) .. controls (1,-1.0) and (-1,-1.0) .. (-2,-0.15);
+  \filldraw[red] (-2,0) circle (1.6pt);
+  \node[below,font=\scriptsize,red] at (-2,-1.0) {$T_P^{n+1}{=}-100$};
+\end{scope}
+\end{tikzpicture}
+\end{center}
+Svingningene som følger (sagtann-mønsteret, \Cref{oppsum:stabilitet}) gjentar seg og vokser for hvert tidssteg -- fysisk meningsløst, selv om tallet i seg selv er korrekt utregnet.
+
+Kravet om positive vekter oversettes til et krav på $\Delta t$. Med kildeledd og ved randen gjelder samme resonnement på den generelle formen \eqref{eq:EVM_eksplisitt}: deler vi den på $a_P^0$,
 \[
-T_P^{n+1} = \frac{a_W}{a_P^0}\,T_W^n + \frac{a_E}{a_P^0}\,T_E^n + \frac{a_P^0 - a_W - a_E + S_P}{a_P^0}\,T_P^n + \frac{S^u}{a_P^0}.
+T_P^{n+1} = \frac{a_W}{a_P^0}\,T_W^n + \frac{a_E}{a_P^0}\,T_E^n + \frac{a_P^0 - a_W - a_E + S_P}{a_P^0}\,T_P^n + \frac{S^u}{a_P^0},
 \]
-Uten kilde summerer vektene foran $T_W^n$, $T_E^n$ og $T_P^n$ seg til $1$: den nye temperaturen er et vektet gjennomsnitt av de gamle -- \emph{så lenge alle vektene er positive}. Da kan det ikke oppstå nye maksima eller minima, akkurat som i virkeligheten. Blir koeffisienten foran $T_P^n$ negativ, vil en \emph{høy} temperatur i cellen ved $t_n$ gi en \emph{lavere} temperatur ved $t_{n+1}$ jo høyere den var. Det er fysisk meningsløst og gir svingninger (jf.\ sagtann-argumentet i \Cref{oppsum:stabilitet}). Kravet blir:
-\begin{itemize}
-\item \textbf{Indre celle:} $a_P^0 \ge a_W + a_E = 2\kappa A/\delta x$, altså
+er kravet om en positiv vekt foran $T_P^n$ nettopp $a_P^0 - a_W - a_E + S_P \ge 0$, altså -- siden $a_P^0=\rho c A\delta x/\Delta t$ er det eneste leddet som ser $\Delta t$ -- i realiteten en øvre grense på $\Delta t$:
+\begin{equation}\label{eq:EVM_tid_krav}
+\underbrace{a_P^0}_{\substack{\text{cellens treghet}\\[-2pt]\scriptstyle\searrow\;\text{når }\Delta t\text{ øker}}} \;\ge\; \underbrace{a_W+a_E-S_P}_{\substack{\text{koblingsstyrke til naboer/rand}\\[-2pt]\scriptstyle\text{uavhengig av }\Delta t}}
+\end{equation}
+
+\textbf{Indre celle:} $a_W=a_E=\kappa A/\delta x$ og $S_P=0$, så \eqref{eq:EVM_tid_krav} blir $\rho c A\delta x/\Delta t \ge 2\kappa A/\delta x$. Løser vi dette for $\Delta t$ (gang med $\Delta t\,\delta x$, del på $2\kappa A$):
 \[
 \Delta t \le \frac{\rho c\,\delta x^2}{2\kappa} \quad\Longleftrightarrow\quad r = \frac{\alpha\Delta t}{\delta x^2}\le \frac12,
 \]
-det samme kravet som vi fant for endelige differanser. Brytes dette kravet, vokser sagtann-svingningene fra tidssteg til tidssteg, og løsningen eksploderer.
-\item \textbf{Randcelle med kjent randtemperatur:} Her er $a_W=0$, men $S_P = -2\kappa A/\delta x$, så kravet blir $a_P^0 \ge a_E - S_P = 3\kappa A/\delta x$, altså
+det samme kravet som vi fant for endelige differanser. Stor $\kappa$ (rask varmeledning) krever et lite $\Delta t$ -- cellen reagerer raskt, og tidssteget må henge med. Stor $\delta x$ (grovere gitter, mer varmekapasitet $\rho cA\delta x$ per celle) gjør cellen tregere og tillater et større $\Delta t$. Brytes kravet, vokser sagtann-svingningene fra tidssteg til tidssteg, og løsningen eksploderer.
+
+\textbf{Randcelle med kjent randtemperatur:} her er $a_W=0$, men $S_P=-2\kappa A/\delta x$ kommer i tillegg til den vanlige koblingen $a_E=\kappa A/\delta x$ -- til sammen $3\kappa A/\delta x$ i stedet for $2\kappa A/\delta x$, fordi avstanden til randen bare er $\delta x/2$ og koblingen dit derfor er dobbelt så sterk som til en vanlig nabo. Kravet \eqref{eq:EVM_tid_krav} blir dermed strengere:
 \[
 \Delta t \le \frac{\rho c\,\delta x^2}{3\kappa}.
 \]
-Randcellene gir et \emph{strengere} krav enn de indre cellene, fordi avstanden til randen bare er $\delta x/2$. Brytes \emph{bare} dette kravet, får vi svingninger i cellene nær randen. De dempes ut etter hvert -- det er i praksis de indre cellene som avgjør om løsningen eksploderer -- men i mellomtiden er løsningen fysisk urealistisk. Vil vi være sikre på en fysisk fornuftig løsning, velger vi derfor $\Delta t$ ut fra randcellene.
-\item \textbf{Generelt:} Kravet er $a_P^0 \ge a_W + a_E - S_P$ i \emph{hver} celle. Høyresiden er nettopp diagonalelementet i matrisen fra det stasjonære problemet, så $\Delta t \le \rho c\,\Delta V/(a_W+a_E-S_P)$ for alle celler.
-\item \textbf{I 2D} med $\delta x=\delta y=h$ gir de fire naboene $a_P^0 \ge 4\kappa\,\delta x\,\delta y/h^2$, altså $\Delta t \le \rho c\,h^2/(4\kappa)$ for indre celler -- tilsvarende $r\le\frac14$ fra \Cref{sect:varmeNum}. Randceller med kjent temperatur gir igjen et strengere krav.
-\end{itemize}
-\end{rem}
+Brytes \emph{bare} dette strengere kravet, svinger temperaturen i cellene nær randen før den dempes ut -- det er i praksis de indre cellene som avgjør om løsningen eksploderer, men i mellomtiden er løsningen fysisk urealistisk. Vil vi være sikre på en fysisk fornuftig løsning i hele platen, velger vi derfor $\Delta t$ ut fra randcellene.
+
+I 2D med $\delta x=\delta y=h$ gir de fire naboene $a_P^0 \ge 4\kappa\,\delta x\,\delta y/h^2$ for en indre celle, altså $r\le\frac14$ (\Cref{sect:varmeNum}) -- igjen strengere ved rand med kjent temperatur.
+
+\begin{oppsum}{Stabilitetskrav for eksplisitt EVM i tid}
+Kravet $a_P^0 \ge a_W+a_E-S_P$ er strengest i randcellen med kjent temperatur, og det er denne som i praksis styrer valget av $\Delta t$:
+\[
+\Delta t \le \frac{\rho c\,\delta x^2}{3\kappa} .
+\]
+\end{oppsum}
 
 \begin{eks}{Avkjøling av en plate}\label{ex:EVM_tid_plate}
 En stor, tynn plate med tykkelse $L = 2\,\text{cm}$ har varmeledningsevne $\kappa = 10\,\text{W/(m\,K)}$ og $\rho c = 10\cdot 10^6\,\text{J/(m}^3\text{K)}$. Platen har først temperaturen $T_0=200\,^\circ$C overalt. Ved $t=0$ senkes temperaturen på østsiden ($x=L$) plutselig til $0\,^\circ$C, mens vestsiden ($x=0$) er isolert. Finn temperaturfordelingen i platen ved $t=40$, $80$ og $120\,$s. (Eksempelet er hentet fra \cite{VaM07}.)
@@ -2240,7 +2428,22 @@ $t$ & & Node $1$ & Node $2$ & Node $3$ & Node $4$ & Node $5$ \\
 \end{center}
 Selv med bare fem kontrollvolum følger den numeriske løsningen den eksakte godt.
 
-Hva skjer hvis vi bryter stabilitetskravene? Med $\Delta t = 7\,$s er kravet for de indre cellene oppfylt, men ikke kravet for celle 5. Temperaturen i celle 5 hopper da opp og ned de første tidsstegene ($25$, $80$, $29$, $51\,^\circ$C, \ldots) -- i en plate som bare avkjøles! Svingningene dempes ut etter hvert, men løsningen er fysisk urealistisk i starten. Med $\Delta t = 9\,$s er også kravet for de indre cellene brutt, og svingningene vokser til løsningen eksploderer.
+Hva skjer hvis vi bryter stabilitetskravene? Med $\Delta t = 7\,$s er kravet for de indre cellene oppfylt, men ikke kravet for celle 5. Temperaturen i celle 5 hopper da opp og ned de første tidsstegene ($25$, $80$, $29$, $51\,^\circ$C, \ldots, \Cref{fig:stabilitet_plate}) -- i en plate som bare avkjøles! Svingningene dempes ut etter hvert, men løsningen er fysisk urealistisk i starten. Med $\Delta t = 9\,$s er også kravet for de indre cellene brutt, og svingningene vokser til løsningen eksploderer.
+
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=8.5cm, height=6cm,
+  xlabel={Tidssteg $n$}, ylabel={$T_5^n$ ($^\circ$C)},
+  xtick={0,1,2,3,4}, ymin=0, ymax=220,
+  grid=major, grid style={gray!25},
+  title={Celle 5 med $\Delta t=7\,$s (krav: $\Delta t\le 5.33\,$s)}
+]
+\addplot[mark=*, thick, red] coordinates {(0,200) (1,25) (2,80) (3,29) (4,51)};
+\end{axis}
+\end{tikzpicture}
+\caption{Ustabil oscillasjon i celle 5 når stabilitetskravet for randcellen brytes ($\Delta t=7\,$s $>5.33\,$s): temperaturen hopper opp og ned i stedet for å avta jevnt mot likevekt, selv om platen bare avkjøles.}\label{fig:stabilitet_plate}
+\end{figure}
 
 \begin{rem}{Til orientering: implisitte skjema}
 Evaluerer vi diffusjonsleddet ved det \emph{nye} tidsnivået $t_{n+1}$ i stedet for ved $t_n$, får vi
@@ -2296,10 +2499,64 @@ Uansett om vi bruker endelige differanser eller endelig volum, gir et eksplisitt
 \end{tikzpicture}\caption{Fem punkt stencil og diskretisering av en tidsavhengig ligning.}\label{timdep_stencil}
 \end{figure}
 
+\section{Oppsummering}\label{sect:oppsummering}
+
+Kapittelet har gått fra å klassifisere differensialligninger til å faktisk løse dem numerisk. \Cref{fig:kart_numerikk} viser hvordan metodene og løserne vi har sett på henger sammen -- fra diskretisering i rom (endelige differanser eller endelig volum-metoden), via om problemet er stasjonært eller tidsavhengig, til hvilken løser som brukes i hvert tilfelle.
+
+\begin{landscape}
+\begin{figure}[p]
+\centering
+\begin{tikzpicture}[
+  every node/.style={align=center,font=\footnotesize},
+  box/.style={draw,rounded corners,very thick,fill=blue!4,inner sep=5pt},
+  meth/.style={draw,rounded corners,thick,fill=orange!6,inner sep=5pt,text width=5cm},
+  solv/.style={draw,rounded corners,thick,fill=green!6,inner sep=4pt,text width=3.4cm},
+  time/.style={draw,rounded corners,thick,fill=purple!5,inner sep=4pt,text width=3.4cm},
+  ->,>=Stealth,thick
+]
+
+\node[box,text width=6cm,font=\bfseries] (pde) at (0,0) {PDE \(\to\) diskretiser i rom};
+
+\node[meth] (fd) at (-5,-2.4) {\textbf{Endelige differanser}\\ \footnotesize approksimerer deriverte punktvis (\Cref{sect:endifferanser})};
+\node[meth] (evm) at (5,-2.4) {\textbf{Endelig volum-metode}\\ \footnotesize diskretiserer bevaringsloven i integralform (\Cref{sect:endeligvolum})};
+
+\draw (pde) -- (fd);
+\draw (pde) -- (evm);
+
+\node[box,text width=8cm] (system) at (0,-4.8) {\'En koblet ligning per node/celle:\\ $a_P\phi_P=\textstyle\sum a_{nb}\phi_{nb}+S^u$};
+
+\draw (fd) -- (system);
+\draw (evm) -- (system);
+
+\node[solv] (stat) at (-6.6,-7.3) {\textbf{Stasjonært (RVP)}\\ \footnotesize ett samlet ligningssystem};
+\node[time] (tid) at (4.6,-7.3) {\textbf{Tidsavhengig (IVP i tid)}\\ \footnotesize semi-diskretisering \(\to\) ODE-system};
+
+\draw (system) -- (stat);
+\draw (system) -- (tid);
+
+\node[solv] (direkte) at (-8.5,-9.8) {Direkte\\ \footnotesize Gauss-eliminasjon};
+\node[solv] (iter) at (-4.7,-9.8) {Iterativt\\ \footnotesize Jacobi / Gauss--Seidel\\ (krever $S_P\le0$)};
+
+\draw (stat) -- (direkte);
+\draw (stat) -- (iter);
+
+\node[time] (eksp) at (0.8,-9.8) {\textbf{Eksplisitt Euler}\\ \footnotesize marsjer direkte\\ betinget stabil ($r\le\ldots$)\\ {\scriptsize\itshape $t\to\infty$: samme likevekt som RVP}};
+\node[time] (imp) at (4.6,-9.8) {\textbf{Implisitt Euler}\\ \footnotesize ubetinget stabil\\ ligningssystem \emph{hvert} steg\\ {\scriptsize\itshape løses som i stasjonært tilfelle}};
+\node[time] (leap) at (8.4,-9.8) {\textbf{Leapfrog}\\ \footnotesize bølgeligningen, 2 nivåer};
+
+\draw (tid) -- (eksp);
+\draw (tid) -- (imp);
+\draw (tid) -- (leap);
+
+\end{tikzpicture}
+\caption{Kart over numeriske metoder og løsere.}\label{fig:kart_numerikk}
+\end{figure}
+\end{landscape}
+
 \begin{oppsum}{Numeriske metoder for PDE-er}
 \begin{itemize}
 \item \textbf{Randverdiproblemer} (Laplace, Poisson, stasjonær varmeledning): Diskretiseringen gir \emph{ett} ligningssystem $L\mathbf{u}=F$, som løses direkte eller med Jacobi/Gauss-Seidel. Randbetingelsene havner i $F$ (og på diagonalen).
-\item \textbf{Initialverdiproblemer} (varmeligningen, bølgeligningen): Vi \emph{marsjerer} i tid. Eksplisitte skjema er enkle, men krever et lite nok tidssteg for å være stabile: $r\le\frac12$ (varme, 1D), $r\le\frac14$ (varme, 2D), $c\Delta t/\Delta x\le 1$ (bølge, 1D).
+\item \textbf{Initialverdiproblemer} (varmeligningen, bølgeligningen): Vi \emph{marsjerer} i tid. \emph{Eksplisitte} skjema er enkle å regne ut, men krever et lite nok tidssteg for å være stabile: $r\le\frac12$ (varme, 1D), $r\le\frac14$ (varme, 2D), $c\Delta t/\Delta x\le 1$ (bølge, 1D). \emph{Implisitte} skjema er ubetinget stabile, men krever at vi løser et ligningssystem -- akkurat som for et randverdiproblem -- i \emph{hvert} tidssteg.
 \item \textbf{Endelige differanser} tilnærmer \emph{de deriverte} i punkter. \textbf{Endelig volum-metoden} tilnærmer \emph{fluksene} over flatene til kontrollvolum, ut fra bevaringsloven på integralform. På et uniformt gitter gir de samme ligninger i det indre, men endelig volum-metoden er konservativ, håndterer randbetingelser med kjent fluks naturlig, og tåler ikke-uniforme gitre og variabel $\Gamma$.
 \item \textbf{Oppskrift for endelig volum-metoden:} Del området i kontrollvolum, integrer ligningen over hvert av dem, tilnærm fluksene lineært, og skriv
 \[
